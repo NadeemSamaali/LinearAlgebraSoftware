@@ -88,7 +88,7 @@ public class App {
             System.out.print("[");
             for(int b = 0; b<o; b++)
             {
-                System.out.print(Double.valueOf(df.format(h[a][b])));
+                System.out.print(h[a][b]);
                 System.out.print(",");
             }
             System.out.print(Double.valueOf(df.format(h[a][o])));
@@ -100,6 +100,31 @@ public class App {
             System.out.print("];");
         }
         System.out.println("]");
+    }
+
+    public static boolean containsAllowedZeros(double[][] m0, int k, int n)
+    {
+
+        int test0 = 0;
+
+        for(int g = 0; g<=n; g++)
+                {
+                    for(int q = 0; q<=n; q++)
+                    {
+                        if(m0[g][q] == 0.0)
+                        {
+                            test0 +=1;
+                        }
+                        
+                    }            
+
+                }
+
+                if(test0 > k)
+                return false;
+
+                else
+                return true;
     }
 
 
@@ -129,6 +154,8 @@ public class App {
         //System.out.println(amountOfK);
 
         int num0 = -1;
+        int test0 = 0;
+
 
         for(int d = 0; d<=j; d++)
         {
@@ -147,6 +174,9 @@ public class App {
                     k[num0] = p[0+d][0+d]/p[x+d+1][0+d];
                     //System.out.println("\nk order " + num0);
 
+                    if(k[num0] != k[num0])
+                        break;
+
                     for(int y = 0; y<=j-d; y++)
                     {
                         p[x+d+1][y+d] = k[num0]*p[x+d+1][y+d];
@@ -157,13 +187,11 @@ public class App {
                         System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 1/k[num0]);
                         printMatrix(p,j);
                     }
-                    
+                
                 }
 
-                
-
-
             }
+         
 
             /*This loop will subscract every row R>R1 by R1 so that all entries of the first row
             * under the entry [0][0] will be equal to 0 as well
@@ -178,38 +206,44 @@ public class App {
                         p[q+d+1][r+d] = Double.valueOf(d0.format(p[q+d+1][r+d] - p[0+d][r+d]));
                     }
 
-                    System.out.println("\nR" + (q+d+2) + " - R"+ (1+q+d) +" --> R" + (q+d+2));
+                    System.out.println("\nR" + (q+d+2) + " - R"+ (1+d) +" --> R" + (q+d+2));
                     printMatrix(p,j);
 
                 }
+
+                //System.out.println(containsAllowedZeros(p, amountOfK, j));
+   
             }
         }
+        
+        //calculating determinant
 
         double num1 = 1.0;
-
-       
-
+        
         //System.out.println("1/k :");
         for(int u = 0; u<amountOfK; u++)
         {
             num1 *=(1/k[u]);
             //System.out.println(1/k[u]);
         }
-            
-
+        
         for(int g = 0; g<=j; g++)
-        {
-            for(int q = 0; q<=j; q++)
             {
-                if(p[g][q] != 0.0)
+                for(int q = 0; q<=j; q++)
                 {
-                    //System.out.println(p[g][q]);
-                    num1 = -num1*p[g][q];
-                    break;
-                }    
-            }            
+                    if(p[g][q] != 0.0)
+                    {
+                        num1 = p[g][q]*num1;
+                        break;
+                    }
+                    
+                }            
 
-        }
+            }
+
+        //If the final matrix doesn't conaint the allowed amount of 0s for its size, det=0
+        if(containsAllowedZeros(p, amountOfK, j) == false)
+            num1 = 0;
 
         System.out.println("\n>> The determinant of this matrix is : " + df.format(num1));      
     }
