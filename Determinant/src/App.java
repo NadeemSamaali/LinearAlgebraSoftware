@@ -6,14 +6,13 @@ public class App {
     static Scanner input = new Scanner(System.in);
 
     /**
-     * This method allows for printing of any n sized 
-     * square matrix based on the entries of the user
+     * This method allows for printing the entries of the user
      * 
      * @param mSize1 Size of the matrix to be printed
      * @param ansArray Array of the entries entred by the user
      */
 
-    public static void printMatrix(int mSize1, String[] ansArray1)
+    public static void printEntries(int mSize1, String[] ansArray1)
     {
         int sCounter1 = -1;
 
@@ -35,7 +34,7 @@ public class App {
             System.out.print("]");
 
             else
-            System.out.print("],");
+            System.out.print("];");
         }
         System.out.println("]");
     }
@@ -48,12 +47,10 @@ public class App {
      * @param ansArray2 Array of the entires of the user
      */
 
-    public static void setMatrix(int mSize2, String[] ansArray2)
+    public static void setMatrix(double[][] m,int mSize2, String[] ansArray2)
     {
 
         int sCounter2 = -1;
-
-        double[][] m = new double[mSize2+1][mSize2+1];
 
         for(int i = 0; i<=mSize2; i++)
         {
@@ -65,6 +62,39 @@ public class App {
             
         }
     }
+
+    /**
+     * This method allows for the printing of any nXn matrix | To use for testing purposes
+     * 
+     * @param h matrix to print
+     * @param o size of the metrix
+     */
+
+    public static void printMatrix(double[][] h, int o)
+    {
+
+        //Outputting the matrix as well as the data entries
+        System.out.print("[");
+        for(int a = 0; a<=o; a++)
+        {
+            System.out.print("[");
+            for(int b = 0; b<o; b++)
+            {
+                System.out.print(h[a][b]);
+                System.out.print(",");
+            }
+            System.out.print(h[a][o]);
+
+            if(a==o)
+            System.out.print("]");
+
+            else
+            System.out.print("];");
+        }
+        System.out.println("]");
+    }
+
+
 
 
     public static void main(String[] args) throws Exception {
@@ -81,16 +111,43 @@ public class App {
         //Adding the entries of the matrix into an array by splitting
         System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
         ans = input.nextLine();
-        String[] e = ans.split(",");
+        String[] entries = ans.split(",");
 
         //Outputting the matrix
         System.out.print("\n>> Here is the inputted matrix : ");
-        printMatrix(n,e);
+        printEntries(n,entries);
         System.out.println();
 
-        //Set the entires into the designated placements in the matrix Array
-        setMatrix(n,e);
+        double[][] matrix = new double[n+1][n+1];
 
+
+        //Set the entires into the designated placements in the matrix Array
+        setMatrix(matrix,n,entries);
+
+        printMatrix(matrix, n);
+
+        double k;
+
+        for(int x = 0; x<n; x++)
+        {
+            if(matrix[0][1+x] != 0)
+            {
+                k = matrix[0][0]/matrix[0][1+x];
+
+                for(int y = 0; y<=n; y++)
+                {
+                    matrix[x+1][y] = k*matrix[x+1][y];
+                }
+
+                for(int z = 0; z<=n; z++)
+                {
+                    matrix[x+1][z] = matrix[x+1][z]-matrix[0][z];
+                }
+            }
+
+        }
+
+        printMatrix(matrix,n);
 
     }
 
