@@ -105,19 +105,28 @@ public class App {
     public static boolean containsAllowedZeros(double[][] m0, int k, int n)
     {
         int test0 = 0;
+        double test1 = 1.0;
 
         for(int g = 0; g<=n; g++)
+        {
+            for(int q = g+1; q<=n; q++)
+            {
+                if(m0[q][g] == 0.0)
                 {
-                    for(int q = 0; q<=n; q++)
-                    {
-                        if(m0[g][q] == 0.0)
-                        {
-                            test0 +=1;
-                        } 
-                    }            
-                }
+                    test0 +=1;
+                } 
+            }            
+        }
 
-                if(test0 > k)
+        for(int e = 0; e<=n; e++)
+        {
+            test1 *= m0[e][e];
+        }
+
+                //System.out.println(test0);
+                //System.out.println(test1);
+
+                if(test0 >= k && test1 == 0)
                 return false;
 
                 else
@@ -140,6 +149,8 @@ public class App {
                 amountOfK += v;
                         double[] k = new double[amountOfK];
 
+        System.out.println(amountOfK);
+
         for(int m = 0; m<amountOfK; m++)
             k[m] = 1.0;
 
@@ -153,7 +164,7 @@ public class App {
             */
             for(int x = 0; x<j-d; x++)
             {
-                if(p[x+1][0+d] != 0.0)
+                if(p[0+d][0+d] != 0.0 && p[0+1+d][0+d] != 0.0)
                 {    
                     num0 +=1;
                         
@@ -164,15 +175,17 @@ public class App {
                     //if k is out of bound, break the loop
                     if(k[num0] != k[num0])
                         break;
-                     if(k[num0] == 0)
-                        break;
 
-                    for(int y = 0; y<=j-d; y++)
+                    //Making sure no operations are done when k = 0 or k = infinity
+                    if(k[num0] != 0 && 1/k[num0] != 0)
                     {
-                        p[x+d+1][y+d] = k[num0]*p[x+d+1][y+d];
-                    }
+                        for(int y = 0; y<=j-d; y++)
+                        {
+                            p[x+d+1][y+d] = k[num0]*p[x+d+1][y+d];
+                        }
+                    }        
 
-                    if(k[num0] != 1.0)
+                    if(k[num0] != 1.0 || Math.abs(k[num0]) == 0)
                     {
                         System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 
                         Double.valueOf(df.format(1/k[num0])));
@@ -193,12 +206,6 @@ public class App {
                         p[q+d+1][r+d] = Double.valueOf(d0.format(p[q+d+1][r+d] - p[0+d][r+d]));
                     }
 
-                    //If the k values are out of bound, break the loop
-                    if(k[num0] != k[num0])
-                        break;
-                    if(k[num0] == 0)
-                        break;
-
                     //Print addition step
                     System.out.println("\nR" + (q+d+2) + " - R"+ (1+d) +" --> R" + (q+d+2));
                     printMatrix(p,j);
@@ -207,6 +214,16 @@ public class App {
             }
         }
         
+
+        for(int n0 = 0; n0<amountOfK; n0++)
+        {
+            if(k[n0] == 0) 
+                k[n0] = 1.0;
+            else
+                k[n0] = k[n0];
+        }
+
+
         //calculating determinant
         double num1 = 1.0;
         
@@ -231,7 +248,7 @@ public class App {
 
         //If the final matrix doesn't conaint the allowed amount of 0s for its size, det=0
         if(containsAllowedZeros(p, amountOfK, j) == false)
-            num1 = 0;
+            num1 = 0; 
 
         System.out.println("\n>> The determinant of this matrix is : " + df.format(num1));      
     }
