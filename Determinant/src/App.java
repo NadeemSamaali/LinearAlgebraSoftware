@@ -95,7 +95,59 @@ public class App {
     }
 
 
+    /**
+     * This method is an operator that serves part in the process of the reduction and cofactor
+     * expansion of a square matrix
+     * 
+     * @param p matrix to operate
+     * @param j size of the matrix
+     */
 
+    public static void determinantReducer(double[][] p, int j)
+    {
+        double[] k = new double[j];
+
+        /*This loop will multiply each row R>R1 by a factor k, where k is the factor needed to tranforms
+         *the entry of the first row into the entry located at [0][0] as well was multiplying the remainer
+         *of the entires of this row by that same scalar k
+         */
+
+        for(int x = 0; x<j; x++)
+        {
+            if(p[x+1][0] != 0)
+            {
+                k[x] = p[0][0]/p[x+1][0];
+
+                for(int y = 0; y<=j; y++)
+                {
+                    p[x+1][y] = k[x]*p[x+1][y];
+                }
+
+                System.out.println("\n>> Multiply the row R" + (x+2) + " by a factor of " + k[x]);
+                printMatrix(p,j);
+            }
+
+        }
+
+        /*This loop will subscract every row R>R1 by R1 so that all entries of the first row
+         * under the entry [0][0] will be equal to 0 as well
+         */
+
+        for(int q = 0; q<j; q++)
+        {
+            if(p[q+1][0] != 0)
+            {
+                for(int r = 0; r<=j; r++)
+                {
+                    p[q+1][r] = p[q+1][r] - p[0][r];
+                }
+
+                System.out.println("\nR" + (q+2) + " - R1 --> R" + (q+2));
+                printMatrix(p,j);
+
+            }
+        } 
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -123,31 +175,13 @@ public class App {
 
         //Set the entires into the designated placements in the matrix Array
         setMatrix(matrix,n,entries);
-
         printMatrix(matrix, n);
 
-        double k;
 
-        for(int x = 0; x<n; x++)
-        {
-            if(matrix[0][1+x] != 0)
-            {
-                k = matrix[0][0]/matrix[0][1+x];
-
-                for(int y = 0; y<=n; y++)
-                {
-                    matrix[x+1][y] = k*matrix[x+1][y];
-                }
-
-                for(int z = 0; z<=n; z++)
-                {
-                    matrix[x+1][z] = matrix[x+1][z]-matrix[0][z];
-                }
-            }
-
-        }
-
-        printMatrix(matrix,n);
+        //Run 1 isntance of the determinantReducer operation
+        determinantReducer(matrix, n);
+        
+        
 
     }
 
