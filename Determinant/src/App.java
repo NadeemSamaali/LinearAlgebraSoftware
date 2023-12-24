@@ -47,7 +47,7 @@ public class App {
      * @param ansArray2 Array of the entires of the user
      */
 
-    public static void setMatrix(double[][] m,int mSize2, String[] ansArray2)
+    public static void setMatrixFromString(double[][] m,int mSize2, String[] ansArray2)
     {
 
         int sCounter2 = -1;
@@ -97,57 +97,109 @@ public class App {
 
     /**
      * This method is an operator that serves part in the process of the reduction and cofactor
-     * expansion of a square matrix
+     * expansion of a square matrix in order to reduce into an upper triangular matrix.
+     * 
+     * The the metod will calculate the determinant
      * 
      * @param p matrix to operate
      * @param j size of the matrix
      */
 
-    public static void determinantReducer(double[][] p, int j)
+    
+    public static void getDeterminant(double[][] p, int j)
     {
-        double[] k = new double[j];
 
-        /*This loop will multiply each row R>R1 by a factor k, where k is the factor needed to tranforms
-         *the entry of the first row into the entry located at [0][0] as well was multiplying the remainer
-         *of the entires of this row by that same scalar k
-         */
+        int amountOfK = 0;
+            for(int v = 0; v<=j; v++)
+                amountOfK += v;
+                        double[] k = new double[amountOfK];
 
-        for(int x = 0; x<j; x++)
+        for(int m = 0; m<amountOfK; m++)
+            k[m] = 1.0;
+
+        //System.out.println(amountOfK);
+
+        int num0 = -1;
+
+        for(int d = 0; d<=j; d++)
         {
-            if(p[x+1][0] != 0)
-            {
-                k[x] = p[0][0]/p[x+1][0];
+            
+            /*This loop will multiply each row R>R1 by a factor k, where k is the factor needed to tranforms
+            *the entry of the first row into the entry located at [0][0] as well was multiplying the remainer
+            *of the entires of this row by that same scalar k
+            */
 
-                for(int y = 0; y<=j; y++)
+            for(int x = 0; x<j-d; x++)
+            {
+                if(p[x+1][0+d] != 0.0)
                 {
-                    p[x+1][y] = k[x]*p[x+1][y];
+                    num0 +=1;
+                    
+                    k[num0] = p[0+d][0+d]/p[x+d+1][0+d];
+                    //System.out.println("\nk order " + num0);
+
+                    for(int y = 0; y<=j-d; y++)
+                    {
+                        p[x+d+1][y+d] = k[num0]*p[x+d+1][y+d];
+                    }
+
+                    System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + (1/k[num0]));
+                    printMatrix(p,j);
                 }
 
-                System.out.println("\n>> Multiply the row R" + (x+2) + " by a factor of " + k[x]);
-                printMatrix(p,j);
+                
+
+
             }
+
+            /*This loop will subscract every row R>R1 by R1 so that all entries of the first row
+            * under the entry [0][0] will be equal to 0 as well
+            */
+
+            for(int q = 0; q<j-d; q++)
+            {
+                if(p[q+d+1][0+d] != 0)
+                {
+                    for(int r = 0; r<=j-d; r++)
+                    {
+                        p[q+d+1][r+d] = p[q+d+1][r+d] - p[0+d][r+d];
+                    }
+
+                    System.out.println("\nR" + (q+2) + " - R1 --> R" + (q+2));
+                    printMatrix(p,j);
+
+                }
+            }
+        }
+
+        double num1 = 1.0;
+
+       
+
+        //System.out.println("1/k :");
+        for(int u = 0; u<amountOfK; u++)
+        {
+            num1 *=(1/k[u]);
+            //System.out.println(1/k[u]);
+        }
+            
+
+        for(int g = 0; g<=j; g++)
+        {
+            for(int q = 0; q<=j; q++)
+            {
+                if(p[g][q] != 0.0)
+                {
+                    num1 = num1*p[g][q];
+                    break;
+                }    
+            }            
 
         }
 
-        /*This loop will subscract every row R>R1 by R1 so that all entries of the first row
-         * under the entry [0][0] will be equal to 0 as well
-         */
-
-        for(int q = 0; q<j; q++)
-        {
-            if(p[q+1][0] != 0)
-            {
-                for(int r = 0; r<=j; r++)
-                {
-                    p[q+1][r] = p[q+1][r] - p[0][r];
-                }
-
-                System.out.println("\nR" + (q+2) + " - R1 --> R" + (q+2));
-                printMatrix(p,j);
-
-            }
-        } 
+        System.out.println("\n>> The determinant of this matrix is : " + num1);      
     }
+    
 
     public static void main(String[] args) throws Exception {
 
@@ -174,14 +226,16 @@ public class App {
 
 
         //Set the entires into the designated placements in the matrix Array
-        setMatrix(matrix,n,entries);
+        setMatrixFromString(matrix,n,entries);
         printMatrix(matrix, n);
 
 
-        //Run 1 isntance of the determinantReducer operation
-        determinantReducer(matrix, n);
-        
-        
+
+        //Reduce the matrix into upper-triangular form
+        getDeterminant(matrix, n);
+
+
+
 
     }
 
