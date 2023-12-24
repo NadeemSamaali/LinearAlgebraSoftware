@@ -88,7 +88,7 @@ public class App {
             System.out.print("[");
             for(int b = 0; b<o; b++)
             {
-                System.out.print(h[a][b]);
+                System.out.print(Double.valueOf(df.format(h[a][b])));
                 System.out.print(",");
             }
             System.out.print(Double.valueOf(df.format(h[a][o])));
@@ -168,12 +168,13 @@ public class App {
             for(int x = 0; x<j-d; x++)
             {
                 if(p[x+1][0+d] != 0.0)
-                {
+                {    
                     num0 +=1;
+                        
                     //System.out.println(df.format(p[0+d][0+d]/p[x+d+1][0+d]));
                     k[num0] = p[0+d][0+d]/p[x+d+1][0+d];
                     //System.out.println("\nk order " + num0);
-
+                    
                     if(k[num0] != k[num0])
                         break;
 
@@ -184,7 +185,8 @@ public class App {
 
                     if(k[num0] != 1.0)
                     {
-                        System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 1/k[num0]);
+                        System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 
+                        Double.valueOf(df.format(1/k[num0])));
                         printMatrix(p,j);
                     }
                 
@@ -205,6 +207,12 @@ public class App {
                     {
                         p[q+d+1][r+d] = Double.valueOf(d0.format(p[q+d+1][r+d] - p[0+d][r+d]));
                     }
+
+                    if(k[num0] != k[num0])
+                        break;
+
+                    if(k[num0] == 0)
+                        break;
 
                     System.out.println("\nR" + (q+d+2) + " - R"+ (1+d) +" --> R" + (q+d+2));
                     printMatrix(p,j);
