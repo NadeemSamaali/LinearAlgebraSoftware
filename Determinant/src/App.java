@@ -152,8 +152,12 @@ public class App {
                         p[x+d+1][y+d] = k[num0]*p[x+d+1][y+d];
                     }
 
-                    System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 1/k[num0]);
-                    printMatrix(p,j);
+                    if(k[num0] != 1.0)
+                    {
+                        System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 1/k[num0]);
+                        printMatrix(p,j);
+                    }
+                    
                 }
 
                 
@@ -200,7 +204,7 @@ public class App {
                 if(p[g][q] != 0.0)
                 {
                     //System.out.println(p[g][q]);
-                    num1 = num1*p[g][q];
+                    num1 = -num1*p[g][q];
                     break;
                 }    
             }            
