@@ -1,7 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.*;
 
-public class App {
+public class determinantFinder {
 
     //Setting up the scanner
     static Scanner input = new Scanner(System.in);
@@ -249,12 +249,18 @@ public class App {
 
         //If the final matrix doesn't conaint the allowed amount of 0s for its size, det=0
         if(containsAllowedZeros(p, amountOfK, j) == false)
-            num1 = 0; 
+            num1 = 0;
+        
+        //Will output 0.0 if the determinant is shows to be -0.0
+        if(num1 == -0.0)
+            num1 = 0;
 
         System.out.println("\n>> The determinant of this matrix is : " + df.format(num1));      
     }
     
     public static void main(String[] args) throws Exception {
+
+
 
         //Inputing the value of the size of matrix m
         System.out.println("\n>> Please insert square matrix size (1,2,3...,n) :\n");
