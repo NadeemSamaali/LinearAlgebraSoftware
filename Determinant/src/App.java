@@ -185,7 +185,7 @@ public class App {
                         }
                     }        
 
-                    if(k[num0] != 1.0)
+                    if(k[num0] != 1.0 && 1/k[num0] != 0)
                     {
                         System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 
                         Double.valueOf(df.format(1/k[num0])));
@@ -222,9 +222,8 @@ public class App {
             else
                 k[n0] = k[n0];
 
-            System.out.println(k[n0]);
+            //System.out.println(k[n0]);
         }
-
 
         //calculating determinant
         double num1 = 1.0;
