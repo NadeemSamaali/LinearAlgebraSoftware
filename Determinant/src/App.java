@@ -149,7 +149,7 @@ public class App {
                 amountOfK += v;
                         double[] k = new double[amountOfK];
 
-        System.out.println(amountOfK);
+        //System.out.println(amountOfK);
 
         for(int m = 0; m<amountOfK; m++)
             k[m] = 1.0;
@@ -164,7 +164,7 @@ public class App {
             */
             for(int x = 0; x<j-d; x++)
             {
-                if(p[0+d][0+d] != 0.0 && p[0+1+d][0+d] != 0.0)
+                if(p[d][d] != 0.0 && p[1+d][d] != 0.0)
                 {    
                     num0 +=1;
                         
@@ -185,7 +185,7 @@ public class App {
                         }
                     }        
 
-                    if(k[num0] != 1.0 || Math.abs(k[num0]) == 0)
+                    if(k[num0] != 1.0)
                     {
                         System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 
                         Double.valueOf(df.format(1/k[num0])));
@@ -217,10 +217,12 @@ public class App {
 
         for(int n0 = 0; n0<amountOfK; n0++)
         {
-            if(k[n0] == 0) 
+            if(1/k[n0] == 0) 
                 k[n0] = 1.0;
             else
                 k[n0] = k[n0];
+
+            System.out.println(k[n0]);
         }
 
 
