@@ -1,9 +1,17 @@
+import java.text.DecimalFormat;
 import java.util.*;
+import java.text.*;
+import java.io.*;
 
 public class App {
 
     //Settig up the scanner
     static Scanner input = new Scanner(System.in);
+
+    static DecimalFormat df = new DecimalFormat("0.000");
+    static DecimalFormat d0 = new DecimalFormat("0.000000000");
+
+
 
     /**
      * This method allows for printing the entries of the user
@@ -80,10 +88,10 @@ public class App {
             System.out.print("[");
             for(int b = 0; b<o; b++)
             {
-                System.out.print(h[a][b]);
+                System.out.print(Double.valueOf(df.format(h[a][b])));
                 System.out.print(",");
             }
-            System.out.print(h[a][o]);
+            System.out.print(Double.valueOf(df.format(h[a][o])));
 
             if(a==o)
             System.out.print("]");
@@ -108,6 +116,7 @@ public class App {
     
     public static void getDeterminant(double[][] p, int j)
     {
+
 
         int amountOfK = 0;
             for(int v = 0; v<=j; v++)
@@ -134,7 +143,7 @@ public class App {
                 if(p[x+1][0+d] != 0.0)
                 {
                     num0 +=1;
-                    
+                    //System.out.println(df.format(p[0+d][0+d]/p[x+d+1][0+d]));
                     k[num0] = p[0+d][0+d]/p[x+d+1][0+d];
                     //System.out.println("\nk order " + num0);
 
@@ -143,7 +152,7 @@ public class App {
                         p[x+d+1][y+d] = k[num0]*p[x+d+1][y+d];
                     }
 
-                    System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + (1/k[num0]));
+                    System.out.println("\n>> Divide the row R" + (x+2+d) + " by a factor of " + 1/k[num0]);
                     printMatrix(p,j);
                 }
 
@@ -162,10 +171,10 @@ public class App {
                 {
                     for(int r = 0; r<=j-d; r++)
                     {
-                        p[q+d+1][r+d] = p[q+d+1][r+d] - p[0+d][r+d];
+                        p[q+d+1][r+d] = Double.valueOf(d0.format(p[q+d+1][r+d] - p[0+d][r+d]));
                     }
 
-                    System.out.println("\nR" + (q+2) + " - R1 --> R" + (q+2));
+                    System.out.println("\nR" + (q+d+2) + " - R"+ (1+q+d) +" --> R" + (q+d+2));
                     printMatrix(p,j);
 
                 }
@@ -190,6 +199,7 @@ public class App {
             {
                 if(p[g][q] != 0.0)
                 {
+                    //System.out.println(p[g][q]);
                     num1 = num1*p[g][q];
                     break;
                 }    
@@ -197,7 +207,7 @@ public class App {
 
         }
 
-        System.out.println("\n>> The determinant of this matrix is : " + num1);      
+        System.out.println("\n>> The determinant of this matrix is : " + df.format(num1));      
     }
     
 
