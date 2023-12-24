@@ -1,17 +1,13 @@
 import java.text.DecimalFormat;
 import java.util.*;
-import java.text.*;
-import java.io.*;
 
 public class App {
 
-    //Settig up the scanner
+    //Setting up the scanner
     static Scanner input = new Scanner(System.in);
 
     static DecimalFormat df = new DecimalFormat("0.000");
     static DecimalFormat d0 = new DecimalFormat("0.000000000");
-
-
 
     /**
      * This method allows for printing the entries of the user
@@ -19,7 +15,6 @@ public class App {
      * @param mSize1 Size of the matrix to be printed
      * @param ansArray Array of the entries entred by the user
      */
-
     public static void printEntries(int mSize1, String[] ansArray1)
     {
         int sCounter1 = -1;
@@ -54,10 +49,8 @@ public class App {
      * @param mSize2 Size of the matrix array
      * @param ansArray2 Array of the entires of the user
      */
-
     public static void setMatrixFromString(double[][] m,int mSize2, String[] ansArray2)
     {
-
         int sCounter2 = -1;
 
         for(int i = 0; i<=mSize2; i++)
@@ -67,7 +60,6 @@ public class App {
                 sCounter2 += 1;
                 m[i][j] = Double.valueOf(ansArray2[sCounter2]);
             }
-            
         }
     }
 
@@ -77,7 +69,6 @@ public class App {
      * @param h matrix to print
      * @param o size of the metrix
      */
-
     public static void printMatrix(double[][] h, int o)
     {
 
@@ -102,9 +93,17 @@ public class App {
         System.out.println("]");
     }
 
+    /**
+     * This method checks to see if the matrix contains its allowed amount of zeros do determine whether
+     * its invertible or not once simplified 
+     * 
+     * @param m0 matrix
+     * @param k amount of 0s detected
+     * @param n size of matrix
+     * @return false if det=0
+     */
     public static boolean containsAllowedZeros(double[][] m0, int k, int n)
     {
-
         int test0 = 0;
 
         for(int g = 0; g<=n; g++)
@@ -114,10 +113,8 @@ public class App {
                         if(m0[g][q] == 0.0)
                         {
                             test0 +=1;
-                        }
-                        
+                        } 
                     }            
-
                 }
 
                 if(test0 > k)
@@ -127,7 +124,6 @@ public class App {
                 return true;
     }
 
-
     /**
      * This method is an operator that serves part in the process of the reduction and cofactor
      * expansion of a square matrix in order to reduce into an upper triangular matrix.
@@ -136,13 +132,9 @@ public class App {
      * 
      * @param p matrix to operate
      * @param j size of the matrix
-     */
-
-    
+     */    
     public static void getDeterminant(double[][] p, int j)
     {
-
-
         int amountOfK = 0;
             for(int v = 0; v<=j; v++)
                 amountOfK += v;
@@ -151,20 +143,14 @@ public class App {
         for(int m = 0; m<amountOfK; m++)
             k[m] = 1.0;
 
-        //System.out.println(amountOfK);
-
         int num0 = -1;
-        int test0 = 0;
-
 
         for(int d = 0; d<=j; d++)
-        {
-            
+        {  
             /*This loop will multiply each row R>R1 by a factor k, where k is the factor needed to tranforms
             *the entry of the first row into the entry located at [0][0] as well was multiplying the remainer
             *of the entires of this row by that same scalar k
             */
-
             for(int x = 0; x<j-d; x++)
             {
                 if(p[x+1][0+d] != 0.0)
@@ -175,7 +161,10 @@ public class App {
                     k[num0] = p[0+d][0+d]/p[x+d+1][0+d];
                     //System.out.println("\nk order " + num0);
                     
+                    //if k is out of bound, break the loop
                     if(k[num0] != k[num0])
+                        break;
+                     if(k[num0] == 0)
                         break;
 
                     for(int y = 0; y<=j-d; y++)
@@ -189,16 +178,12 @@ public class App {
                         Double.valueOf(df.format(1/k[num0])));
                         printMatrix(p,j);
                     }
-                
                 }
-
             }
          
-
             /*This loop will subscract every row R>R1 by R1 so that all entries of the first row
             * under the entry [0][0] will be equal to 0 as well
             */
-
             for(int q = 0; q<j-d; q++)
             {
                 if(p[q+d+1][0+d] != 0)
@@ -208,24 +193,21 @@ public class App {
                         p[q+d+1][r+d] = Double.valueOf(d0.format(p[q+d+1][r+d] - p[0+d][r+d]));
                     }
 
+                    //If the k values are out of bound, break the loop
                     if(k[num0] != k[num0])
                         break;
-
                     if(k[num0] == 0)
                         break;
 
+                    //Print addition step
                     System.out.println("\nR" + (q+d+2) + " - R"+ (1+d) +" --> R" + (q+d+2));
                     printMatrix(p,j);
-
                 }
-
                 //System.out.println(containsAllowedZeros(p, amountOfK, j));
-   
             }
         }
         
         //calculating determinant
-
         double num1 = 1.0;
         
         //System.out.println("1/k :");
@@ -244,9 +226,7 @@ public class App {
                         num1 = p[g][q]*num1;
                         break;
                     }
-                    
                 }            
-
             }
 
         //If the final matrix doesn't conaint the allowed amount of 0s for its size, det=0
@@ -256,7 +236,6 @@ public class App {
         System.out.println("\n>> The determinant of this matrix is : " + df.format(num1));      
     }
     
-
     public static void main(String[] args) throws Exception {
 
         //Inputing the value of the size of matrix m
@@ -280,19 +259,11 @@ public class App {
 
         double[][] matrix = new double[n+1][n+1];
 
-
         //Set the entires into the designated placements in the matrix Array
         setMatrixFromString(matrix,n,entries);
         printMatrix(matrix, n);
 
-
-
         //Reduce the matrix into upper-triangular form
         getDeterminant(matrix, n);
-
-
-
-
     }
-
 }
