@@ -14,6 +14,7 @@ public class App {
         System.out.println("   Welcome to LinearSpace\n   ~ by Nadeem Samaali ~"); 
         System.out.println("============================\n\n>> Enter '#help' to get started.");
 
+        
         do
         {
             label:
@@ -23,7 +24,7 @@ public class App {
                 while(true)
                 {
 
-                    System.out.print("\nUser : ");
+                    System.out.print("\nCMD : ");
                     //Setting ans to be the inputed value by the user
                     String ans = input.nextLine();
 
@@ -67,8 +68,9 @@ public class App {
 
                         case "#exit":
                         System.out.println("\n ~ Thank you for using LinearSpace ~\n");
-                        break label;
-                    }
+                        break; //label;
+                   }
+                   
                 }
             }
 
@@ -81,6 +83,7 @@ public class App {
 
         }while(!key);
 
+        
     }
 
 
