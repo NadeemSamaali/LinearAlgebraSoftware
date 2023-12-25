@@ -68,7 +68,7 @@ public class App {
 
                         case "#exit":
                         System.out.println("\n ~ Thank you for using LinearSpace ~\n");
-                        break; //label;
+                        break label;
                    }
                    
                 }
