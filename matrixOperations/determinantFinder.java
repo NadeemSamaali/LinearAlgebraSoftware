@@ -1,6 +1,15 @@
-package determinantOperations;
+package matrixOperations;
 
 import java.text.DecimalFormat;
+import java.util.Scanner;
+
+/**
+ * This class contains all the necessary methods to calculate the determinant of any nxn matrix
+ * 
+ * @author Nadeem Samaali
+ * @version 1.0.0 - First stable release
+ */
+
 
 public class determinantFinder 
 {
@@ -96,20 +105,20 @@ public class determinantFinder
         System.out.println("]");
     }
 
-
     /**
      * This method will allow for the sorting of the rows of a square matrix in ascending order
      * 
      * @param M matrix to sort
      * @param N size of the square matrix
+     * @return K amount of rows that were swtiched in the sorting
      */
-    public static void sortMatrix(double[][] M, int N, double K)
+    public static double sortMatrix(double[][] M, int N, double K)
     {
-        K = 1;
-
+        //temporary erray where rows to be switched will be temporarily stored 
         double[] tempM = new double[N+1];
         int amountOf0;
 
+        //Matrix sorting algorithm -- Sorts by ascending leading zeros
         for(int i = 0; i<=N; i++)
         {
             amountOf0 = 0;
@@ -117,28 +126,39 @@ public class determinantFinder
             for(int j = 0; j<=N; j++)
             {
                 if(M[i][j] == 0)
+                {
                     amountOf0 += 1;
+                }
                 else
-                    break;
+                    break;  
             }
 
-            for(int k = 0; k<=N; k++)
+            if(amountOf0 != i)
             {
-                tempM[k] = M[i][k];
-            }
+                for(int k = 0; k<=N; k++)
+                {
+                    tempM[k] = M[i][k];
 
-            for(int l = 0; l<=N; l++)
-            {
-                M[i][l] = M[amountOf0][l];
-            }
+                    //Keeps track of how many times rows are swtiched for the determinant calculations
+                    K += (1/(double)(N+1));
+                }
 
-            for(int m = 0; m<=N; m++)
-            {
-                M[amountOf0][m] = tempM[m];
-            }
-            K = K+1;
+                for(int l = 0; l<=N; l++)
+                {
+                    M[i][l] = M[amountOf0][l];
+                }
+
+                for(int m = 0; m<=N; m++)
+                {
+                    M[amountOf0][m] = tempM[m];
+                }
+            }   
         }
+        //Returns how many rows were switched during the sorting
+        return K;
     }
+
+    
 
     /**
      * This method is an operator that serves part in the process of the reduction and cofactor
@@ -151,6 +171,8 @@ public class determinantFinder
      */    
     public static void getDeterminant(double[][] M, int N)
     {
+        //calculating determinant
+        double num1 = 1.0;
         int amountOfK = 0;
             for(int v = 0; v<=N; v++)
                 amountOfK += v;
@@ -159,15 +181,16 @@ public class determinantFinder
         //System.out.println(amountOfK);
 
         for(int m = 0; m<amountOfK; m++)
+        {
             k[m] = 1.0;
+        }
+        int num0 = -1;
 
-        int num0 = 0;
-
-        double negFactor = 0.0;
+        double kFactor = sortMatrix(M,N,0);
 
         System.out.println("\nSorted the matrix : ");
-        sortMatrix(M,N,negFactor);
-        printMatrix(M,N); 
+        printMatrix(M,N);
+        System.out.println("Amount of Rows switched : " + Double.valueOf(df.format(kFactor)));
 
         for(int d = 0; d<=N; d++)
         {  
@@ -183,7 +206,9 @@ public class determinantFinder
                     {
                         if(M[x+y][x] != 0)
                         {
-                            k[num0] = M[x][x]/M[x+y][x];
+                            num0 += 1;
+
+                            k[num0] = (M[x][x]/M[x+y][x]);
                             System.out.print("\nK = M(" + x + "," + x + ")" + "/M(" + (d+y) + "," + x + ")");
                             System.out.print(" --> " + df.format(k[num0]) + "*R" + (x+y+1) +"\n");
 
@@ -195,15 +220,12 @@ public class determinantFinder
                             for(int l = 0; l<=N; l++)
                                 M[x+y][l] -= M[x][l];
 
-                            num0 += 1;
 
                             System.out.println("\nR" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1) );
                             printMatrix(M,N);
-
-
                         }                        
                     }
-                }
+                }   
             }
         }
        
@@ -217,9 +239,6 @@ public class determinantFinder
 
             //System.out.println(k[n0]);
         }
-
-        //calculating determinant
-        double num1 = 1.0;
         
         System.out.println();
         System.out.print("det(M) = ");
@@ -237,10 +256,45 @@ public class determinantFinder
                 num1 = M[r][r]*num1;
             }
 
-        System.out.print(Math.pow((-1),negFactor));
-        num1 = num1*Math.pow((-1), negFactor);
+        num1 *= Math.pow(-1,Double.valueOf(df.format(kFactor)));
+
+        System.out.print(Math.pow(-1,Double.valueOf(df.format(kFactor))));
+        //num1 = num1*negFactor;
 
         System.out.println("\n\n>> The determinant of this matrix is : " + df.format(num1));      
+    }
+
+    public static void main(String[] args)
+    {
+
+        Scanner input = new Scanner(System.in);
+        String ans;
+
+        System.out.println("\n>> Please insert square matrix size (1,2,3...,n) :\n");
+        ans = "";
+        ans = input.nextLine();
+
+        //Setting the value n as the size of the matrix
+        int n = Integer.valueOf(ans)-1;
+        ans = "";
+
+        //Adding the entries of the matrix into an array by splitting
+        System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
+        ans = input.nextLine();
+        String[] entries = ans.split(",");
+
+        //Outputting the matrix
+        System.out.print("\n>> Here is the inputted matrix : ");
+        printEntries(n,entries);
+        System.out.println();
+
+        double[][] matrix = new double[n+1][n+1];
+
+        //Set the entires into the designated placements in the matrix Array
+        setMatrixFromString(matrix,n,entries);
+
+        //Reduce the matrix into upper-triangular form
+        getDeterminant(matrix, n);
     }
     
     

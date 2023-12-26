@@ -1,5 +1,16 @@
 import java.util.Scanner;
-import determinantOperations.determinantFinder;
+import matrixOperations.determinantFinder;
+
+/**
+ * LinearSpace is a software dealing with various matrix and vector operations
+ * 
+ * Currently supported operations :
+ *      - Calculatling the determinant of a square matrix (1.0.0)
+ *
+ * @author Nadeem Samaali
+ * @version 1.0.0 - First stable release
+ */
+
 
 public class App {
 
@@ -14,7 +25,6 @@ public class App {
         System.out.println("   Welcome to LinearSpace\n   ~ by Nadeem Samaali ~"); 
         System.out.println("============================\n\n>> Enter '#help' to get started.");
 
-        
         do
         {
             label:
@@ -23,8 +33,7 @@ public class App {
             {
                 while(true)
                 {
-
-                    System.out.print("\nCMD : ");
+                    System.out.print("\nU : ");
                     //Setting ans to be the inputed value by the user
                     String ans = input.nextLine();
 
@@ -40,14 +49,16 @@ public class App {
                         //Inputing the value of the size of matrix m
                             System.out.println("\n>> Please insert square matrix size (1,2,3...,n) :\n");
                             ans = "";
+                            System.out.print("U : ");
                             ans = input.nextLine();
 
                             //Setting the value n as the size of the matrix
                             int n = Integer.valueOf(ans)-1;
-                            ans = "";
+                            //ans = "";
 
                             //Adding the entries of the matrix into an array by splitting
-                            System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
+                            System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn");
+                            System.out.print("\nU : ");
                             ans = input.nextLine();
                             String[] entries = ans.split(",");
 
@@ -68,18 +79,20 @@ public class App {
 
                         case "#exit":
                         System.out.println("\n ~ Thank you for using LinearSpace ~\n");
+                        key = false;
                         break label;
-                   }
-                   
+
+                        default:
+                        System.out.println("\n>> Please enter a valid command prompt, type '#help' for command list");
+                        break;
+                   } 
                 }
             }
 
             catch(Exception e)
             {
-
+                System.out.println("\n>> ERROR : illegal prompt - Please try again");
             }
-
-            key = true;
 
         }while(!key);
 
