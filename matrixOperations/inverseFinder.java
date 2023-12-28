@@ -1,6 +1,13 @@
 package matrixOperations;
 import java.util.Scanner;
 
+
+/**
+ * This class calculates the inverse (if invertible) of any nXn matrix
+ * 
+ * @author Nadeem Samaali
+ * @version 1.0.1 | Bug fixing
+ */
 public class inverseFinder 
 {
     /**
@@ -66,7 +73,7 @@ public class inverseFinder
                 }
             }
 
-            det[z] = detFinder.getDeterminant(C3, N-1);
+            det[z] = detFinder.getSilentDeterminant(C3, N-1);
 
             //det[z] = detFinder.getDeterminant(C3, (N-1));
             //System.out.println(det[z]);
