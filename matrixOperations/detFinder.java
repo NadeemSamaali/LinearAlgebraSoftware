@@ -9,7 +9,7 @@ import java.util.Scanner;
  * This class contains all the necessary methods to calculate the determinant of any nxn matrix
  * 
  * @author Nadeem Samaali
- * @version 1.1.0 - Matrix sorting algorithm now based on the use of Array lists : more efficient sorting
+ * @version 1.1.2 - Updated comments
  */
 
 
@@ -40,6 +40,8 @@ public class detFinder
 
         double[][] C = new double[N+1][N+1];
 
+        //Setting up the duplicate of the initial matrix which will come in useful to calculate 
+        //the total amount of permutations done by the sorting algorithm
         for(int t = 0; t<=N; t++)
         {
             for(int s = 0; s<=N; s++)
@@ -52,6 +54,7 @@ public class detFinder
             mLibrary[x] = new ArrayList<Double>();
 
 
+        //Finds the amount of leading zeros in each row
         for(int i = 0; i<=N; i++)
         {
             for(int j = 0; j<=N; j++)
@@ -64,6 +67,7 @@ public class detFinder
                     break; 
             }
 
+            //Adds the entries of the row into an Arraylist corresponding to its amount of leading 0s
             for(int k = 0; k<=N; k++)
             {
                 mLibrary[amountOf0].add(M[i][k]);
@@ -71,6 +75,7 @@ public class detFinder
             amountOf0 = 0;
         }
 
+        //Adding the rows in order of amount of 0s into an Arraylist
         for(int u = 0; u<N+3; u++)
         {
             mList.addAll(mLibrary[u]);
@@ -78,6 +83,7 @@ public class detFinder
 
         int c = 0;
 
+        //Converting the Arraylist of sorted entires into the nxn matrix
         for(int a = 0; a<=N; a++)
         {
             for(int b = 0; b<=N; b++)
@@ -89,7 +95,7 @@ public class detFinder
 
         int K = 0;
 
-        //algorithm to calculate the amount of permutations based on the initial and final matrix
+        //Calculating the amount of permutations based on the initial and final matrix
         for (int i = 0; i < C.length; i++) {
             if (!Arrays.equals(C[i], M[i])) {
                 // Find the row in the remaining part of the matrix where the swap is needed
