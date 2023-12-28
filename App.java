@@ -7,10 +7,11 @@ import matrixOperations.mOPS;
  * LinearSpace is a software dealing with various matrix and vector operations
  * 
  * Currently supported operations :
- *      - Calculatling the determinant of a square matrix (1.0.0)
+ *      - Calculating the determinant of a square matrix (1.0.0)
+ *      - Calculating the inverse of a square matrix (1.1.0)
  *
  * @author Nadeem Samaali
- * @version 1.1.1 - Bug fixing
+ * @version 1.1.2 - Bug fixing
  */
 
 
@@ -29,7 +30,6 @@ public class App {
 
         String[] entries;
         int n;
-
 
         do
         {
