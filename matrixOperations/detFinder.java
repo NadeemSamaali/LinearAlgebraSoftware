@@ -168,8 +168,13 @@ public class detFinder
                             num0 += 1;
 
                             k[num0] = (M[x][x]/M[x+y][x]);
-                            System.out.print("\nK = M(" + x + "," + x + ")" + "/M(" + (d+y) + "," + x + ")");
-                            System.out.print(" --> " + df.format(k[num0]) + "*R" + (x+y+1) +"\n");
+
+                            if(k[num0] != 1)
+                            {
+                                System.out.print("\nK = M(" + x + "," + x + ")" + "/M(" + (d+y) + "," + x + ")");
+                                System.out.print(" --> " + df.format(k[num0]) + "*R" + (x+y+1) +"\n");
+                            }
+                            
 
                             for(int i = 0; i<=N; i++)
                                 M[x+y][i] = k[num0]*M[x+y][i];
@@ -211,7 +216,8 @@ public class detFinder
         for(int u = 0; u<amountOfK; u++)
         {
             num1 *=(1/k[u]);
-            System.out.print(df.format(1/k[u]) + " * ");
+            if(1/k[u] != 1)
+                System.out.print(df.format(1/k[u]) + " * ");
         }
         
         for(int r = 0; r<=N; r++)
