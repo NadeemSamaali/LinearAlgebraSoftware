@@ -10,7 +10,7 @@ import matrixOperations.mOPS;
  *      - Calculatling the determinant of a square matrix (1.0.0)
  *
  * @author Nadeem Samaali
- * @version 1.1.0 - Matrix Inverse Calculator now available
+ * @version 1.1.1 - Bug fixing
  */
 
 
@@ -49,7 +49,7 @@ public class App {
                             System.out.println("\n=== LinearSpace help center ===");
                             System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix operations\n\nHere is a list of all the supported commands : \n");
                             System.out.println("#getDeterminant    ~ This command calculates the determinant of any nxn matrix");
-                            System.out.println("#getInverse        ~ This command find the inverse of a square matrix if invertible");
+                            System.out.println("#getInverse        ~ This command finds the inverse of a square matrix if invertible");
                         break;
 
                         case "#getDeterminant":
@@ -109,7 +109,7 @@ public class App {
                                 inverseFinder.getCofactorMatrix(m, n);
                                 inverseFinder.getAdjacentMatrix(m,n);
                                 inverseFinder.getInverse(m, n, detM);
-                                System.out.print("\nThe inverse of the inputed matrix is : ");
+                                System.out.print("\nThe inverse of the inputted matrix is : ");
                                 mOPS.printMatrix(m,n);
                             }
                             
