@@ -1,5 +1,7 @@
 import java.util.Scanner;
-import matrixOperations.determinantFinder;
+import matrixOperations.detFinder;
+import matrixOperations.inverseFinder;
+import matrixOperations.mOPS;
 
 /**
  * LinearSpace is a software dealing with various matrix and vector operations
@@ -8,7 +10,7 @@ import matrixOperations.determinantFinder;
  *      - Calculatling the determinant of a square matrix (1.0.0)
  *
  * @author Nadeem Samaali
- * @version 1.0.0 - First stable release
+ * @version 1.1.0 - Matrix Inverse Calculator now available
  */
 
 
@@ -24,6 +26,10 @@ public class App {
         System.out.println("\n============================");
         System.out.println("   Welcome to LinearSpace\n   ~ by Nadeem Samaali ~"); 
         System.out.println("============================\n\n>> Enter '#help' to get started.");
+
+        String[] entries;
+        int n;
+
 
         do
         {
@@ -41,40 +47,76 @@ public class App {
                     {
                         case "#help":
                             System.out.println("\n=== LinearSpace help center ===");
-                            System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix operations\n\nHere is a list of all the supported commands : ");
-                            System.out.println("\n#findDeterminant ~ This command calculates the determinant of any nxn matrix");
+                            System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix operations\n\nHere is a list of all the supported commands : \n");
+                            System.out.println("#getDeterminant    ~ This command calculates the determinant of any nxn matrix");
+                            System.out.println("#getInverse        ~ This command find the inverse of a square matrix if invertible");
                         break;
 
-                        case "#findDeterminant":
+                        case "#getDeterminant":
                         //Inputing the value of the size of matrix m
-                            System.out.println("\n>> Please insert square matrix size (1,2,3...,n) :\n");
+                            System.out.println("\n>> Please insert the square matrix size (1,2,3...,n) :\n");
                             ans = "";
                             System.out.print("U : ");
                             ans = input.nextLine();
 
                             //Setting the value n as the size of the matrix
-                            int n = Integer.valueOf(ans)-1;
+                            n = Integer.valueOf(ans)-1;
                             //ans = "";
 
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn");
                             System.out.print("\nU : ");
                             ans = input.nextLine();
-                            String[] entries = ans.split(",");
+                            entries = ans.split(",");
 
                             //Outputting the matrix
                             System.out.print("\n>> Here is the inputted matrix : ");
-                            determinantFinder.printEntries(n,entries);
+                            mOPS.printEntries(n,entries);
                             System.out.println();
 
                             double[][] matrix = new double[n+1][n+1];
 
                             //Set the entires into the designated placements in the matrix Array
-                            determinantFinder.setMatrixFromString(matrix,n,entries);
-                            determinantFinder.printMatrix(matrix, n);
+                            mOPS.setMatrixFromString(matrix,n,entries);
+                            mOPS.printMatrix(matrix, n);
 
                             //Reduce the matrix into upper-triangular form
-                            determinantFinder.getDeterminant(matrix, n);
+                            detFinder.getDeterminant(matrix, n);
+                        break;
+
+                        case "#getInverse" :
+                            System.out.println("\n>> Please enter the square matrix size (1,2,...,n) : \n");
+                            System.out.print("U : ");
+                            Scanner in = new Scanner(System.in);
+                            ans = in.nextLine();
+
+                            n = Integer.valueOf(ans)-1;
+
+                            double[][] m = new double[n+1][n+1];
+                            double[][] d = new double[n+1][n+1];
+
+                            System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
+                            System.out.print("U : ");
+                            ans = in.nextLine();
+                            entries = ans.split(",");
+
+                            mOPS.setMatrixFromString(m, n, entries);
+                            mOPS.setMatrixFromString(d, n, entries);
+                            double detM = detFinder.getSilentDeterminant(d,n);
+
+                            if(detM != 0)
+                            {
+                                inverseFinder.getCofactorMatrix(m, n);
+                                inverseFinder.getAdjacentMatrix(m,n);
+                                inverseFinder.getInverse(m, n, detM);
+                                System.out.print("\nThe inverse of the inputed matrix is : ");
+                                mOPS.printMatrix(m,n);
+                            }
+                            
+                        else
+                        {
+                            System.out.println("\nERROR : This matrix is not invertible !");
+                        }
                         break;
 
                         case "#exit":
@@ -91,7 +133,7 @@ public class App {
 
             catch(Exception e)
             {
-                System.out.println("\n>> ERROR : illegal prompt - Please try again");
+                System.out.println("\n>> ERROR : illegal prompt - Please start again");
             }
 
         }while(!key);

@@ -1,14 +1,15 @@
 package matrixOperations;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
  * This class contains all the necessary methods to calculate the determinant of any nxn matrix
  * 
  * @author Nadeem Samaali
- * @version 1.0.1 - Bug fixed : will now sort rows of zeros to the bottom of the matrix and will
- *                              output a determinant of 0
+ * @version 1.1.0 - Matrix sorting algorithm now based on the use of Array lists : more efficient sorting
  */
 
 
@@ -20,25 +21,39 @@ public class detFinder
     */
     static DecimalFormat df = new DecimalFormat("0.000");
     static DecimalFormat d0 = new DecimalFormat("0.000000000");
-    
 
+    
     /**
      * This method will allow for the sorting of the rows of a square matrix in ascending order
      * 
      * @param M matrix to sort
      * @param N size of the square matrix
      * @return K amount of rows that were swtiched in the sorting
+     * @version 2.0.0 | The sorting algorithm is now based on ArrayLists rather than arrays
      */
-    public static double sortMatrix(double[][] M, int N, double K)
+    
+    public static Integer mSort(double M[][], int N)
     {
-        //temporary erray where rows to be switched will be temporarily stored 
-        double[] tempM = new double[N+1];
-        int amountOf0 = 0;
+        int amountOf0=0;
+        ArrayList<Double>[] mLibrary = new ArrayList[N+3];
+        ArrayList<Double> mList = new ArrayList<>(); 
 
-        //Matrix sorting algorithm -- Sorts by ascending leading zeros
+        double[][] C = new double[N+1][N+1];
+
+        for(int t = 0; t<=N; t++)
+        {
+            for(int s = 0; s<=N; s++)
+            {
+                C[t][s] = M[t][s];
+            }
+        }
+
+        for(int x = 0; x<N+3; x++)
+            mLibrary[x] = new ArrayList<Double>();
+
+
         for(int i = 0; i<=N; i++)
         {
-
             for(int j = 0; j<=N; j++)
             {
                 if(M[i][j] == 0)
@@ -46,62 +61,57 @@ public class detFinder
                     amountOf0 += 1;
                 }
                 else
-                    break;  
+                    break; 
             }
 
-            //If a row in the matrix contains only zeros, to be displaced to the last row
-
-            if(amountOf0 == N+1)
+            for(int k = 0; k<=N; k++)
             {
-                for(int k = 0; k<=N; k++)
-                {
-                    tempM[k] = M[i][k];
-
-                    //Keeps track of how many times rows are swtiched for the determinant calculations
-                    K += (1/(double)(N+1));
-                }
-
-                for(int l = 0; l<=N; l++)
-                {
-                    M[i][l] = M[N][l];
-                }
-
-                for(int m = 0; m<=N; m++)
-                {
-                    M[N][m] = tempM[m];
-                }
-
-                amountOf0 = 0;
+                mLibrary[amountOf0].add(M[i][k]);
             }
-
-            if(amountOf0 != i)
-            {
-                for(int k = 0; k<=N; k++)
-                {
-                    tempM[k] = M[i][k];
-
-                    //Keeps track of how many times rows are swtiched for the determinant calculations
-                    K += (1/(double)(N+1));
-                }
-
-                for(int l = 0; l<=N; l++)
-                {
-                    M[i][l] = M[amountOf0][l];
-                }
-
-                for(int m = 0; m<=N; m++)
-                {
-                    M[amountOf0][m] = tempM[m];
-                }
-
-                amountOf0 = 0;
-            }   
+            amountOf0 = 0;
         }
-        //Returns how many rows were switched during the sorting
+
+        for(int u = 0; u<N+3; u++)
+        {
+            mList.addAll(mLibrary[u]);
+        }
+
+        int c = 0;
+
+        for(int a = 0; a<=N; a++)
+        {
+            for(int b = 0; b<=N; b++)
+            {
+                M[a][b] = mList.get(c);
+                c+=1;
+            }
+        }
+
+        int K = 0;
+
+        //algorithm to calculate the amount of permutations based on the initial and final matrix
+        for (int i = 0; i < C.length; i++) {
+            if (!Arrays.equals(C[i], M[i])) {
+                // Find the row in the remaining part of the matrix where the swap is needed
+                for (int j = i + 1; j < C.length; j++) {
+                    if (Arrays.equals(C[j], M[i])) {
+                        // Swap rows
+                        double[] temp = C[i];
+                        C[i] = C[j];
+                        C[j] = temp;
+
+                        K++;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //where k is the amount of permuatations done within the matrix
         return K;
+
     }
 
-    
 
     /**
      * This method is an operator that serves part in the process of the reduction and cofactor
@@ -111,7 +121,8 @@ public class detFinder
      * 
      * @param M matrix to operate
      * @param N size of the matrix
-     * @return 
+     * @return determinant
+     * @version 1.1.0 | Now incorporates the new sorting methid (mSort)
      */    
     public static double getDeterminant(double[][] M, int N)
     {
@@ -130,11 +141,15 @@ public class detFinder
         }
         int num0 = -1;
 
-        double kFactor = sortMatrix(M,N,0);
+        double kFactor = mSort(M,N);
 
-        System.out.println("\nSorted the matrix : ");
-        mOPS.printMatrix(M,N);
-        System.out.println("Amount of Rows switched : " + Double.valueOf(df.format(kFactor)));
+        if(kFactor != 0)
+        {
+            System.out.println("\n>> Sorted the matrix : ");
+            mOPS.printMatrix(M,N);
+        }
+
+        System.out.println("\n>> Steps to solution :");
 
         for(int d = 0; d<=N; d++)
         {  
@@ -172,6 +187,11 @@ public class detFinder
                 }   
             }
         }
+
+        kFactor += mSort(M,N);
+        System.out.print("\nSorted the matrix : ");
+        mOPS.printMatrix(M,N);
+        
        
         for(int n0 = 0; n0<amountOfK; n0++)
         {
@@ -199,7 +219,7 @@ public class detFinder
                 System.out.print(df.format(M[r][r]) + " * ");
                 num1 = M[r][r]*num1;
             }
-
+        
         num1 *= Math.pow(-1,Double.valueOf(df.format(kFactor)));
 
         System.out.print(Math.pow(-1,Double.valueOf(df.format(kFactor))));
@@ -217,6 +237,7 @@ public class detFinder
      * @param M
      * @param N
      * @return num1 -- the value of the determinant
+     * @version 1.1.0 | Now incorporates the new sorting methid (mSort)
      */
     public static double getSilentDeterminant(double[][] M, int N)
     {
@@ -235,7 +256,7 @@ public class detFinder
         }
         int num0 = -1;
 
-        double kFactor = sortMatrix(M,N,0);
+        double kFactor = mSort(M,N);
 
         for(int d = 0; d<=N; d++)
         {  
@@ -254,18 +275,23 @@ public class detFinder
                             num0 += 1;
 
                             k[num0] = (M[x][x]/M[x+y][x]);
-                        
+
                             for(int i = 0; i<=N; i++)
                                 M[x+y][i] = k[num0]*M[x+y][i];
+
     
                             for(int l = 0; l<=N; l++)
                                 M[x+y][l] -= M[x][l];
+
 
                         }                        
                     }
                 }   
             }
         }
+
+        kFactor += mSort(M,N);
+        
        
         for(int n0 = 0; n0<amountOfK; n0++)
         {
@@ -278,6 +304,7 @@ public class detFinder
             //System.out.println(k[n0]);
         }
         
+
         //System.out.println("1/k :");
         for(int u = 0; u<amountOfK; u++)
         {
@@ -288,7 +315,7 @@ public class detFinder
             {
                 num1 = M[r][r]*num1;
             }
-
+        
         num1 *= Math.pow(-1,Double.valueOf(df.format(kFactor)));
 
         //num1 = num1*negFactor;
@@ -326,7 +353,6 @@ public class detFinder
         //Set the entires into the designated placements in the matrix Array
         mOPS.setMatrixFromString(matrix,n,entries);
 
-        //Reduce the matrix into upper-triangular form
         getDeterminant(matrix, n);
     }
     
