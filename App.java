@@ -1,7 +1,6 @@
 import java.util.Scanner;
-import matrixOperations.detFinder;
-import matrixOperations.inverseFinder;
-import matrixOperations.mOPS;
+import matrixOperations.*;
+
 
 /**
  * LinearSpace is a software dealing with various matrix and vector operations
@@ -9,9 +8,10 @@ import matrixOperations.mOPS;
  * Currently supported operations :
  *      - Calculating the determinant of a square matrix (1.0.0)
  *      - Calculating the inverse of a square matrix (1.1.0)
+ *      - Calculating the solution of a linar system in matrix form (1.2.0)
  *
  * @author Nadeem Samaali
- * @version 1.1.2 - Bug fixing
+ * @version 1.2.0 - Added a linear system solver
  */
 
 
@@ -50,6 +50,8 @@ public class App {
                             System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix operations\n\nHere is a list of all the supported commands : \n");
                             System.out.println("#getDeterminant    ~ This command calculates the determinant of any nxn matrix");
                             System.out.println("#getInverse        ~ This command finds the inverse of a square matrix if invertible");
+                            System.out.println("#findX             ~ This command finds the solution of a linear system in matrix form");
+
                         break;
 
                         case "#getDeterminant":
@@ -74,14 +76,14 @@ public class App {
                             mOPS.printEntries(n,entries);
                             System.out.println();
 
-                            double[][] matrix = new double[n+1][n+1];
+                            double[][] m1 = new double[n+1][n+1];
 
                             //Set the entires into the designated placements in the matrix Array
-                            mOPS.setMatrixFromString(matrix,n,entries);
-                            mOPS.printMatrix(matrix, n);
+                            mOPS.setMatrixFromString(m1,n,entries);
+                            mOPS.printMatrix(m1, n);
 
                             //Reduce the matrix into upper-triangular form
-                            detFinder.getDeterminant(matrix, n);
+                            detFinder.getDeterminant(m1, n);
                         break;
 
                         case "#getInverse" :
@@ -92,7 +94,7 @@ public class App {
 
                             n = Integer.valueOf(ans)-1;
 
-                            double[][] m = new double[n+1][n+1];
+                            double[][] m2 = new double[n+1][n+1];
                             double[][] d = new double[n+1][n+1];
 
                             System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
@@ -100,23 +102,50 @@ public class App {
                             ans = in.nextLine();
                             entries = ans.split(",");
 
-                            mOPS.setMatrixFromString(m, n, entries);
+                            mOPS.setMatrixFromString(m2, n, entries);
                             mOPS.setMatrixFromString(d, n, entries);
                             double detM = detFinder.getSilentDeterminant(d,n);
 
                             if(detM != 0)
                             {
-                                inverseFinder.getCofactorMatrix(m, n);
-                                inverseFinder.getAdjacentMatrix(m,n);
-                                inverseFinder.getInverse(m, n, detM);
+                                inverseFinder.getCofactorMatrix(m2, n);
+                                inverseFinder.getAdjacentMatrix(m2,n);
+                                inverseFinder.getInverse(m2, n, detM);
                                 System.out.print("\nThe inverse of the inputted matrix is : ");
-                                mOPS.printMatrix(m,n);
+                                mOPS.printMatrix(m2,n);
                             }
                             
                         else
                         {
                             System.out.println("\nERROR : This matrix is not invertible !");
                         }
+                        break;
+
+                        case "#findX" :
+                            System.out.println("\n>> A - Please insert the square coefficient matrix size (1,2,3...,n) :\n");
+                            ans = "";
+                            System.out.print("U : ");
+                            ans = input.nextLine();
+                            n = Integer.valueOf(ans) - 1;
+                    
+                            double[][] m3 = new double[n+1][n+1];
+                            double[] b = new double[n+1];
+                    
+                    
+                            System.out.println("\n>> A - Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
+                            System.out.print("U : ");
+                            String ans1 = input.nextLine();
+
+                            mOPS.setMatrixFromString(m3, n, ans1.split(","));
+
+                            System.out.println("\n>> B - Insert the values of the solution sparated with a comma\n   respecting this form : b1,b2,...,bn\n");
+                            System.out.print("U : ");
+                            String ans2 = input.nextLine();
+
+
+
+                            findX.setB(b, ans2, n);
+                            findX.getX(b, m3, n);
                         break;
 
                         case "#exit":

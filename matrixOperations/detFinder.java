@@ -139,7 +139,6 @@ public class detFinder
                 amountOfK += v;
                         double[] k = new double[amountOfK];
 
-        //System.out.println(amountOfK);
 
         for(int m = 0; m<amountOfK; m++)
         {
