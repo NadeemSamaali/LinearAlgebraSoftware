@@ -51,12 +51,13 @@ public class App {
                             System.out.println("#getDeterminant    ~ This command calculates the determinant of any nxn matrix");
                             System.out.println("#getInverse        ~ This command finds the inverse of a square matrix if invertible");
                             System.out.println("#findX             ~ This command finds the solution of a linear system in matrix form");
+                            System.out.println("\n#exit              ~ Close the program");
 
                         break;
 
                         case "#getDeterminant":
                         //Inputing the value of the size of matrix m
-                            System.out.println("\n>> Please insert the square matrix size (1,2,3...,n) :\n");
+                            System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
                             ans = "";
                             System.out.print("U : ");
                             ans = input.nextLine();
@@ -66,13 +67,13 @@ public class App {
                             //ans = "";
 
                             //Adding the entries of the matrix into an array by splitting
-                            System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn");
+                            System.out.println("\n2) Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn");
                             System.out.print("\nU : ");
                             ans = input.nextLine();
                             entries = ans.split(",");
 
                             //Outputting the matrix
-                            System.out.print("\n>> Here is the inputted matrix : ");
+                            System.out.print("\n-  Here is the inputted matrix : ");
                             mOPS.printEntries(n,entries);
                             System.out.println();
 
@@ -87,7 +88,7 @@ public class App {
                         break;
 
                         case "#getInverse" :
-                            System.out.println("\n>> Please enter the square matrix size (1,2,...,n) : \n");
+                            System.out.println("\n1) Please enter the square matrix size (1,2,...,n) : \n");
                             System.out.print("U : ");
                             Scanner in = new Scanner(System.in);
                             ans = in.nextLine();
@@ -97,7 +98,7 @@ public class App {
                             double[][] m2 = new double[n+1][n+1];
                             double[][] d = new double[n+1][n+1];
 
-                            System.out.println("\n>> Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
+                            System.out.println("\n2) Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
                             System.out.print("U : ");
                             ans = in.nextLine();
                             entries = ans.split(",");
@@ -122,7 +123,7 @@ public class App {
                         break;
 
                         case "#findX" :
-                            System.out.println("\n>> A - Please insert the square coefficient matrix size (1,2,3...,n) :\n");
+                            System.out.println("\n1) A - Please insert the square coefficient matrix size (1,2,3...,n) :\n");
                             ans = "";
                             System.out.print("U : ");
                             ans = input.nextLine();
@@ -132,13 +133,13 @@ public class App {
                             double[] b = new double[n+1];
                     
                     
-                            System.out.println("\n>> A - Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
+                            System.out.println("\n2) A - Insert the values of the entries sparated with a comma\n   respecting this form : a11,...,a1n,...,am1,...,amn\n");
                             System.out.print("U : ");
                             String ans1 = input.nextLine();
 
                             mOPS.setMatrixFromString(m3, n, ans1.split(","));
 
-                            System.out.println("\n>> B - Insert the values of the solution sparated with a comma\n   respecting this form : b1,b2,...,bn\n");
+                            System.out.println("\n3) B - Insert the values of the solution sparated with a comma\n   respecting this form : b1,b2,...,bn\n");
                             System.out.print("U : ");
                             String ans2 = input.nextLine();
 
