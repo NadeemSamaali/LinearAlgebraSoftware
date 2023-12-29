@@ -11,7 +11,7 @@ import matrixOperations.*;
  *      - Calculating the solution of a linar system in matrix form (1.2.0)
  *
  * @author Nadeem Samaali
- * @version 1.2.0 - Added a linear system solver
+ * @version 1.2.2 - Bug fix : the program will close when typing the command #exit
  */
 
 
@@ -151,7 +151,8 @@ public class App {
 
                         case "#exit":
                         System.out.println("\n ~ Thank you for using LinearSpace ~\n");
-                        key = false;
+                        key = true;
+                        //input.close();
                         break label;
 
                         default:
