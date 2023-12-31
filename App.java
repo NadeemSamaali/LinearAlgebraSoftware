@@ -48,10 +48,10 @@ public class App {
                         case "#help":
                             System.out.println("\n=== LinearSpace help center ===");
                             System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix operations\n\nHere is a list of all the supported commands : \n");
-                            System.out.println("#getDeterminant    ~ This command calculates the determinant of any nxn matrix");
-                            System.out.println("#getInverse        ~ This command finds the inverse of a square matrix if invertible");
-                            System.out.println("#findX             ~ This command finds the solution of a linear system in matrix form");
-                            System.out.println("\n#exit              ~ Close the program");
+                            System.out.println("    #getDeterminant    ~ This command calculates the determinant of any nxn matrix");
+                            System.out.println("    #getInverse        ~ This command finds the inverse of a square matrix if invertible");
+                            System.out.println("    #findX             ~ This command finds the solution of a linear system in matrix form");
+                            System.out.println("\n    #exit              ~ Close the program");
 
                         break;
 

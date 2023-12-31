@@ -7,7 +7,7 @@ import java.util.Scanner;
  * performing the matrix multiplication between the inverse of A (A^-1) with the vector B
  * 
  * @author Nadeem Samaali
- * @version 1.0.0 | First stable release
+ * @version 1.0.1 | aesthetic changes
  */
 
 
