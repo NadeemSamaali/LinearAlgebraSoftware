@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import matrixOperations.*;
+import vectorOperations.dotProduct;
+import vectorOperations.vOPS;
 
 
 /**
@@ -9,9 +11,11 @@ import matrixOperations.*;
  *      - Calculating the determinant of a square matrix (1.0.0)
  *      - Calculating the inverse of a square matrix (1.1.0)
  *      - Calculating the solution of a linar system in matrix form (1.2.0)
+ * 
+ *      - Calculating the dot product of two vectors of n dimension (1.3.0)
  *
  * @author Nadeem Samaali
- * @version 1.2.2 - Bug fix : the program will close when typing the command #exit
+ * @version 1.3.0 - Implementation of dotProduct.java on the App - Dot product calculations now available
  */
 
 
@@ -149,14 +153,40 @@ public class App {
                             findX.getX(b, m3, n);
                         break;
 
+                        case "#dotProduct":
+
+                            System.out.println("\n1) Insert the components of V1 (v11, v12,..., v1n)\n");
+                            System.out.print("U : ");
+                            ans = input.nextLine();
+                            String[] E1 = ans.split(",");
+                            double[] V1 = new double[E1.length];
+                            vOPS.setVectorFromString(V1, E1);
+
+                            System.out.println("\n2) Insert the components of V2 (v21, v22,..., v2n)\n");
+                            System.out.print("U : ");                            
+                            ans = input.nextLine();
+                            String[] E2 = ans.split(",");
+                            double[] V2 = new double[E2.length];
+                            vOPS.setVectorFromString(V2, E2);
+
+                            if(V1.length == V2.length)
+                            {
+                                System.out.println("\n>> V1 * V2 = " + dotProduct.getDotProduct(V1, V2));
+                            }
+
+                            else
+                                System.out.println("\n>> ERROR : V1 and V2 aren't of the same dimension");
+
+                        break;
+
                         case "#exit":
-                        System.out.println("\n ~ Thank you for using LinearSpace ~\n");
-                        key = true;
-                        //input.close();
+                            System.out.println("\n ~ Thank you for using LinearSpace ~\n");
+                            key = true;
+                            input.close();
                         break label;
 
                         default:
-                        System.out.println("\n>> Please enter a valid command prompt, type '#help' for command list");
+                            System.out.println("\n>> Please enter a valid command prompt, type '#help' for command list");
                         break;
                    } 
                 }
