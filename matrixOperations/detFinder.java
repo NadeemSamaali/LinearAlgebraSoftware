@@ -9,7 +9,7 @@ import java.util.Scanner;
  * This class contains all the necessary methods to calculate the determinant of any nxn matrix
  * 
  * @author Nadeem Samaali
- * @version 1.1.3 - Bug fixing
+ * @version 1.1.4 - Bug fixing
  */
 
 
@@ -182,12 +182,12 @@ public class detFinder
                             
 
                             for(int i = 0; i<=N; i++)
-                                M[x+y][i] = Double.valueOf(d0.format(k[num0]*M[x+y][i]));
+                                M[x+y][i] = Double.valueOf(df.format(k[num0]*M[x+y][i]));
 
                             mOPS.printMatrix(M,N);
     
                             for(int l = 0; l<=N; l++)
-                                M[x+y][l] -= Double.valueOf(d0.format(M[x][l]));
+                                M[x+y][l] -= Double.valueOf(df.format(M[x][l]));
 
 
                             System.out.println("\nR" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1) );
