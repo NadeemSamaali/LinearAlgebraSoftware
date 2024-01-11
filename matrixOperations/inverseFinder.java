@@ -1,4 +1,5 @@
 package matrixOperations;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 
@@ -6,10 +7,13 @@ import java.util.Scanner;
  * This class calculates the inverse (if invertible) of any nXn matrix
  * 
  * @author Nadeem Samaali
- * @version 1.0.1 | Bug fixing
+ * @version 1.0.2 | Bug Fixing
  */
 public class inverseFinder 
 {
+
+    static DecimalFormat df = new DecimalFormat("0.000");
+
     /**
      * This method will convert the inputted square matrix into its cofactor matrix
      * 
@@ -142,7 +146,7 @@ public class inverseFinder
             for(int j = 0; j<=N; j++)
             {
                 if(M[i][j] != 0)
-                    M[i][j] *= (1/det);
+                    M[i][j] = Double.valueOf(df.format((1/det)*M[i][j]));
             }
         }
     }
@@ -173,13 +177,13 @@ public class inverseFinder
             getCofactorMatrix(m, n);
             getAdjacentMatrix(m,n);
             getInverse(m, n, detM);
-            System.out.print("\nThe inverse of the inputed matrix is : ");
+            System.out.println("\nThe inverse of the inputed matrix is : \n ");
             mOPS.printMatrix(m,n);
         }
             
         else
         {
-            System.out.println("\nERROR : This matrix is not invertible !");
+            System.out.println("\n>> ERROR : This matrix is not invertible !");
         }
         
         
