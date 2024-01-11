@@ -7,9 +7,8 @@ import java.util.Scanner;
  * performing the matrix multiplication between the inverse of A (A^-1) with the vector B
  * 
  * @author Nadeem Samaali
- * @version 1.0.1 | aesthetic changes
- */
-
+ * @version 1.0.2 | Will now catch if B is out of bound with M
+*/
 
 public class findX 
 {
@@ -27,7 +26,10 @@ public class findX
 
     public static void setB(double[] B, String ans, int N)
     {
-        String[] entries = ans.split(",");
+        String[] entries = ans.split(" ");
+
+        if(entries.length != N+1)
+            throw new IllegalArgumentException("The vector B is out of bound with the coefficient matrix");
 
         for(int i = 0; i<=N; i++)
             B[i] = Double.valueOf(entries[i]);
