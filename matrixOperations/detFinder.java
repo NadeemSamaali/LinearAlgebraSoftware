@@ -29,7 +29,7 @@ public class detFinder
      * @param M matrix to sort
      * @param N size of the square matrix
      * @return K amount of rows that were swtiched in the sorting
-     * @version 2.0.0 | The sorting algorithm is now based on ArrayLists rather than arrays
+     * @version 2.0.1 | Bug fixing
      */
     
     public static Integer mSort(double M[][], int N)
@@ -182,12 +182,12 @@ public class detFinder
                             
 
                             for(int i = 0; i<=N; i++)
-                                M[x+y][i] = k[num0]*M[x+y][i];
+                                M[x+y][i] = Double.valueOf(d0.format(k[num0]*M[x+y][i]));
 
                             mOPS.printMatrix(M,N);
     
                             for(int l = 0; l<=N; l++)
-                                M[x+y][l] -= M[x][l];
+                                M[x+y][l] -= Double.valueOf(d0.format(M[x][l]));
 
 
                             System.out.println("\nR" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1) );
