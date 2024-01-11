@@ -15,7 +15,7 @@ import vectorOperations.vOPS;
  *      - Calculating the dot product of two vectors of n dimension (1.3.0)
  *
  * @author Nadeem Samaali
- * @version 1.3.2 - Implementation of the new matrix set method
+ * @version 1.3.3 - Implementation of getCofactor and getAdjoint
  */
 
 
@@ -52,11 +52,13 @@ public class App {
                         case "#help":
                             System.out.println("\n=== LinearSpace help center ===");
                             System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix operations\n\nHere is a list of all the supported commands : \n");
-                            System.out.println("    #getDeterminant    ~ This command calculates the determinant of any nxn matrix");
-                            System.out.println("    #getInverse        ~ This command finds the inverse of a square matrix if invertible");
-                            System.out.println("    #findX             ~ This command finds the solution of a linear system in matrix form");
-                            System.out.println("\n    #dotProduct        ~ This command calculates the scalar dot product between two n-dimensional vectors");
-                            System.out.println("\n    #exit              ~ Close the program");
+                            System.out.println("    #getDeterminant     ~ This command calculates the determinant of any nxn matrix");
+                            System.out.println("    #getCofactor        ~ This command finds the cofactor matrix of a square matrix");
+                            System.out.println("    #getAdjoint         ~ This command finds the adjoint matrix of a square matrix");
+                            System.out.println("    #getInverse         ~ This command finds the inverse of a square matrix if invertible");
+                            System.out.println("    #findX              ~ This command finds the solution of a linear system in matrix form");
+                            System.out.println("\n    #dotProduct         ~ This command calculates the scalar dot product between two n-dimensional vectors");
+                            System.out.println("\n    #exit               ~ Close the program");
 
                         break;
 
@@ -125,6 +127,49 @@ public class App {
                             {
                                 System.out.println(">>\nERROR : This matrix is not invertible !");
                             }
+                        break;
+                            
+                        case "#getCofactor":
+                            //Inputing the value of the size of matrix m
+                            System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
+                            ans = "";
+                            System.out.print("   N = ");
+                            ans = input.nextLine();
+
+                            //Setting the value n as the size of the matrix
+                            n = Integer.valueOf(ans)-1;
+
+                            double[][] m4 = new double[n+1][n+1];
+
+                            //Adding the entries of the matrix into an array by splitting
+                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   a1n a2n ... amn\n");
+                            mOPS.setMatrix(m4,n,input);
+
+                            inverseFinder.getCofactorMatrix(m4, n);
+                            System.out.print("\n>> The cofactor matrix is : ");
+                            mOPS.printMatrix(m4,n);
+                        break;
+
+                        case "#getAdjoint":
+                            //Inputing the value of the size of matrix m
+                            System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
+                            ans = "";
+                            System.out.print("   N = ");
+                            ans = input.nextLine();
+
+                            //Setting the value n as the size of the matrix
+                            n = Integer.valueOf(ans)-1;
+
+                            double[][] m5 = new double[n+1][n+1];
+
+                            //Adding the entries of the matrix into an array by splitting
+                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   a1n a2n ... amn\n");
+                            mOPS.setMatrix(m5,n,input);
+
+                            inverseFinder.getCofactorMatrix(m5,n);
+                            inverseFinder.getAdjacentMatrix(m5, n);
+                            System.out.print("\n>> The adjoint matrix is : ");
+                            mOPS.printMatrix(m5,n);
                         break;
 
                         case "#findX" :
