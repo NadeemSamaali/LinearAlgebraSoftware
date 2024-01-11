@@ -15,7 +15,7 @@ import vectorOperations.vOPS;
  *      - Calculating the dot product of two vectors of n dimension (1.3.0)
  *
  * @author Nadeem Samaali
- * @version 1.3.0 - Implementation of dotProduct.java on the App - Dot product calculations now available
+ * @version 1.3.1 - Bug Fixing
  */
 
 
@@ -55,6 +55,7 @@ public class App {
                             System.out.println("    #getDeterminant    ~ This command calculates the determinant of any nxn matrix");
                             System.out.println("    #getInverse        ~ This command finds the inverse of a square matrix if invertible");
                             System.out.println("    #findX             ~ This command finds the solution of a linear system in matrix form");
+                            System.out.println("\n    #dotProduct        ~ This command calculates the scalar dot product between two n-dimensional vectors");
                             System.out.println("\n    #exit              ~ Close the program");
 
                         break;
@@ -146,8 +147,6 @@ public class App {
                             System.out.println("\n3) B - Insert the values of the solution sparated with a comma\n   respecting this form : b1,b2,...,bn\n");
                             System.out.print("U : ");
                             String ans2 = input.nextLine();
-
-
 
                             findX.setB(b, ans2, n);
                             findX.getX(b, m3, n);
