@@ -4,7 +4,7 @@ package vectorOperations;
  * Class containing the basic methods necessary for setting up and printing vectors
  * 
  * @author Nadeem Samaali
- * @version 1.0.0 | First release
+ * @version 1.0.1 | Minor changes
  */
 public class vOPS 
 {
@@ -13,7 +13,7 @@ public class vOPS
      * @param V Vector
      * @param E String array of the component entries
      */
-    public static void setVectorFromString(double[] V, String[] E)
+    public static void setVector(double[] V, String[] E)
     {
         for(int i = 0; i<V.length; i++)
         {
