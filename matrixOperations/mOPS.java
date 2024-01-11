@@ -8,7 +8,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 1.1.0 | Rewrote the matrix setup method
+ * @version 1.2.0 | Rewrote the matrix printing method to print matrix with aligned rows
  */
 
 public class mOPS {
@@ -106,6 +106,50 @@ public class mOPS {
      * @param M matrix to print
      * @param N size of the metrix
      */
+
+    public static void printMatrix(double[][] M, int N) {
+        char[] E;
+        int k = 0;
+
+        double[] maxDouble = new double[N+1];
+        double[] maxLength = new double[N+1];
+
+
+        //Counts the amount of characters of the longest double of a column
+        for(int i = 0; i<=N; i++) {
+            maxDouble[i] = M[0][i];
+            maxLength[i] = Double.toString(maxDouble[i]).length();
+
+                for (int y = 0; y <=N; y++) {
+                    double currentDouble = M[y][i];
+                    double currentLength = Double.toString(currentDouble).length();
+
+                    if (currentLength > maxLength[i]) {
+                        maxDouble[i] = currentDouble;
+                        maxLength[i] = currentLength;
+                    }
+                }
+
+        }
+
+        //Prints the matrix alligned with the amounts of spaces necessary to have evenly spaced columns
+        for(int s = 0; s<=N; s++) {
+            for(int t = 0; t<=N; t++) {
+                E = String.valueOf(M[s][t]).toCharArray();
+                System.out.print(M[s][t]);
+                    for( int a = 0; a<=maxLength[t] - E.length; a++) {
+                        System.out.print(" ");
+                    }
+
+                for(int b = 0; b<E.length; b++)
+                    E[b] = ' ';
+            }
+
+            System.out.println();
+        }
+        
+    } 
+    /*
     public static void printMatrix(double[][] M, int N)
     {
         //Outputting the matrix as well as the data entries
@@ -128,6 +172,7 @@ public class mOPS {
         }
         System.out.println("]");
     }
+    */
 
     public static void main(String[] args)
     {
