@@ -11,11 +11,12 @@ import vectorOperations.vOPS;
  *      - Calculating the determinant of a square matrix (1.0.0)
  *      - Calculating the inverse of a square matrix (1.1.0)
  *      - Calculating the solution of a linar system in matrix form (1.2.0)
+ *      - Finding the Adjoint and Cofactor matrix (1.3.3)
  * 
  *      - Calculating the dot product of two vectors of n dimension (1.3.0)
  *
  * @author Nadeem Samaali
- * @version 1.3.3 - Implementation of getCofactor and getAdjoint
+ * @version 1.3.4 - Bug fixing
  */
 
 
@@ -119,7 +120,7 @@ public class App {
                                 inverseFinder.getCofactorMatrix(m2, n);
                                 inverseFinder.getAdjacentMatrix(m2,n);
                                 inverseFinder.getInverse(m2, n, detM);
-                                System.out.print("\n>> The inverse of the inputted matrix is : ");
+                                System.out.println("\n>> The inverse of the inputted matrix is : \n");
                                 mOPS.printMatrix(m2,n);
                             }
                             
