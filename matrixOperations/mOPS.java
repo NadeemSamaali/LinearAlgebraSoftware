@@ -1,13 +1,14 @@
 package matrixOperations;
 
 import java.text.DecimalFormat;
+import java.util.Scanner;
 
 /**
  * This class contains all the most recurring methods when it comes to working with matrices
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 1.0.0 
+ * @version 1.1.0 | Rewrote the matrix setup method
  */
 
 public class mOPS {
@@ -49,6 +50,33 @@ public class mOPS {
          }
          System.out.println("]");
      }
+
+    /**
+     * This method inquires the user on the entries to add into each row of the N sized
+     * 
+     * @param M Matrix
+     * @param N Matrix size
+     * @param in Scanner
+     */
+    public static void setMatrix(double[][] M, int N, Scanner in) {
+        
+        String ans = "";
+        String[][] E = new String[N+1][N+1];
+
+        for(int i = 0; i<=N; i++) {
+            System.out.print("   ");
+            ans = in.nextLine(); 
+                E[i] = ans.split(" ");           
+                    if(E[i].length == M[i].length) {
+                        for(int j = 0; j<=N; j++) {
+                            M[i][j] = Double.valueOf(E[i][j]);
+                        }
+                    }
+                    else {
+                        throw new IllegalArgumentException("Make sure the rows are in bound with the matrix size");
+                    }
+            }
+    } 
  
     
     /***
@@ -99,6 +127,18 @@ public class mOPS {
             System.out.print("];");
         }
         System.out.println("]");
+    }
+
+    public static void main(String[] args)
+    {
+        final int N = 2;
+        double[][] M = new double[N+1][N+1];
+        Scanner in = new Scanner(System.in);
+
+
+        System.out.println("Insert the values of the matrix : ");
+        setMatrix(M, N, in);
+        printMatrix(M, N);
     }
 
 
