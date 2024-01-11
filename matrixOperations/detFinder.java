@@ -9,7 +9,7 @@ import java.util.Scanner;
  * This class contains all the necessary methods to calculate the determinant of any nxn matrix
  * 
  * @author Nadeem Samaali
- * @version 1.1.2 - Updated comments
+ * @version 1.1.3 - Bug fixing
  */
 
 
@@ -199,7 +199,7 @@ public class detFinder
         }
 
         kFactor += mSort(M,N);
-        System.out.print("\nSorted the matrix : ");
+        System.out.println("\n>> Sorted the matrix :\n");
         mOPS.printMatrix(M,N);
         
        
