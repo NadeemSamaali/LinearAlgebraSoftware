@@ -8,7 +8,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 1.2.2 | Bug fixing
+ * @version 1.2.3 | Aesthetic changes
  */
 
 public class mOPS {
@@ -136,6 +136,8 @@ public class mOPS {
         for(int s = 0; s<=N; s++) {
             for(int t = 0; t<=N; t++) {
                 E = String.valueOf(M[s][t]).toCharArray();
+
+                System.out.print(" ");
 
                 if(M[s][t] >= 0) {
                     System.out.print("  ");
