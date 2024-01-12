@@ -8,7 +8,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 1.2.1 | Better formats matrices containing negative values for printing
+ * @version 1.2.2 | Bug fixing
  */
 
 public class mOPS {
@@ -138,7 +138,7 @@ public class mOPS {
                 E = String.valueOf(M[s][t]).toCharArray();
 
                 if(M[s][t] >= 0) {
-                    System.out.print(" ");
+                    System.out.print("  ");
                     
                     System.out.print(M[s][t]);
                     for( int a = 0; a<maxLength[t] - E.length; a++) {
@@ -147,6 +147,7 @@ public class mOPS {
                 }
 
                 else {
+                    System.out.print(" ");
                     System.out.print(M[s][t]);
                     for( int a = 0; a<=maxLength[t] - E.length; a++) {
                         System.out.print(" ");
