@@ -8,7 +8,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 1.2.0 | Rewrote the matrix printing method to print matrix with aligned rows
+ * @version 1.2.1 | Better formats matrices containing negative values for printing
  */
 
 public class mOPS {
@@ -136,10 +136,23 @@ public class mOPS {
         for(int s = 0; s<=N; s++) {
             for(int t = 0; t<=N; t++) {
                 E = String.valueOf(M[s][t]).toCharArray();
-                System.out.print(M[s][t]);
+
+                if(M[s][t] >= 0) {
+                    System.out.print(" ");
+                    
+                    System.out.print(M[s][t]);
+                    for( int a = 0; a<maxLength[t] - E.length; a++) {
+                        System.out.print(" ");
+                    }
+                }
+
+                else {
+                    System.out.print(M[s][t]);
                     for( int a = 0; a<=maxLength[t] - E.length; a++) {
                         System.out.print(" ");
                     }
+                }
+                
 
                 for(int b = 0; b<E.length; b++)
                     E[b] = ' ';
