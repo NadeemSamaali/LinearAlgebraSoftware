@@ -16,7 +16,7 @@ import vectorOperations.vOPS;
  *      - Calculating the dot product of two vectors of n dimension (1.3.0)
  *
  * @author Nadeem Samaali
- * @version 1.3.4 - Bug fixing
+ * @version 1.3.5 - Bug fixing
  */
 
 
@@ -76,7 +76,7 @@ public class App {
                             double[][] m1 = new double[n+1][n+1];
 
                             //Adding the entries of the matrix into an array by splitting
-                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   a1n a2n ... amn\n");
+                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             mOPS.setMatrix(m1,n,input);
                             
                             //Outputting the matrix
@@ -102,7 +102,7 @@ public class App {
                             double[][] m2 = new double[n+1][n+1];
                             double[][] d = new double[n+1][n+1];
 
-                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   a1n a2n ... amn\n");
+                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             
                             mOPS.setMatrix(m2,n,input);
 
@@ -143,7 +143,7 @@ public class App {
                             double[][] m4 = new double[n+1][n+1];
 
                             //Adding the entries of the matrix into an array by splitting
-                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   a1n a2n ... amn\n");
+                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             mOPS.setMatrix(m4,n,input);
 
                             inverseFinder.getCofactorMatrix(m4, n);
@@ -164,7 +164,7 @@ public class App {
                             double[][] m5 = new double[n+1][n+1];
 
                             //Adding the entries of the matrix into an array by splitting
-                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   a1n a2n ... amn\n");
+                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             mOPS.setMatrix(m5,n,input);
 
                             inverseFinder.getCofactorMatrix(m5,n);
@@ -185,7 +185,7 @@ public class App {
                             double[] b = new double[n+1];
                     
                     
-                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   a1n a2n ... amn\n");
+                            System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             mOPS.setMatrix(m3,n,input);
 
                             System.out.println("\n3) B - Insert the values of the solution sparated with a space\n   respecting this form : b1 b2 ... bn\n");
