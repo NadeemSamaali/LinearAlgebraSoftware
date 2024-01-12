@@ -1,1 +1,0 @@
-java --enable-preview -jar "C:\Users\Nadeem Samaali\Documents\Code\LinearSpace\LinearSpace.jar"
