@@ -8,7 +8,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 1.2.3 | Aesthetic changes
+ * @version 1.3.0 | Rewrote printMatrix() to work well with negatives
  */
 
 public class mOPS {
@@ -106,89 +106,47 @@ public class mOPS {
      * @param M matrix to print
      * @param N size of the metrix
      */
-
     public static void printMatrix(double[][] M, int N) {
-        char[] E;
-        int k = 0;
 
-        double[] maxDouble = new double[N+1];
-        double[] maxLength = new double[N+1];
+        int currentNum = 0;
+        int[] maxNum = new int[N+1];
 
-
-        //Counts the amount of characters of the longest double of a column
+        //Check for the number with the biggest amount of figures per column
+        for(int a = 0; a<=N; a++) {
+            for(int b = 0; b<=N; b++) {
+                char[] E = String.valueOf(M[b][a]).toCharArray();
+                currentNum = E.length;
+                    if(currentNum > maxNum[a]) {
+                        maxNum[a] = currentNum;
+                            if(M[b][a] < 0)
+                                maxNum[a] -= 1;
+                    }         
+            }
+        }
+        //Print the matrix in an alligned manner
         for(int i = 0; i<=N; i++) {
-            maxDouble[i] = M[0][i];
-            maxLength[i] = Double.toString(maxDouble[i]).length();
-
-                for (int y = 0; y <=N; y++) {
-                    double currentDouble = M[y][i];
-                    double currentLength = Double.toString(currentDouble).length();
-
-                    if (currentLength > maxLength[i]) {
-                        maxDouble[i] = currentDouble;
-                        maxLength[i] = currentLength;
+            System.out.print("  ");
+                for(int j = 0; j<=N; j++) {
+                    if(M[i][j] >= 0) {
+                        System.out.print("  " + M[i][j]);
+                        char[] E = String.valueOf(M[i][j]).toCharArray();
+                        //System.out.print(" E length = " + E.length);
+                        for(int x = 0; x<maxNum[j] - E.length; x++) {
+                            System.out.print(" ");
+                        }
+                    }
+                    if(M[i][j] < 0) {
+                        System.out.print(" " + M[i][j]);
+                        char[] E = String.valueOf(M[i][j]).toCharArray();
+                        //System.out.print(" E length = " + E.length);
+                        for(int x = 0; x<=maxNum[j] - E.length; x++) {
+                            System.out.print(" ");
+                        }
                     }
                 }
-
+                System.out.println();
         }
-
-        //Prints the matrix alligned with the amounts of spaces necessary to have evenly spaced columns
-        for(int s = 0; s<=N; s++) {
-            for(int t = 0; t<=N; t++) {
-                E = String.valueOf(M[s][t]).toCharArray();
-
-                System.out.print(" ");
-
-                if(M[s][t] >= 0) {
-                    System.out.print("  ");
-                    
-                    System.out.print(M[s][t]);
-                    for( int a = 0; a<maxLength[t] - E.length; a++) {
-                        System.out.print(" ");
-                    }
-                }
-
-                else {
-                    System.out.print(" ");
-                    System.out.print(M[s][t]);
-                    for( int a = 0; a<=maxLength[t] - E.length; a++) {
-                        System.out.print(" ");
-                    }
-                }
-                
-
-                for(int b = 0; b<E.length; b++)
-                    E[b] = ' ';
-            }
-
-            System.out.println();
-        }
-        
-    } 
-    /*
-    public static void printMatrix(double[][] M, int N)
-    {
-        //Outputting the matrix as well as the data entries
-        System.out.print("[");
-        for(int a = 0; a<=N; a++)
-        {
-            System.out.print("[");
-            for(int b = 0; b<N; b++)
-            {
-                System.out.print(Double.valueOf(df.format(M[a][b])));
-                System.out.print(",");
-            }
-            System.out.print(Double.valueOf(df.format(M[a][N])));
-
-            if(a==N)
-            System.out.print("]");
-
-            else
-            System.out.print("];");
-        }
-        System.out.println("]");
     }
-    */
 
     public static void main(String[] args)
     {
