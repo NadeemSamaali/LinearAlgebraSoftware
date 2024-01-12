@@ -9,7 +9,7 @@ import java.util.Scanner;
  * This class contains all the necessary methods to calculate the determinant of any nxn matrix
  * 
  * @author Nadeem Samaali
- * @version 1.1.4 - Bug fixing
+ * @version 1.1.5 - Bug fixing
  */
 
 
@@ -29,7 +29,7 @@ public class detFinder
      * @param M matrix to sort
      * @param N size of the square matrix
      * @return K amount of rows that were swtiched in the sorting
-     * @version 2.0.1 | Bug fixing
+     * @version 2.0.2 | Bug fixing (formatting)
      */
     
     public static Integer mSort(double M[][], int N)
@@ -186,9 +186,12 @@ public class detFinder
 
                             mOPS.printMatrix(M,N);
     
-                            for(int l = 0; l<=N; l++)
-                                M[x+y][l] -= Double.valueOf(df.format(M[x][l]));
+                            for(int l = 0; l<=N; l++) {
+                                M[x+y][l] = Double.valueOf(df.format(M[x+y][l]-M[x][l]));
 
+                                if(M[x+y][l] == -0.0)
+                                    M[x+y][l] = 0;
+                            }
 
                             System.out.println("\nR" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1) );
                             mOPS.printMatrix(M,N);
