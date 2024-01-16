@@ -14,7 +14,7 @@ import java.util.Scanner;
  *      - Calculating the volume of a parallelepiped composed of 3 vectors (2.1.0)
  *
  * @author Nadeem Samaali
- * @version 2.1.0 | Implementation of the parallelepiped calculator
+ * @version 2.1.1 | Bug fixing
  */
 public class App {
 
@@ -191,7 +191,7 @@ public class App {
                         case "#dotProduct":
                             v.clear();
                             for(int i = 0; i<2; i++) {
-                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + "separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
+                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
                                 System.out.print("   ");
                                 ans = input.nextLine();
                                 String[] e = ans.split(" ");
@@ -210,7 +210,7 @@ public class App {
                         case "#crossProduct" :
                             v.clear();
                             for(int i = 0; i<2; i++) {
-                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + "separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
+                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
                                 System.out.print("   ");
                                 ans = input.nextLine();
                                 String[] e = ans.split(" ");
@@ -226,7 +226,7 @@ public class App {
                         case "#parallelepiped" :
                             v.clear();
                             for(int i = 0; i<3; i++) {
-                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + "separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
+                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
                                 System.out.print("   ");
                                 ans = input.nextLine();
                                 String[] e = ans.split(" ");
