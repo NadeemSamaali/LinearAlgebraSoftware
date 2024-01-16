@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import matrixOperations.*;
+import vectorOperations.crossProduct;
 import vectorOperations.dotProduct;
 import vectorOperations.vOPS;
 
@@ -14,9 +15,10 @@ import vectorOperations.vOPS;
  *      - Finding the Adjoint and Cofactor matrix (1.3.3)
  * 
  *      - Calculating the dot product of two vectors of n dimension (1.3.0)
+ *      - Calculating the cross product between two vectors (1.4.0)
  *
  * @author Nadeem Samaali
- * @version 1.3.5 - Bug fixing
+ * @version 1.4.0 - Implementation of crossProduct.java
  */
 
 
@@ -59,8 +61,8 @@ public class App {
                             System.out.println("    #getInverse         ~ This command finds the inverse of a square matrix if invertible");
                             System.out.println("    #findX              ~ This command finds the solution of a linear system in matrix form");
                             System.out.println("\n    #dotProduct         ~ This command calculates the scalar dot product between two n-dimensional vectors");
+                            System.out.println("    #crossProduct       ~ This command calculates the cross product between two 3-dimensional vectors");                            
                             System.out.println("\n    #exit               ~ Close the program");
-
                         break;
 
                         case "#getDeterminant":
@@ -147,7 +149,7 @@ public class App {
                             mOPS.setMatrix(m4,n,input);
 
                             inverseFinder.getCofactorMatrix(m4, n);
-                            System.out.print("\n>> The cofactor matrix is : ");
+                            System.out.println("\n>> The cofactor matrix is : \n");
                             mOPS.printMatrix(m4,n);
                         break;
 
@@ -220,6 +222,25 @@ public class App {
                             else
                                 System.out.println("\n>> ERROR : V1 and V2 aren't of the same dimension");
 
+                        break;
+
+                        case "#crossProduct" :
+                            System.out.println("\n1) Insert the components of V1 separated by a space (v11 v12 v13) : \n");
+                            System.out.print("   ");                            
+                            ans = input.nextLine();
+                            String[] E3 = ans.split(" ");
+                            double[] V3 = new double[E3.length];
+                            vOPS.setVector(V3, E3);
+
+                            System.out.println("\n2) Insert the components of V2 separated by a space (v21 v22 v23) : \n");
+                            System.out.print("   ");                            
+                            ans = input.nextLine();
+                            String[] E4 = ans.split(" ");
+                            double[] V4 = new double[E4.length];
+                            vOPS.setVector(V4, E4);
+
+                            System.out.print("\n>> V1 x V2 = ");
+                            vOPS.printVector(crossProduct.getCrossProduct(V3,V4));
                         break;
 
                         case "#exit":
