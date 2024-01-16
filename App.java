@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 /**
  * LinearSpace is a software dealing with various matrix and vector operations
@@ -10,9 +11,10 @@ import java.util.Scanner;
  * 
  *      - Calculating the dot product of two vectors of n dimension (1.3.0)
  *      - Calculating the cross product between two vectors (1.4.0)
+ *      - Calculating the volume of a parallelepiped composed of 3 vectors (2.1.0)
  *
  * @author Nadeem Samaali
- * @version 2.0.0 | Implementation of the rewritten method classes
+ * @version 2.1.0 | Implementation of the parallelepiped calculator
  */
 public class App {
 
@@ -27,7 +29,7 @@ public class App {
         System.out.println("   Welcome to LinearSpace\n   ~ by Nadeem Samaali ~"); 
         System.out.println("============================\n\n>> Enter '#help' to get started.");
 
-        String[] entries;
+        ArrayList<double[]> v = new ArrayList();
         int n;
 
         do
@@ -53,7 +55,8 @@ public class App {
                             System.out.println("    #getInverse         ~ This command finds the inverse of a square matrix if invertible");
                             System.out.println("    #findX              ~ This command finds the solution of a linear system in matrix form");
                             System.out.println("\n    #dotProduct         ~ This command calculates the scalar dot product between two n-dimensional vectors");
-                            System.out.println("    #crossProduct       ~ This command calculates the cross product between two 3-dimensional vectors");                            
+                            System.out.println("    #crossProduct       ~ This command calculates the cross product between two 3-dimensional vectors");
+                            System.out.println("    #parallelepiped     ~ This command calculates the volume of a parallelepiped");                                                        
                             System.out.println("\n    #exit               ~ Close the program");
                         break;
 
@@ -80,9 +83,7 @@ public class App {
                             //Set the entires into the designated placements in the matrix Array
                             mOPS.printMatrix(m1, n);
                             //Reduce the matrix into upper-triangular form and calculating the determinant
-                            mOPS.getDeterminant(m1, n);
-                            
-                                
+                            mOPS.getDeterminant(m1, n);     
                         break;
 
                         case "#getInverse" :
@@ -188,48 +189,53 @@ public class App {
                         break;
 
                         case "#dotProduct":
-
-                            System.out.println("\n1) Insert the components of V1 separated by a space (v11 v12 ... v1n)\n");
-                            System.out.print("   ");
-                            ans = input.nextLine();
-                            String[] E1 = ans.split(" ");
-                            double[] V1 = new double[E1.length];
-                            vOPS.setVector(V1, E1);
-
-                            System.out.println("\n2) Insert the components of V2 separated by a space (v21 v22 ... v2n)\n");
-                            System.out.print("   ");                            
-                            ans = input.nextLine();
-                            String[] E2 = ans.split(" ");
-                            double[] V2 = new double[E2.length];
-                            vOPS.setVector(V2, E2);
-
-                            if(V1.length == V2.length)
-                            {
-                                System.out.println("\n>> V1 * V2 = " + vOPS.getDotProduct(V1, V2));
+                            v.clear();
+                            for(int i = 0; i<2; i++) {
+                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + "separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
+                                System.out.print("   ");
+                                ans = input.nextLine();
+                                String[] e = ans.split(" ");
+                                double[] V = new double[e.length];
+                                for(int j = 0; j<e.length; j++)
+                                    V[j] = Double.valueOf(e[j]);
+                                v.add(V);
                             }
-
+                            if(v.get(0).length == v.get(1).length) {
+                                System.out.println("\n>> V1 * V2 = " + vOPS.getDotProduct(v.get(0), v.get(1)));
+                            }
                             else
                                 System.out.println("\n>> ERROR : V1 and V2 aren't of the same dimension");
-
                         break;
 
                         case "#crossProduct" :
-                            System.out.println("\n1) Insert the components of V1 separated by a space (v11 v12 v13) : \n");
-                            System.out.print("   ");                            
-                            ans = input.nextLine();
-                            String[] E3 = ans.split(" ");
-                            double[] V3 = new double[E3.length];
-                            vOPS.setVector(V3, E3);
-
-                            System.out.println("\n2) Insert the components of V2 separated by a space (v21 v22 v23) : \n");
-                            System.out.print("   ");                            
-                            ans = input.nextLine();
-                            String[] E4 = ans.split(" ");
-                            double[] V4 = new double[E4.length];
-                            vOPS.setVector(V4, E4);
-
+                            v.clear();
+                            for(int i = 0; i<2; i++) {
+                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + "separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
+                                System.out.print("   ");
+                                ans = input.nextLine();
+                                String[] e = ans.split(" ");
+                                double[] V = new double[e.length];
+                                for(int j = 0; j<e.length; j++)
+                                    V[j] = Double.valueOf(e[j]);
+                                v.add(V);
+                            }
                             System.out.print("\n>> V1 x V2 = ");
-                            vOPS.printVector(vOPS.getCrossProduct(V3,V4));
+                            vOPS.printVector(vOPS.getCrossProduct(v.get(0), v.get(1)));
+                        break;
+                   
+                        case "#parallelepiped" :
+                            v.clear();
+                            for(int i = 0; i<3; i++) {
+                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + "separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
+                                System.out.print("   ");
+                                ans = input.nextLine();
+                                String[] e = ans.split(" ");
+                                double[] V = new double[e.length];
+                                for(int j = 0; j<e.length; j++)
+                                    V[j] = Double.valueOf(e[j]);
+                                v.add(V);
+                            }
+                            System.out.println("\n>> The volume of the parallelepied is : " + vOPS.parallelepiped(v.get(0),v.get(1),v.get(2)));
                         break;
 
                         case "#exit":
@@ -241,19 +247,12 @@ public class App {
                         default:
                             System.out.println("\n>> Please enter a valid command prompt, type '#help' for command list");
                         break;
-                   } 
+                    } 
                 }
             }
-
-            catch(Exception e)
-            {
+            catch(Exception e) {
                 System.err.println("\n>> ERROR : illegal prompt - " + e.getMessage());
             }
-
         }while(!key);
-
-        
     }
-
-
 }

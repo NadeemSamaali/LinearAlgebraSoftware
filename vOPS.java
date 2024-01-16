@@ -1,12 +1,15 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 /**
  * Class containing the basic methods necessary for setting up and printing vectors
  * 
  * @author Nadeem Samaali
- * @version 2.0.0 | Implemented all the current vector related operations in vOPS
+ * @version 2.1.0 | Addition of parallelepiped calculator
  */
 public class vOPS 
 {
+    static DecimalFormat df = new DecimalFormat("0.000");
+    static DecimalFormat d0 = new DecimalFormat("0.000000000");
     /**
      * Method initializing the vector from the string list of components inputted by user
      * @param V Vector
@@ -84,5 +87,19 @@ public class vOPS
             C.clear();
         }
         return v3;
+    }
+    /**
+     * This method will calculate the volume of a parallelepiped by doing the triple product of the three vectors
+     * making up the parallelipied
+     * @param v1
+     * @param v2
+     * @param v3
+     * @return The area (triple product of the vectors)
+     */
+    public static double parallelepiped(double[] v1, double[] v2, double[] v3) {
+        if(v1.length != 3 || v2.length != 3 || v3.length != 3)
+            throw new IllegalArgumentException("Make sure all vectors are 3-dimensional");
+        double area = Double.valueOf(df.format(getDotProduct(v1, getCrossProduct(v2, v3))));
+        return area;
     }
 }
