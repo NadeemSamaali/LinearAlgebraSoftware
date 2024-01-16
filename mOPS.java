@@ -7,7 +7,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.0.1 | setMatrixFromString deleted
+ * @version 2.0.2 | Format fixing
  */
 public class mOPS {
 
@@ -157,7 +157,7 @@ public class mOPS {
                             num0 += 1;
                             k[num0] = (M[x][x]/M[x+y][x]);
                                 if(k[num0] != 1) {
-                                    System.out.print("\nK = M(" + x + "," + x + ")" + "/M(" + (d+y) + "," + x + ")");
+                                    System.out.print("\n   K = M(" + x + "," + x + ")" + "/M(" + (d+y) + "," + x + ")");
                                     System.out.print(" --> " + df.format(k[num0]) + "*R" + (x+y+1) +"\n");
                                 }
                                 for(int i = 0; i<=N; i++) {
@@ -172,7 +172,7 @@ public class mOPS {
                                     if(M[x+y][l] == -0.0)
                                         M[x+y][l] = 0;
                                 }
-                            System.out.println("\nR" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1) );
+                            System.out.println("\n   R" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1) );
                             mOPS.printMatrix(M,N);
                         }                        
                     }
