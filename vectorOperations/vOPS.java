@@ -4,7 +4,7 @@ package vectorOperations;
  * Class containing the basic methods necessary for setting up and printing vectors
  * 
  * @author Nadeem Samaali
- * @version 1.0.1 | Minor changes
+ * @version 1.0.2 | Minor changes
  */
 public class vOPS 
 {
@@ -27,7 +27,7 @@ public class vOPS
      */
     public static void printVector(double[] V)
     {
-        System.out.print("\n[");
+        System.out.print("[");
         for(int i = 0; i<V.length-1; i++)
             System.out.print(V[i]+",");
         System.out.print(V[V.length-1] + "]\n");  
