@@ -7,7 +7,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.0.0 | Implemented all the current matrix related methods into mOPS
+ * @version 2.0.1 | setMatrixFromString deleted
  */
 public class mOPS {
 
@@ -68,26 +68,6 @@ public class mOPS {
                     }
             }
     } 
-    /***
-     * This method will input the values of the entires in their designated
-     * location withing the matrix array
-     * 
-     * @param N Size of the matrix array
-     * @param ansArray2 Array of the entires of the user
-     */
-    public static void setMatrixFromString(double[][] M,int N, String[] ansArray2)
-    {
-        int sCounter2 = -1;
-
-        for(int i = 0; i<=N; i++)
-        {
-            for(int j = 0; j<=N; j++)
-            {
-                sCounter2 += 1;
-                M[i][j] = Double.valueOf(ansArray2[sCounter2]);
-            }
-        }
-    }
     /**
      * This method allows for the printing of any nXn matrix | To use for testing purposes
      * 
