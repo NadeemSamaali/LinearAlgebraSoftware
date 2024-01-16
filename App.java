@@ -14,7 +14,7 @@ import java.util.Scanner;
  *      - Calculating the volume of a parallelepiped composed of 3 vectors (2.1.0)
  *
  * @author Nadeem Samaali
- * @version 2.1.3 | Bug fixing
+ * @version 2.1.4 | Format fixing
  */
 public class App {
 
@@ -77,7 +77,7 @@ public class App {
                             mOPS.setMatrix(m1,n,input);
                             
                             //Outputting the matrix
-                            System.out.print("\n-  Here is the inputted matrix : ");
+                            System.out.print("\n>> Here is the inputted matrix : ");
                             //mOPS.printEntries(n,entries);
                             System.out.println();
                             //Set the entires into the designated placements in the matrix Array
