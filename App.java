@@ -12,14 +12,13 @@ import java.util.Scanner;
  *      - Calculating the dot product of two vectors of n dimension (1.3.0)
  *      - Calculating the cross product between two vectors (1.4.0)
  *      - Calculating the volume of a parallelepiped composed of 3 vectors (2.1.0)
+ *      - Calculating the area of shapes entrapped between two vectors (2.2.0)
  *
  * @author Nadeem Samaali
- * @version 2.1.4 | Format fixing
+ * @version 2.2.0 | Implementation of the getArea methods
  */
 public class App {
-
     static Scanner input = new Scanner(System.in);
-    
     public static void main(String[] args)
     {
         boolean key = false;
@@ -56,7 +55,8 @@ public class App {
                             System.out.println("    #findX              ~ This command finds the solution of a linear system in matrix form");
                             System.out.println("\n    #dotProduct         ~ This command calculates the scalar dot product between two n-dimensional vectors");
                             System.out.println("    #crossProduct       ~ This command calculates the cross product between two 3-dimensional vectors");
-                            System.out.println("    #parallelepiped     ~ This command calculates the volume of a parallelepiped");                                                        
+                            System.out.println("    #parallelepiped     ~ This command calculates the volume of a parallelepiped");
+                            System.out.println("    #getArea            ~ This command calculates the area of shapes entrapped between two vectors");                                                                                                                
                             System.out.println("\n    #exit               ~ Close the program");
                         break;
 
@@ -238,6 +238,50 @@ public class App {
                                 v.add(V);
                             }
                             System.out.println("\n>> The volume of the parallelepied is : " + vOPS.parallelepiped(v.get(0),v.get(1),v.get(2)));
+                        break;
+
+                        case "#getArea":
+                        System.out.println("\n>> Insert shape name for which the area will be calculate (triangle, parallelogram)\n");
+                        System.out.print("   ");
+                        ans = input.nextLine();
+
+                            switch(ans) {
+                                
+                                case "triangle":
+                                    v.clear();
+                                    for(int i = 0; i<2; i++) {
+                                        System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
+                                        System.out.print("   ");
+                                        ans = input.nextLine();
+                                        String[] e = ans.split(" ");
+                                        double[] V = new double[e.length];
+                                        for(int j = 0; j<e.length; j++)
+                                            V[j] = Double.valueOf(e[j]);
+                                        v.add(V);
+                                    }
+                                    System.out.println("\n>> The area of the triangle is : " + vOPS.getTriangleArea(v.get(0), v.get(1)));
+                                break;
+
+                                case "parallelogram" :
+                                    v.clear();
+                                    for(int i = 0; i<2; i++) {
+                                        System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
+                                        System.out.print("   ");
+                                        ans = input.nextLine();
+                                        String[] e = ans.split(" ");
+                                        double[] V = new double[e.length];
+                                        for(int j = 0; j<e.length; j++)
+                                            V[j] = Double.valueOf(e[j]);
+                                        v.add(V);
+                                    }
+                                    System.out.println("\n>> The area of the parallelogram is : " + vOPS.getParallelogramArea(v.get(0), v.get(1)));
+                                break;
+
+                                default :
+                                    System.out.println("\n>> ERROR : Not a valid shape name");
+                                break;
+                            }
+
                         break;
 
                         case "#exit":
