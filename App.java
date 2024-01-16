@@ -14,7 +14,7 @@ import java.util.Scanner;
  *      - Calculating the volume of a parallelepiped composed of 3 vectors (2.1.0)
  *
  * @author Nadeem Samaali
- * @version 2.1.2 | Bug fixing
+ * @version 2.1.3 | Bug fixing
  */
 public class App {
 
@@ -219,8 +219,10 @@ public class App {
                                     V[j] = Double.valueOf(e[j]);
                                 v.add(V);
                             }
-                            System.out.print("\n>> V1 x V2 = ");
-                            vOPS.printVector(vOPS.getCrossProduct(v.get(0), v.get(1)));
+                            if(v.get(0).length == 3 && v.get(1).length ==3) {
+                                System.out.print("\n>> V1 x V2 = ");
+                                vOPS.printVector(vOPS.getCrossProduct(v.get(0), v.get(1)));
+                            }  
                         break;
                    
                         case "#parallelepiped" :
