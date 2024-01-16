@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * Class containing the basic methods necessary for setting up and printing vectors
  * 
  * @author Nadeem Samaali
- * @version 2.1.0 | Addition of parallelepiped calculator
+ * @version 2.2.0 | Addition of triangle and parallelogram calculator
  */
 public class vOPS 
 {
@@ -102,4 +102,33 @@ public class vOPS
         double area = Double.valueOf(df.format(getDotProduct(v1, getCrossProduct(v2, v3))));
         return area;
     }
+    /**
+     * Method calculates the area of a triangle enclosed between two vectors 
+     * @param v1
+     * @param v2
+     * @return area
+     */
+    public static double getTriangleArea(double[] v1, double[] v2) {
+        if(v1.length != 3 || v2.length != 3) {
+            throw new IllegalArgumentException("Make sure all vectors are 3-dimensional");
+        }
+        double[] v3 = getCrossProduct(v1, v2);
+        double area = Double.valueOf(df.format(0.5*Math.sqrt(Math.pow(v3[0],2)+Math.pow(v3[1],2)+Math.pow(v3[2],2))));
+        return area;
+    }
+    /**
+     * Method calculates the ares of a parallelogram enclosed between two vectors
+     * @param v1
+     * @param v2
+     * @return area
+     */
+    public static double getParallelogramArea(double[] v1, double[] v2) {
+        if(v1.length != 3 || v2.length != 3) {
+            throw new IllegalArgumentException("Make sure all vectors are 3-dimensional");
+        }
+        double[] v3 = getCrossProduct(v1, v2);
+        double area = Double.valueOf(df.format(Math.sqrt(Math.pow(v3[0],2)+Math.pow(v3[1],2)+Math.pow(v3[2],2))));
+        return area;
+    }
+    
 }
