@@ -1,10 +1,4 @@
 import java.util.Scanner;
-import matrixOperations.*;
-import vectorOperations.crossProduct;
-import vectorOperations.dotProduct;
-import vectorOperations.vOPS;
-
-
 /**
  * LinearSpace is a software dealing with various matrix and vector operations
  * 
@@ -18,10 +12,8 @@ import vectorOperations.vOPS;
  *      - Calculating the cross product between two vectors (1.4.0)
  *
  * @author Nadeem Samaali
- * @version 1.4.0 - Implementation of crossProduct.java
+ * @version 2.0.0 | Implementation of the rewritten method classes
  */
-
-
 public class App {
 
     static Scanner input = new Scanner(System.in);
@@ -88,7 +80,7 @@ public class App {
                             //Set the entires into the designated placements in the matrix Array
                             mOPS.printMatrix(m1, n);
                             //Reduce the matrix into upper-triangular form and calculating the determinant
-                            detFinder.getDeterminant(m1, n);
+                            mOPS.getDeterminant(m1, n);
                             
                                 
                         break;
@@ -105,7 +97,6 @@ public class App {
                             double[][] d = new double[n+1][n+1];
 
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            
                             mOPS.setMatrix(m2,n,input);
 
                             //Setting up the mock matrix 
@@ -115,13 +106,12 @@ public class App {
                                 }
                             }
 
-                       
-                            double detM = detFinder.getSilentDeterminant(d,n);
+                            double detM = mOPS.getSilentDeterminant(d,n);
 
                             if(detM != 0){
-                                inverseFinder.getCofactorMatrix(m2, n);
-                                inverseFinder.getAdjacentMatrix(m2,n);
-                                inverseFinder.getInverse(m2, n, detM);
+                                mOPS.getCofactorMatrix(m2, n);
+                                mOPS.getAdjointMatrix(m2,n);
+                                mOPS.getInverse(m2, n, detM);
                                 System.out.println("\n>> The inverse of the inputted matrix is : \n");
                                 mOPS.printMatrix(m2,n);
                             }
@@ -148,7 +138,7 @@ public class App {
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             mOPS.setMatrix(m4,n,input);
 
-                            inverseFinder.getCofactorMatrix(m4, n);
+                            mOPS.getCofactorMatrix(m4, n);
                             System.out.println("\n>> The cofactor matrix is : \n");
                             mOPS.printMatrix(m4,n);
                         break;
@@ -169,9 +159,9 @@ public class App {
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             mOPS.setMatrix(m5,n,input);
 
-                            inverseFinder.getCofactorMatrix(m5,n);
-                            inverseFinder.getAdjacentMatrix(m5, n);
-                            System.out.print("\n>> The adjoint matrix is : ");
+                            mOPS.getCofactorMatrix(m5,n);
+                            mOPS.getAdjointMatrix(m5, n);
+                            System.out.println("\n>> The adjoint matrix is : ");
                             mOPS.printMatrix(m5,n);
                         break;
 
@@ -185,8 +175,7 @@ public class App {
                     
                             double[][] m3 = new double[n+1][n+1];
                             double[] b = new double[n+1];
-                    
-                    
+
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             mOPS.setMatrix(m3,n,input);
 
@@ -194,8 +183,8 @@ public class App {
                             System.out.print("   ");
                             String ans2 = input.nextLine();
 
-                            findX.setB(b, ans2, n);
-                            findX.getX(b, m3, n);
+                            mOPS.setB(b, ans2, n);
+                            mOPS.getX(b, m3, n);
                         break;
 
                         case "#dotProduct":
@@ -216,7 +205,7 @@ public class App {
 
                             if(V1.length == V2.length)
                             {
-                                System.out.println("\n>> V1 * V2 = " + dotProduct.getDotProduct(V1, V2));
+                                System.out.println("\n>> V1 * V2 = " + vOPS.getDotProduct(V1, V2));
                             }
 
                             else
@@ -240,7 +229,7 @@ public class App {
                             vOPS.setVector(V4, E4);
 
                             System.out.print("\n>> V1 x V2 = ");
-                            vOPS.printVector(crossProduct.getCrossProduct(V3,V4));
+                            vOPS.printVector(vOPS.getCrossProduct(V3,V4));
                         break;
 
                         case "#exit":
