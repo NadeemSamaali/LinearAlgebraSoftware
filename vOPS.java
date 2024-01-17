@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * Class containing the basic methods necessary for setting up and printing vectors
  * 
  * @author Nadeem Samaali
- * @version 2.2.0 | Addition of triangle and parallelogram calculator
+ * @version 2.3.0 | Addition of orthogonal projection calculator
  */
 public class vOPS 
 {
@@ -129,6 +129,25 @@ public class vOPS
         double[] v3 = getCrossProduct(v1, v2);
         double area = Double.valueOf(df.format(Math.sqrt(Math.pow(v3[0],2)+Math.pow(v3[1],2)+Math.pow(v3[2],2))));
         return area;
+    }
+    /**
+     * Method finds the orthogonal project of v1 onto v2
+     * @param v1
+     * @param v2
+     * @return v3 : the orthogonal projection
+     */
+    public static double[] orthoProjection(double[] v1, double[] v2) {     
+        double k = 0;
+        double aSquared = 0;
+        if(v1.length != v2.length)
+            throw new IllegalArgumentException("Make sure both vectors are of the same dimension");
+        double[] v3 = new double[v1.length];
+        k = getDotProduct(v1, v2);
+        for(int i = 0; i<v1.length; i++)
+            aSquared += Math.pow(v2[i],2);
+        for(int j = 0; j<v1.length; j++)
+            v3[j] = Double.valueOf(df.format((k/aSquared)*v2[j]));
+        return v3;
     }
     
 }
