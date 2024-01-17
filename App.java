@@ -13,9 +13,10 @@ import java.util.Scanner;
  *      - Calculating the cross product between two vectors (1.4.0)
  *      - Calculating the volume of a parallelepiped composed of 3 vectors (2.1.0)
  *      - Calculating the area of shapes entrapped between two vectors (2.2.0)
+ *      - Calculating the orthogonal projection of a vector onto another
  *
  * @author Nadeem Samaali
- * @version 2.2.0 | Implementation of the getArea methods
+ * @version 2.3.0 | Implementation of orthogonal projection calculator
  */
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -56,6 +57,7 @@ public class App {
                             System.out.println("\n    #dotProduct         ~ This command calculates the scalar dot product between two n-dimensional vectors");
                             System.out.println("    #crossProduct       ~ This command calculates the cross product between two 3-dimensional vectors");
                             System.out.println("    #parallelepiped     ~ This command calculates the volume of a parallelepiped");
+                            System.out.println("    #orthoProj          ~ This command finda the orthogonal projection of v1 on v2");                                                                                                                
                             System.out.println("    #getArea            ~ This command calculates the area of shapes entrapped between two vectors");                                                                                                                
                             System.out.println("\n    #exit               ~ Close the program");
                         break;
@@ -282,6 +284,23 @@ public class App {
                                 break;
                             }
 
+                        break;
+
+                        case "#orthoProj" :
+                            v.clear();
+                            for(int i = 0; i<2; i++) {
+                                System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 ... v"+(i+1)+"n) : \n");
+                                System.out.print("   ");
+                                ans = input.nextLine();
+                                String[] e = ans.split(" ");
+                                double[] V = new double[e.length];
+                                for(int j = 0; j<e.length; j++)
+                                    V[j] = Double.valueOf(e[j]);
+                                v.add(V);
+                            }
+                            if(v.get(0).length == v.get(1).length)
+                                System.out.print("\n>> The orthogonal projection of V1 on V2 is : " );
+                            vOPS.printVector(vOPS.orthoProjection(v.get(0), v.get(1)));
                         break;
 
                         case "#exit":
