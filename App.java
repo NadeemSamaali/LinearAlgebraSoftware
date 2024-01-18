@@ -8,15 +8,16 @@ import java.util.Scanner;
  *      - Calculating the inverse of a square matrix (1.1.0)
  *      - Calculating the solution of a linar system in matrix form (1.2.0)
  *      - Finding the Adjoint and Cofactor matrix (1.3.3)
+ *      - Performing matrix multiplication (2.4.0)
  * 
  *      - Calculating the dot product of two vectors of n dimension (1.3.0)
  *      - Calculating the cross product between two vectors (1.4.0)
  *      - Calculating the volume of a parallelepiped composed of 3 vectors (2.1.0)
  *      - Calculating the area of shapes entrapped between two vectors (2.2.0)
- *      - Calculating the orthogonal projection of a vector onto another
+ *      - Calculating the orthogonal projection of a vector onto another (2.3.0)
  *
  * @author Nadeem Samaali
- * @version 2.3.0 | Implementation of orthogonal projection calculator
+ * @version 2.4.0 | Implementation of the rewritten printMatrix and setMatrix methods +  Implementaion of mMultiply
  */
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -27,9 +28,13 @@ public class App {
         //Welcome message
         System.out.println("\n============================");
         System.out.println("   Welcome to LinearSpace\n   ~ by Nadeem Samaali ~"); 
-        System.out.println("============================\n\n>> Enter '#help' to get started.");
+        System.out.println("============================\n\n>> Enter '/help' to get started.");
 
         ArrayList<double[]> v = new ArrayList();
+        ArrayList<double[][]> m = new ArrayList();
+        ArrayList<String[]> E = new ArrayList();
+
+
         int n;
 
         do
@@ -46,23 +51,56 @@ public class App {
 
                     switch(ans)
                     {
-                        case "#help":
+                        case "/help":
                             System.out.println("\n=== LinearSpace help center ===");
                             System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix operations\n\nHere is a list of all the supported commands : \n");
-                            System.out.println("    #getDeterminant     ~ This command calculates the determinant of any nxn matrix");
-                            System.out.println("    #getCofactor        ~ This command finds the cofactor matrix of a square matrix");
-                            System.out.println("    #getAdjoint         ~ This command finds the adjoint matrix of a square matrix");
-                            System.out.println("    #getInverse         ~ This command finds the inverse of a square matrix if invertible");
-                            System.out.println("    #findX              ~ This command finds the solution of a linear system in matrix form");
-                            System.out.println("\n    #dotProduct         ~ This command calculates the scalar dot product between two n-dimensional vectors");
-                            System.out.println("    #crossProduct       ~ This command calculates the cross product between two 3-dimensional vectors");
-                            System.out.println("    #parallelepiped     ~ This command calculates the volume of a parallelepiped");
-                            System.out.println("    #orthoProj          ~ This command finda the orthogonal projection of v1 on v2");                                                                                                                
-                            System.out.println("    #getArea            ~ This command calculates the area of shapes entrapped between two vectors");                                                                                                                
-                            System.out.println("\n    #exit               ~ Close the program");
+                            System.out.println("    /mMultiply          Performs matrix multiplication between two matrices");
+                            System.out.println("    /getDeterminant     Calculates the determinant of any nxn matrix");
+                            System.out.println("    /getCofactor        Finds the cofactor matrix of a square matrix");
+                            System.out.println("    /getAdjoint         Finds the adjoint matrix of a square matrix");
+                            System.out.println("    /getInverse         Finds the inverse of a square matrix if invertible");
+                            System.out.println("    /findX              Finds the solution of a linear system in matrix form");
+                            System.out.println("\n    /dotProduct         Calculates the scalar dot product between two n-dimensional vectors");
+                            System.out.println("    /crossProduct       Calculates the cross product between two 3-dimensional vectors");
+                            System.out.println("    /parallelepiped     Calculates the volume of a parallelepiped");
+                            System.out.println("    /orthoProj          Finds the orthogonal projection of v1 on v2");                                                                                                                
+                            System.out.println("    /getArea            Calculates the area of shapes entrapped between two vectors");                                                                                                                
+                            System.out.println("\n    /exit             Closes the program");
                         break;
 
-                        case "#getDeterminant":
+                        case "/mMultiply" :
+                            m.clear();
+                            E.clear();
+                            int height = 0;
+                            int length = 0;
+                            //Inserting the size of the matrices
+                            for(int i = 0; i<2; i++) {
+                                System.out.println("\n>> Insert the dimension of M"+(i+1)+" seperated by a space (e.g for a 2x3 matrix, insert '2 3')\n");
+                                System.out.print("   ");                                
+                                ans = input.nextLine();
+                                E.add(ans.split(" "));
+                                if(E.get(i).length != 2)
+                                    throw new IllegalArgumentException("The matrices must be 2-dimensional");
+                                m.add(new double[Integer.valueOf(E.get(i)[0])][Integer.valueOf(E.get(i)[1])]);
+                            }
+                            //Checking if the matrices are multiplyable by their size
+                            if(Integer.valueOf(E.get(0)[1]) != Integer.valueOf(E.get(1)[0])) {
+                                throw new IllegalArgumentException("The width of M1 must correspond with the height of M2");
+                            }
+                            //Inserting the entries of the matrix
+                            for(int j = 0; j<2; j++) {
+                                System.out.println("\n"+(j+1)+") M"+(j+1)+"_" + E.get(j)[0] +"x"+ E.get(j)[1] + " Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
+                                mOPS.setMatrix(m.get(j),Integer.valueOf(E.get(j)[0]),Integer.valueOf(E.get(j)[1]),input);
+                            }
+                            System.out.println("\n>> The matrix product of M1 and M2 is : \n");
+                            mOPS.printMatrix(mOPS.mMultiply(m.get(0), m.get(1)));
+
+
+
+
+                        break;
+
+                        case "/getDeterminant":
                         //Inputing the value of the size of matrix m
                             System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
                             ans = "";
@@ -70,53 +108,53 @@ public class App {
                             ans = input.nextLine();
 
                             //Setting the value n as the size of the matrix
-                            n = Integer.valueOf(ans)-1;
+                            n = Integer.valueOf(ans);
 
-                            double[][] m1 = new double[n+1][n+1];
+                            double[][] m1 = new double[n][n];
 
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m1,n,input);
+                            mOPS.setMatrix(m1,n,n,input);
                             
                             //Outputting the matrix
                             System.out.print("\n>> Here is the inputted matrix : ");
                             //mOPS.printEntries(n,entries);
                             System.out.println();
                             //Set the entires into the designated placements in the matrix Array
-                            mOPS.printMatrix(m1, n);
+                            mOPS.printMatrix(m1);
                             //Reduce the matrix into upper-triangular form and calculating the determinant
-                            mOPS.getDeterminant(m1, n);     
+                            mOPS.getDeterminant(m1, n-1);     
                         break;
 
-                        case "#getInverse" :
+                        case "/getInverse" :
                             System.out.println("\n1) Please enter the square matrix size (1,2,...,n) : \n");
                             System.out.print("   N = ");
                             Scanner in = new Scanner(System.in);
                             ans = in.nextLine();
 
-                            n = Integer.valueOf(ans)-1;
+                            n = Integer.valueOf(ans);
 
-                            double[][] m2 = new double[n+1][n+1];
-                            double[][] d = new double[n+1][n+1];
+                            double[][] m2 = new double[n][n];
+                            double[][] d = new double[n][n];
 
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m2,n,input);
+                            mOPS.setMatrix(m2,n,n,input);
 
                             //Setting up the mock matrix 
-                            for(int x = 0; x<=n; x++) {
-                                for(int y = 0; y<=n; y++) {
+                            for(int x = 0; x<n; x++) {
+                                for(int y = 0; y<n; y++) {
                                     d[x][y] = m2[x][y];
                                 }
                             }
 
-                            double detM = mOPS.getSilentDeterminant(d,n);
+                            double detM = mOPS.getSilentDeterminant(d,n-1);
 
                             if(detM != 0){
-                                mOPS.getCofactorMatrix(m2, n);
-                                mOPS.getAdjointMatrix(m2,n);
-                                mOPS.getInverse(m2, n, detM);
+                                mOPS.getCofactorMatrix(m2, n-1);
+                                mOPS.getAdjointMatrix(m2,n-1);
+                                mOPS.getInverse(m2, n-1, detM);
                                 System.out.println("\n>> The inverse of the inputted matrix is : \n");
-                                mOPS.printMatrix(m2,n);
+                                mOPS.printMatrix(m2);
                             }
                             
                             else
@@ -125,7 +163,7 @@ public class App {
                             }
                         break;
                             
-                        case "#getCofactor":
+                        case "/getCofactor":
                             //Inputing the value of the size of matrix m
                             System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
                             ans = "";
@@ -133,20 +171,20 @@ public class App {
                             ans = input.nextLine();
 
                             //Setting the value n as the size of the matrix
-                            n = Integer.valueOf(ans)-1;
+                            n = Integer.valueOf(ans);
 
-                            double[][] m4 = new double[n+1][n+1];
+                            double[][] m4 = new double[n][n];
 
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m4,n,input);
+                            mOPS.setMatrix(m4,n,n,input);
 
-                            mOPS.getCofactorMatrix(m4, n);
+                            mOPS.getCofactorMatrix(m4, n-1);
                             System.out.println("\n>> The cofactor matrix is : \n");
-                            mOPS.printMatrix(m4,n);
+                            mOPS.printMatrix(m4);
                         break;
 
-                        case "#getAdjoint":
+                        case "/getAdjoint":
                             //Inputing the value of the size of matrix m
                             System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
                             ans = "";
@@ -154,43 +192,43 @@ public class App {
                             ans = input.nextLine();
 
                             //Setting the value n as the size of the matrix
-                            n = Integer.valueOf(ans)-1;
+                            n = Integer.valueOf(ans);
 
-                            double[][] m5 = new double[n+1][n+1];
+                            double[][] m5 = new double[n][n];
 
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m5,n,input);
+                            mOPS.setMatrix(m5,n,n,input);
 
-                            mOPS.getCofactorMatrix(m5,n);
-                            mOPS.getAdjointMatrix(m5, n);
+                            mOPS.getCofactorMatrix(m5,n-1);
+                            mOPS.getAdjointMatrix(m5, n-1);
                             System.out.println("\n>> The adjoint matrix is : ");
-                            mOPS.printMatrix(m5,n);
+                            mOPS.printMatrix(m5);
                         break;
 
-                        case "#findX" :
+                        case "/findX" :
                             System.out.println("\n1) A - Please insert the square coefficient matrix size (1,2,3...,n) :\n");
                             ans = "";
 
                             System.out.print("   N = ");
                             ans = input.nextLine();
-                            n = Integer.valueOf(ans) - 1;
+                            n = Integer.valueOf(ans);
                     
                             double[][] m3 = new double[n+1][n+1];
                             double[] b = new double[n+1];
 
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m3,n,input);
+                            mOPS.setMatrix(m3,n,n,input);
 
                             System.out.println("\n3) B - Insert the values of the solution sparated with a space\n   respecting this form : b1 b2 ... bn\n");
                             System.out.print("   ");
                             String ans2 = input.nextLine();
 
-                            mOPS.setB(b, ans2, n);
-                            mOPS.getX(b, m3, n);
+                            mOPS.setB(b, ans2, n-1);
+                            mOPS.getX(b, m3, n-1);
                         break;
 
-                        case "#dotProduct":
+                        case "/dotProduct":
                             v.clear();
                             for(int i = 0; i<2; i++) {
                                 System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 ... v"+(i+1)+"n) : \n");
@@ -209,7 +247,7 @@ public class App {
                                 System.out.println("\n>> ERROR : V1 and V2 aren't of the same dimension");
                         break;
 
-                        case "#crossProduct" :
+                        case "/crossProduct" :
                             v.clear();
                             for(int i = 0; i<2; i++) {
                                 System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
@@ -227,7 +265,7 @@ public class App {
                             }  
                         break;
                    
-                        case "#parallelepiped" :
+                        case "/parallelepiped" :
                             v.clear();
                             for(int i = 0; i<3; i++) {
                                 System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 v"+(i+1)+"3) : \n");
@@ -242,7 +280,7 @@ public class App {
                             System.out.println("\n>> The volume of the parallelepied is : " + vOPS.parallelepiped(v.get(0),v.get(1),v.get(2)));
                         break;
 
-                        case "#getArea":
+                        case "/getArea":
                         System.out.println("\n>> Insert shape name for which the area will be calculate (triangle, parallelogram)\n");
                         System.out.print("   ");
                         ans = input.nextLine();
@@ -286,7 +324,7 @@ public class App {
 
                         break;
 
-                        case "#orthoProj" :
+                        case "/orthoProj" :
                             v.clear();
                             for(int i = 0; i<2; i++) {
                                 System.out.println("\n"+ (i+1) + ") Insert the components of V" + (i+1) + " separated by a space (v"+(i+1)+"1 v"+(i+1)+"2 ... v"+(i+1)+"n) : \n");
@@ -303,7 +341,7 @@ public class App {
                             vOPS.printVector(vOPS.orthoProjection(v.get(0), v.get(1)));
                         break;
 
-                        case "#exit":
+                        case "/exit":
                             System.out.println("\n ~ Thank you for using LinearSpace ~\n");
                             key = true;
                             input.close();
