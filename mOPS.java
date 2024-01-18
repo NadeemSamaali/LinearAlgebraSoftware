@@ -7,12 +7,13 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.0.2 | Format fixing
+ * @version 2.1.0 | Rewrote setMatrix and printMatrix to apply for any sized matrix + Added mMultiply method
  */
 public class mOPS {
 
     static DecimalFormat df = new DecimalFormat("0.000");
     static DecimalFormat d0 = new DecimalFormat("0.000000000");
+    Scanner input = new Scanner(System.in);
     /**
      * This method allows for printing the entries of the user
      * 
@@ -49,22 +50,24 @@ public class mOPS {
      * @param N Matrix size
      * @param in Scanner
      */
-    public static void setMatrix(double[][] M, int N, Scanner in) {
+    public static void setMatrix(double[][] M, int height, int length, Scanner in) {
         
         String ans = "";
-        String[][] E = new String[N+1][N+1];
+        ArrayList<String[]> E = new ArrayList<>();
 
-        for(int i = 0; i<=N; i++) {
+        for(int i = 0; i<height; i++) {
             System.out.print("   ");
             ans = in.nextLine(); 
-                E[i] = ans.split(" ");           
-                    if(E[i].length == M[i].length) {
-                        for(int j = 0; j<=N; j++) {
-                            M[i][j] = Double.valueOf(E[i][j]);
-                        }
+                E.add(ans.split(" "));           
+                    if(E.get(i).length != M[0].length) {
+                        //System.out.println(E.get(i).length);
+                        //System.out.println(M.length);
+                        throw new IllegalArgumentException("Make sure the rows are in bound with the matrix size");
                     }
                     else {
-                        throw new IllegalArgumentException("Make sure the rows are in bound with the matrix size");
+                        for(int j = 0; j<length; j++) {
+                            M[i][j] = Double.valueOf(E.get(i)[j]);
+                        }
                     }
             }
     } 
@@ -74,14 +77,16 @@ public class mOPS {
      * @param M matrix to print
      * @param N size of the metrix
      */
-    public static void printMatrix(double[][] M, int N) {
+    public static void printMatrix(double[][] M) {
 
         int currentNum = 0;
-        int[] maxNum = new int[N+1];
+        int length = M[0].length;
+        int height = M.length;
+        int[] maxNum = new int[length];
 
         //Check for the number with the biggest amount of figures per column
-        for(int a = 0; a<=N; a++) {
-            for(int b = 0; b<=N; b++) {
+        for(int a = 0; a<length; a++) {
+            for(int b = 0; b<height; b++) {
                 char[] E = String.valueOf(M[b][a]).toCharArray();
                 currentNum = E.length;
                     if(currentNum > maxNum[a]) {
@@ -92,9 +97,9 @@ public class mOPS {
             }
         }
         //Print the matrix in an alligned manner
-        for(int i = 0; i<=N; i++) {
+        for(int i = 0; i<height; i++) {
             System.out.print(" ");
-                for(int j = 0; j<=N; j++) {
+                for(int j = 0; j<length; j++) {
                     if(M[i][j] >= 0) {
                         System.out.print("  " + M[i][j]);
                         char[] E = String.valueOf(M[i][j]).toCharArray();
@@ -141,7 +146,7 @@ public class mOPS {
 
         if(kFactor != 0) {
             System.out.println("\n>> Sorted the matrix : ");
-            mOPS.printMatrix(M,N);
+            mOPS.printMatrix(M);
         }
         System.out.println("\n>> Steps to solution :");
 
@@ -165,7 +170,7 @@ public class mOPS {
                                     if(M[x+y][i] == -0.0)
                                         M[x+y][i] = 0;
                                 }
-                                mOPS.printMatrix(M,N);
+                                mOPS.printMatrix(M);
                                 for(int l = 0; l<=N; l++) {
                                     M[x+y][l] = Double.valueOf(df.format(M[x+y][l]-M[x][l]));
 
@@ -173,7 +178,7 @@ public class mOPS {
                                         M[x+y][l] = 0;
                                 }
                             System.out.println("\n   R" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1) );
-                            mOPS.printMatrix(M,N);
+                            mOPS.printMatrix(M);
                         }                        
                     }
                 }   
@@ -181,7 +186,7 @@ public class mOPS {
         }
         kFactor += mSort(M,N);
         System.out.println("\n>> Sorted the matrix :\n");
-        mOPS.printMatrix(M,N);
+        mOPS.printMatrix(M);
        
         for(int n0 = 0; n0<amountOfK; n0++) {
             //System.out.println("\nRecorded values of k : ");
@@ -487,6 +492,40 @@ public class mOPS {
         }
         else
         System.out.println("\n>> ERROR : The matrix is not invertible");
+    }
+    /**
+     * Method multiplying two matrices if the first matrix's length corresponds to the second matrix's height
+     * @param m1 first matrix
+     * @param m2 second matrix
+     * @return the product matrix
+     */
+    public static double[][] mMultiply(double[][] m1, double[][] m2) {
+        if(m1[0].length != m2.length)
+            throw new IllegalArgumentException("These two matrices can't be multiplied together ! ");
+
+        double[][] m3 = new double[m1.length][m2[0].length];
+
+        for(int i = 0; i<m1.length; i++) {
+            for(int j = 0; j<m2[0].length; j++) {
+                double sum = 0;
+                for(int a = 0; a<m1[0].length; a++) {
+                        sum += m1[i][a]*m2[a][j];
+                }
+                m3[i][j] = sum;
+            }
+        }
+        return m3;
+    }
+
+    public static void main(String[] args) {
+        double[][] a = {{1},{4},{9}};
+        double[][] b = {{23,4}};
+
+        //System.out.println(a[0].length);
+        //System.out.println(b.length);
+
+        printMatrix(mMultiply(a, b));
+
     }
     
 
