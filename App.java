@@ -17,7 +17,7 @@ import java.util.Scanner;
  *      - Calculating the orthogonal projection of a vector onto another (2.3.0)
  *
  * @author Nadeem Samaali
- * @version 2.4.0 | Implementation of the rewritten printMatrix and setMatrix methods +  Implementaion of mMultiply
+ * @version 2.4.1 | Minor code optimization
  */
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -71,8 +71,6 @@ public class App {
                         case "/mMultiply" :
                             m.clear();
                             E.clear();
-                            int height = 0;
-                            int length = 0;
                             //Inserting the size of the matrices
                             for(int i = 0; i<2; i++) {
                                 System.out.println("\n>> Insert the dimension of M"+(i+1)+" seperated by a space (e.g for a 2x3 matrix, insert '2 3')\n");
@@ -94,138 +92,119 @@ public class App {
                             }
                             System.out.println("\n>> The matrix product of M1 and M2 is : \n");
                             mOPS.printMatrix(mOPS.mMultiply(m.get(0), m.get(1)));
-
-
-
-
                         break;
 
                         case "/getDeterminant":
-                        //Inputing the value of the size of matrix m
-                            System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
+                            m.clear();
+                            System.out.println("\n1) Insert the square matrix size (1,2,3...,n) :\n");
                             ans = "";
                             System.out.print("   N = ");
                             ans = input.nextLine();
-
                             //Setting the value n as the size of the matrix
                             n = Integer.valueOf(ans);
-
-                            double[][] m1 = new double[n][n];
-
+                            m.add(new double[n][n]);
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m1,n,n,input);
-                            
+                            mOPS.setMatrix(m.get(0),n,n,input);
                             //Outputting the matrix
                             System.out.print("\n>> Here is the inputted matrix : ");
-                            //mOPS.printEntries(n,entries);
                             System.out.println();
-                            //Set the entires into the designated placements in the matrix Array
-                            mOPS.printMatrix(m1);
-                            //Reduce the matrix into upper-triangular form and calculating the determinant
-                            mOPS.getDeterminant(m1, n-1);     
+                            mOPS.printMatrix(m.get(0));
+                            mOPS.getDeterminant(m.get(0), n-1);     
                         break;
 
                         case "/getInverse" :
-                            System.out.println("\n1) Please enter the square matrix size (1,2,...,n) : \n");
+                            m.clear();
+                            System.out.println("\n1) Insert the square matrix size (1,2,...,n) : \n");
                             System.out.print("   N = ");
-                            Scanner in = new Scanner(System.in);
-                            ans = in.nextLine();
+                            ans = input.nextLine();
 
                             n = Integer.valueOf(ans);
 
-                            double[][] m2 = new double[n][n];
-                            double[][] d = new double[n][n];
-
+                            for(int i = 0; i<2; i++)
+                                m.add(new double[n][n]);
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m2,n,n,input);
-
-                            //Setting up the mock matrix 
+                            mOPS.setMatrix(m.get(0),n,n,input);
+                            //Setting up the test matrix 
                             for(int x = 0; x<n; x++) {
                                 for(int y = 0; y<n; y++) {
-                                    d[x][y] = m2[x][y];
+                                    m.get(1)[x][y] = m.get(0)[x][y];
                                 }
                             }
-
-                            double detM = mOPS.getSilentDeterminant(d,n-1);
-
+                            double detM = mOPS.getSilentDeterminant(m.get(1),n-1);
+                            //Finding the inverse if the matrix is invertible
                             if(detM != 0){
-                                mOPS.getCofactorMatrix(m2, n-1);
-                                mOPS.getAdjointMatrix(m2,n-1);
-                                mOPS.getInverse(m2, n-1, detM);
+                                mOPS.getCofactorMatrix(m.get(0), n-1);
+                                mOPS.getAdjointMatrix(m.get(0),n-1);
+                                mOPS.getInverse(m.get(0), n-1, detM);
                                 System.out.println("\n>> The inverse of the inputted matrix is : \n");
-                                mOPS.printMatrix(m2);
+                                mOPS.printMatrix(m.get(0));
                             }
-                            
-                            else
-                            {
+                            else {
                                 System.out.println(">>\nERROR : This matrix is not invertible !");
                             }
                         break;
                             
                         case "/getCofactor":
-                            //Inputing the value of the size of matrix m
-                            System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
+                            m.clear();
+                            System.out.println("\n1) Insert the square matrix size (1,2,3...,n) :\n");
                             ans = "";
                             System.out.print("   N = ");
                             ans = input.nextLine();
-
                             //Setting the value n as the size of the matrix
                             n = Integer.valueOf(ans);
-
-                            double[][] m4 = new double[n][n];
-
+                            m.add(new double[n][n]);
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m4,n,n,input);
+                            mOPS.setMatrix(m.get(0),n,n,input);
 
-                            mOPS.getCofactorMatrix(m4, n-1);
+                            mOPS.getCofactorMatrix(m.get(0), n-1);
                             System.out.println("\n>> The cofactor matrix is : \n");
-                            mOPS.printMatrix(m4);
+                            mOPS.printMatrix(m.get(0));
                         break;
 
                         case "/getAdjoint":
-                            //Inputing the value of the size of matrix m
-                            System.out.println("\n1) Please insert the square matrix size (1,2,3...,n) :\n");
+                            m.clear();
+                            System.out.println("\n1) Insert the square matrix size (1,2,3...,n) :\n");
                             ans = "";
                             System.out.print("   N = ");
                             ans = input.nextLine();
 
                             //Setting the value n as the size of the matrix
                             n = Integer.valueOf(ans);
-
-                            double[][] m5 = new double[n][n];
-
+                            m.add(new double[n][n]);
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m5,n,n,input);
+                            mOPS.setMatrix(m.get(0),n,n,input);
 
-                            mOPS.getCofactorMatrix(m5,n-1);
-                            mOPS.getAdjointMatrix(m5, n-1);
+                            mOPS.getCofactorMatrix(m.get(0),n-1);
+                            mOPS.getAdjointMatrix(m.get(0), n-1);
                             System.out.println("\n>> The adjoint matrix is : ");
-                            mOPS.printMatrix(m5);
+                            mOPS.printMatrix(m.get(0));
                         break;
 
                         case "/findX" :
+                            m.clear();
+                            v.clear();
                             System.out.println("\n1) A - Please insert the square coefficient matrix size (1,2,3...,n) :\n");
                             ans = "";
 
                             System.out.print("   N = ");
                             ans = input.nextLine();
                             n = Integer.valueOf(ans);
-                    
-                            double[][] m3 = new double[n+1][n+1];
-                            double[] b = new double[n+1];
+
+                            m.add(new double[n][n]);
+                            v.add(new double[n]);
 
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m3,n,n,input);
+                            mOPS.setMatrix(m.get(0),n,n,input);
 
                             System.out.println("\n3) B - Insert the values of the solution sparated with a space\n   respecting this form : b1 b2 ... bn\n");
                             System.out.print("   ");
                             String ans2 = input.nextLine();
 
-                            mOPS.setB(b, ans2, n-1);
-                            mOPS.getX(b, m3, n-1);
+                            mOPS.setB(v.get(0), ans2, n-1);
+                            mOPS.getX(v.get(0), m.get(0), n-1);
                         break;
 
                         case "/dotProduct":
@@ -281,9 +260,9 @@ public class App {
                         break;
 
                         case "/getArea":
-                        System.out.println("\n>> Insert shape name for which the area will be calculate (triangle, parallelogram)\n");
-                        System.out.print("   ");
-                        ans = input.nextLine();
+                            System.out.println("\n>> Insert shape name for which the area will be calculate (triangle, parallelogram)\n");
+                            System.out.print("   ");
+                            ans = input.nextLine();
 
                             switch(ans) {
                                 
