@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 /**
@@ -17,7 +18,7 @@ import java.util.Scanner;
  *      - Calculating the orthogonal projection of a vector onto another (2.3.0)
  *
  * @author Nadeem Samaali
- * @version 2.4.1 | Minor code optimization
+ * @version 2.4.2 | Bug fixing
  */
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -33,6 +34,8 @@ public class App {
         ArrayList<double[]> v = new ArrayList();
         ArrayList<double[][]> m = new ArrayList();
         ArrayList<String[]> E = new ArrayList();
+        DecimalFormat d0 = new DecimalFormat("0.000000000");
+
 
 
         int n;
@@ -73,7 +76,7 @@ public class App {
                             E.clear();
                             //Inserting the size of the matrices
                             for(int i = 0; i<2; i++) {
-                                System.out.println("\n>> Insert the dimension of M"+(i+1)+" seperated by a space (e.g for a 2x3 matrix, insert '2 3')\n");
+                                System.out.println("\n>> Insert the dimension of matrix M"+(i+1)+" seperated by a space (e.g for a 2x3 matrix, insert '2 3')\n");
                                 System.out.print("   ");                                
                                 ans = input.nextLine();
                                 E.add(ans.split(" "));
@@ -132,16 +135,15 @@ public class App {
                                 }
                             }
                             double detM = mOPS.getSilentDeterminant(m.get(1),n-1);
-                            //Finding the inverse if the matrix is invertible
-                            if(detM != 0){
+                            //Finding the inverse if the matrix is invertible                            
+                            if(Double.valueOf(d0.format(detM)) == 0)
+                                System.out.println("\n>> ERROR : The matrix isn't invertible\n");
+                            else {
                                 mOPS.getCofactorMatrix(m.get(0), n-1);
                                 mOPS.getAdjointMatrix(m.get(0),n-1);
                                 mOPS.getInverse(m.get(0), n-1, detM);
                                 System.out.println("\n>> The inverse of the inputted matrix is : \n");
                                 mOPS.printMatrix(m.get(0));
-                            }
-                            else {
-                                System.out.println(">>\nERROR : This matrix is not invertible !");
                             }
                         break;
                             
