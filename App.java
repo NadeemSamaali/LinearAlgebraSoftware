@@ -18,7 +18,7 @@ import java.util.Scanner;
  *      - Calculating the orthogonal projection of a vector onto another (2.3.0)
  *
  * @author Nadeem Samaali
- * @version 2.4.2 | Bug fixing
+ * @version 2.4.3 | Bug fixing + Method reformat implementations
  */
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -35,8 +35,6 @@ public class App {
         ArrayList<double[][]> m = new ArrayList();
         ArrayList<String[]> E = new ArrayList();
         DecimalFormat d0 = new DecimalFormat("0.000000000");
-
-
 
         int n;
 
@@ -82,7 +80,7 @@ public class App {
                                 E.add(ans.split(" "));
                                 if(E.get(i).length != 2)
                                     throw new IllegalArgumentException("The matrices must be 2-dimensional");
-                                m.add(new double[Integer.valueOf(E.get(i)[0])][Integer.valueOf(E.get(i)[1])]);
+                                //m.add(new double[Integer.valueOf(E.get(i)[0])][Integer.valueOf(E.get(i)[1])]);
                             }
                             //Checking if the matrices are multiplyable by their size
                             if(Integer.valueOf(E.get(0)[1]) != Integer.valueOf(E.get(1)[0])) {
@@ -91,7 +89,7 @@ public class App {
                             //Inserting the entries of the matrix
                             for(int j = 0; j<2; j++) {
                                 System.out.println("\n"+(j+1)+") M"+(j+1)+"_" + E.get(j)[0] +"x"+ E.get(j)[1] + " Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                                mOPS.setMatrix(m.get(j),Integer.valueOf(E.get(j)[0]),Integer.valueOf(E.get(j)[1]),input);
+                                m.add(mOPS.setMatrix(Integer.valueOf(E.get(j)[0]),Integer.valueOf(E.get(j)[1])));
                             }
                             System.out.println("\n>> The matrix product of M1 and M2 is : \n");
                             mOPS.printMatrix(mOPS.mMultiply(m.get(0), m.get(1)));
@@ -105,10 +103,9 @@ public class App {
                             ans = input.nextLine();
                             //Setting the value n as the size of the matrix
                             n = Integer.valueOf(ans);
-                            m.add(new double[n][n]);
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m.get(0),n,n,input);
+                            m.add(mOPS.setMatrix(n,n));
                             //Outputting the matrix
                             System.out.print("\n>> Here is the inputted matrix : ");
                             System.out.println();
@@ -124,27 +121,11 @@ public class App {
 
                             n = Integer.valueOf(ans);
 
-                            for(int i = 0; i<2; i++)
-                                m.add(new double[n][n]);
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m.get(0),n,n,input);
-                            //Setting up the test matrix 
-                            for(int x = 0; x<n; x++) {
-                                for(int y = 0; y<n; y++) {
-                                    m.get(1)[x][y] = m.get(0)[x][y];
-                                }
-                            }
-                            double detM = mOPS.getSilentDeterminant(m.get(1),n-1);
-                            //Finding the inverse if the matrix is invertible                            
-                            if(Double.valueOf(d0.format(detM)) == 0)
-                                System.out.println("\n>> ERROR : The matrix isn't invertible\n");
-                            else {
-                                mOPS.getCofactorMatrix(m.get(0), n-1);
-                                mOPS.getAdjointMatrix(m.get(0),n-1);
-                                mOPS.getInverse(m.get(0), n-1, detM);
-                                System.out.println("\n>> The inverse of the inputted matrix is : \n");
-                                mOPS.printMatrix(m.get(0));
-                            }
+                            m.add(mOPS.setMatrix(n,n));
+                            
+                            System.out.println("\n>> The inverse of the inputted matrix is : \n");
+                            mOPS.printMatrix(mOPS.getInverse(m.get(0)));
                         break;
                             
                         case "/getCofactor":
@@ -155,14 +136,13 @@ public class App {
                             ans = input.nextLine();
                             //Setting the value n as the size of the matrix
                             n = Integer.valueOf(ans);
-                            m.add(new double[n][n]);
+                            //m.add(new double[n][n]);
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m.get(0),n,n,input);
+                            m.add(mOPS.setMatrix(n,n));
 
-                            mOPS.getCofactorMatrix(m.get(0), n-1);
                             System.out.println("\n>> The cofactor matrix is : \n");
-                            mOPS.printMatrix(m.get(0));
+                            mOPS.printMatrix(mOPS.getCofactorMatrix(m.get(0),n));
                         break;
 
                         case "/getAdjoint":
@@ -174,15 +154,13 @@ public class App {
 
                             //Setting the value n as the size of the matrix
                             n = Integer.valueOf(ans);
-                            m.add(new double[n][n]);
+                            //m.add(new double[n][n]);
                             //Adding the entries of the matrix into an array by splitting
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m.get(0),n,n,input);
+                            m.add(mOPS.setMatrix(n,n));
 
-                            mOPS.getCofactorMatrix(m.get(0),n-1);
-                            mOPS.getAdjointMatrix(m.get(0), n-1);
                             System.out.println("\n>> The adjoint matrix is : ");
-                            mOPS.printMatrix(m.get(0));
+                            mOPS.printMatrix(mOPS.getAdjointMatrix(m.get(0)));
                         break;
 
                         case "/findX" :
@@ -195,11 +173,11 @@ public class App {
                             ans = input.nextLine();
                             n = Integer.valueOf(ans);
 
-                            m.add(new double[n][n]);
+                            //m.add(new double[n][n]);
                             v.add(new double[n]);
 
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
-                            mOPS.setMatrix(m.get(0),n,n,input);
+                            m.add(mOPS.setMatrix(n,n));
 
                             System.out.println("\n3) B - Insert the values of the solution sparated with a space\n   respecting this form : b1 b2 ... bn\n");
                             System.out.print("   ");
