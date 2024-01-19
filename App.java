@@ -18,7 +18,7 @@ import java.util.Scanner;
  *      - Calculating the orthogonal projection of a vector onto another (2.3.0)
  *
  * @author Nadeem Samaali
- * @version 2.4.3 | Bug fixing + Method reformat implementations
+ * @version 2.4.4 | Bug fixing
  */
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -307,7 +307,7 @@ public class App {
                         break label;
 
                         default:
-                            System.out.println("\n>> Please enter a valid command prompt, type '#help' for command list");
+                            System.out.println("\n>> Please enter a valid command prompt, type '/help' for command list");
                         break;
                     } 
                 }
