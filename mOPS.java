@@ -7,7 +7,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.1.0 | Rewrote setMatrix and printMatrix to apply for any sized matrix + Added mMultiply method
+ * @version 2.1.1 | Bug fixing + method reformat
  */
 public class mOPS {
 
@@ -50,8 +50,11 @@ public class mOPS {
      * @param N Matrix size
      * @param in Scanner
      */
-    public static void setMatrix(double[][] M, int height, int length, Scanner in) {
+    public static double[][] setMatrix(int height, int length) {
         
+        Scanner in = new Scanner(System.in);
+        double[][] M = new double[height][length];
+
         String ans = "";
         ArrayList<String[]> E = new ArrayList<>();
 
@@ -70,6 +73,7 @@ public class mOPS {
                         }
                     }
             }
+        return M;
     } 
     /**
      * This method allows for the printing of any nXn matrix | To use for testing purposes
@@ -280,29 +284,30 @@ public class mOPS {
     * @param M the inputted matrix
     * @param N the size of the matrix
     */   
-    public static void getCofactorMatrix(double[][] M, int N) {
-        double[][][] C2 = new double[N][N][(int) Math.pow(N+1,2)];
-        double[][] C3 = new double[N][N];
-        double[] det = new double[(int)Math.pow(N+1,2)];
+    public static double[][] getCofactorMatrix(double[][] M, int N) {
+        double[][] C = new double[N][N];
+        double[][][] C2 = new double[N-1][N-1][(int) Math.pow(N,2)];
+        double[][] C3 = new double[N-1][N-1];
+        double[] det = new double[(int)Math.pow(N,2)];
  
         int a = 0;
         int b = 0;
         int c = 0;
         //This loop will set up all the sub matrices neccesarry for the calculations
-        for(int i = 0; i<=N; i++) {
-            for(int j = 0; j<=N; j++) {
-                for(int k = 0; k<=N; k++) {
-                    for(int l = 0; l<=N; l++) {
+        for(int i = 0; i<N; i++) {
+            for(int j = 0; j<N; j++) {
+                for(int k = 0; k<N; k++) {
+                    for(int l = 0; l<N; l++) {
                         if(k != i && l != j) {
                             C2[a][b][c] = M[k][l];
                             b+=1;
  
-                            if(b==N) {
+                            if(b==N-1) {
                                 a+=1;
                                 b=0;
                             }
  
-                            if(a==N) {
+                            if(a==N-1) {
                                 a=0;
                                 b=0;
                             }
@@ -313,23 +318,24 @@ public class mOPS {
             }
         }
         //This loop will replace each entry of the matrix by the determinant of their respective sub matrices
-        for(int z = 0; z<Math.pow(N+1, 2); z++) {
-            for(int x = 0; x<N; x++) {
-                for(int y = 0; y<N; y++) {
+        for(int z = 0; z<Math.pow(N, 2); z++) {
+            for(int x = 0; x<N-1; x++) {
+                for(int y = 0; y<N-1; y++) {
                     C3[x][y] = C2[x][y][z];
                 }
             }
-            det[z] = getSilentDeterminant(C3, N-1);
+            det[z] = getSilentDeterminant(C3, N-2);
         }
         int r = 0;
-        for(int p = 0; p<=N; p++) {
-            for(int q = 0; q<=N; q++) {
-                M[p][q] = Math.pow(-1, p+q)*det[r];
-                    if(M[p][q] == -0)
-                        M[p][q] = 0;
+        for(int p = 0; p<N; p++) {
+            for(int q = 0; q<N; q++) {
+                C[p][q] = Math.pow(-1, p+q)*det[r];
+                    if(C[p][q] == -0)
+                        C[p][q] = 0;
                     r+=1;
                 }
             }
+        return C;
     }
     /**
      * This method will set up the transpose matrix of the cofactor matrix
@@ -337,20 +343,17 @@ public class mOPS {
      * @param M matrix to transpose
      * @param N size of matrix
      */
-    public static void getAdjointMatrix(double M[][], int N)
+    public static double[][] getAdjointMatrix(double M[][])
     {
-        double[][] tempM = new double[N+1][N+1];
+        M = getCofactorMatrix(M, M.length);
+        double[][] A = new double[M.length][M.length];
 
-        for(int i = 0; i<=N; i++) {
-            for(int j = 0; j<=N; j++) {
-                tempM[i][j] = M[i][j];
+        for(int x = 0; x <M.length; x++) {
+            for(int y = 0; y<M.length; y++) {
+                A[y][x] = Double.valueOf(df.format(M[x][y]));
             }
         }
-        for(int x = 0; x <= N; x++) {
-            for(int y = 0; y<=N; y++) {
-                M[y][x] = Double.valueOf(df.format(tempM[x][y]));
-            }
-        }
+        return A;
     }
     /**
     * This method will find the inverse matrix by multiplying the inverse of the matrix determinant
@@ -360,13 +363,20 @@ public class mOPS {
     * @param N size of matrix
     * @param det determinant of initial matrix inputted by user
     */
-    public static void getInverse(double[][] M, int N, double det) {
-        for(int i = 0; i<=N; i++) {
-            for(int j = 0; j<=N; j++) {
-                if(M[i][j] != 0)
-                    M[i][j] = Double.valueOf(df.format((1/det)*M[i][j]));
+    public static double[][] getInverse(double[][] M) {
+        double[][] I = getAdjointMatrix(M);
+        double det = getSilentDeterminant(M, M.length-1);
+
+        if(Double.valueOf(d0.format(det)) == 0)
+            throw new IllegalArgumentException("This matrix is not invertible");
+    
+        for(int i = 0; i<M.length; i++) {
+            for(int j = 0; j<M.length; j++) {
+                if(I[i][j] != 0)
+                    I[i][j] = Double.valueOf(df.format((1/det)*I[i][j]));
             }
         }
+        return I;
     }
     /**
      * This method will allow for the sorting of the rows of a square matrix in ascending order
@@ -474,8 +484,8 @@ public class mOPS {
         if(det != 0) {
             //Find the inverse matrix
             getCofactorMatrix(M, N);
-            getAdjointMatrix(M, N);
-            getInverse(M,N,det);
+            getAdjointMatrix(M);
+            getInverse(M);
 
             //Matrice multiplication
             for(int i = 0; i<=N; i++) {
@@ -518,15 +528,7 @@ public class mOPS {
     }
 
     public static void main(String[] args) {
-        double[][] a = {{1},{4},{9}};
-        double[][] b = {{23,4}};
-
-        //System.out.println(a[0].length);
-        //System.out.println(b.length);
-
-        printMatrix(mMultiply(a, b));
-
+        double[][] M = {{1,2,4},{1,2,7},{6,4,3}};
+        printMatrix(getInverse(M));
     }
-    
-
 }
