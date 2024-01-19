@@ -7,42 +7,13 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.1.1 | Bug fixing + method reformat
+ * @version 2.1.2 | printMatrix deleted
  */
 public class mOPS {
 
     static DecimalFormat df = new DecimalFormat("0.000");
     static DecimalFormat d0 = new DecimalFormat("0.000000000");
     Scanner input = new Scanner(System.in);
-    /**
-     * This method allows for printing the entries of the user
-     * 
-     * @param N Size of the matrix to be printed
-     * @param ansArray Array of the entries entred by the user
-     */
-    public static void printEntries(int N, String[] ansArray1)
-     {
-        int sCounter1 = -1;
- 
-        //Outputting the matrix as well as the data entries
-        System.out.print("[");
-        for(int a = 0; a<=N; a++) {
-            System.out.print("[");
-            for(int b = 0; b<N; b++) {
-                sCounter1 += 1;
-                System.out.print(ansArray1[sCounter1]);
-                System.out.print(",");
-            }
-            sCounter1 += 1;
-            System.out.print(ansArray1[sCounter1]);
- 
-            if(sCounter1 == Math.pow(N+1,2)-1)
-                System.out.print("]");
-            else
-                System.out.print("];");
-        }
-        System.out.println("]");
-    }
     /**
      * This method inquires the user on the entries to add into each row of the N sized
      * 
