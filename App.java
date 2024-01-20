@@ -18,7 +18,7 @@ import java.util.Scanner;
  *      - Calculating the orthogonal projection of a vector onto another (2.3.0)
  *
  * @author Nadeem Samaali
- * @version 2.4.4 | Bug fixing
+ * @version 2.4.5 | Code optimization
  */
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -54,7 +54,7 @@ public class App {
                     {
                         case "/help":
                             System.out.println("\n=== LinearSpace help center ===");
-                            System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix operations\n\nHere is a list of all the supported commands : \n");
+                            System.out.println("\nLinearSpace is a software which deals with a multitude\nof different matrix and vector operations\n\nHere is a list of all the supported commands : \n");
                             System.out.println("    /mMultiply          Performs matrix multiplication between two matrices");
                             System.out.println("    /getDeterminant     Calculates the determinant of any nxn matrix");
                             System.out.println("    /getCofactor        Finds the cofactor matrix of a square matrix");
@@ -107,10 +107,10 @@ public class App {
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             m.add(mOPS.setMatrix(n,n));
                             //Outputting the matrix
-                            System.out.print("\n>> Here is the inputted matrix : ");
+                            System.out.print("\n>> Here is the inputted matrix : \n");
                             System.out.println();
                             mOPS.printMatrix(m.get(0));
-                            mOPS.getDeterminant(m.get(0), n-1);     
+                            mOPS.getDeterminant(m.get(0));     
                         break;
 
                         case "/getInverse" :
@@ -124,6 +124,7 @@ public class App {
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             m.add(mOPS.setMatrix(n,n));
                             
+                            mOPS.getInverse(m.get(0));
                             System.out.println("\n>> The inverse of the inputted matrix is : \n");
                             mOPS.printMatrix(mOPS.getInverse(m.get(0)));
                         break;
@@ -142,7 +143,7 @@ public class App {
                             m.add(mOPS.setMatrix(n,n));
 
                             System.out.println("\n>> The cofactor matrix is : \n");
-                            mOPS.printMatrix(mOPS.getCofactorMatrix(m.get(0),n));
+                            mOPS.printMatrix(mOPS.getCofactorMatrix(m.get(0)));
                         break;
 
                         case "/getAdjoint":
@@ -174,17 +175,16 @@ public class App {
                             n = Integer.valueOf(ans);
 
                             //m.add(new double[n][n]);
-                            v.add(new double[n]);
+                            
 
                             System.out.println("\n2) Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n");
                             m.add(mOPS.setMatrix(n,n));
 
                             System.out.println("\n3) B - Insert the values of the solution sparated with a space\n   respecting this form : b1 b2 ... bn\n");
-                            System.out.print("   ");
-                            String ans2 = input.nextLine();
+                            m.add(mOPS.setMatrix(1, n));
 
-                            mOPS.setB(v.get(0), ans2, n-1);
-                            mOPS.getX(v.get(0), m.get(0), n-1);
+                            System.out.println("\n>> X - The solution of this linear system is : \n");
+                            mOPS.printMatrix(mOPS.getX(m.get(1), m.get(0)));
                         break;
 
                         case "/dotProduct":
@@ -313,7 +313,7 @@ public class App {
                 }
             }
             catch(Exception e) {
-                System.err.println("\n>> ERROR : illegal prompt - " + e.getMessage());
+                System.err.println("\n>> ERROR : " + e.getMessage());
             }
         }while(!key);
     }
