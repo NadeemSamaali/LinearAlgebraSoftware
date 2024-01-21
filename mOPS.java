@@ -198,17 +198,17 @@ public class mOPS {
                                 if(k[num0] != 1) {
                                     System.out.print("\n   K = M(" + x + "," + x + ")" + "/M(" + (d+y) + "," + x + ")");
                                     System.out.print(" --> " + df.format(k[num0]) + "*R" + (x+y+1) +"\n\n");
-                                    mOPS.printDeterminant(M);
                                 }
                                 for(int i = 0; i<N; i++) {
                                     M[x+y][i] = k[num0]*M[x+y][i];
-                                    if(M[x+y][i] == -0.0)
+                                    if(Double.valueOf(df.format(M[x+y][i])) == -0.0)
                                         M[x+y][i] = 0;
                                 }
+                                mOPS.printDeterminant(M);
                                 for(int l = 0; l<N; l++) {
                                     M[x+y][l] = M[x+y][l]-M[x][l];
 
-                                    if(M[x+y][l] == -0.0)
+                                    if(Double.valueOf(df.format(M[x+y][l])) == -0.0)
                                         M[x+y][l] = 0;
                                 }
                             System.out.println("\n   R" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1)+"\n");
