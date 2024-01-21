@@ -7,7 +7,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.1.4 | Bug fixing
+ * @version 2.1.5 | Bug fixing
  */
 public class mOPS {
 
@@ -108,7 +108,7 @@ public class mOPS {
         //Check for the number with the biggest amount of figures per column
         for(int a = 0; a<length; a++) {
             for(int b = 0; b<height; b++) {
-                char[] E = df.format(M[a][b]).toCharArray();
+                char[] E = df.format(M[b][a]).toCharArray();
                 currentNum = E.length;
                     if(currentNum > maxNum[a]) {
                         maxNum[a] = currentNum;
