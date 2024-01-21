@@ -1,3 +1,4 @@
+package operations;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +8,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.1.6 | Formatting issues when calculating the inverse of the inverse fixed
+ * @version 2.1.7 | Bug fixing
  */
 public class mOPS {
 
@@ -71,7 +72,7 @@ public class mOPS {
         }
         //Print the matrix in an alligned manner
         for(int i = 0; i<height; i++) {
-            System.out.print("   ");
+            System.out.print(" ");
                 for(int j = 0; j<length; j++) {
                     if(M[i][j] >= 0) {
                         System.out.print("  " + df.format(M[i][j]));
