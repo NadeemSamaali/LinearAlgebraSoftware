@@ -2,6 +2,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import operations.mOPS;
+import operations.vOPS;
 /**
  * LinearSpace is a software dealing with various matrix and vector operations
  * 
