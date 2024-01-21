@@ -7,7 +7,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.1.5 | Bug fixing
+ * @version 2.1.6 | Formatting issues when calculating the inverse of the inverse fixed
  */
 public class mOPS {
 
@@ -60,7 +60,7 @@ public class mOPS {
         //Check for the number with the biggest amount of figures per column
         for(int a = 0; a<length; a++) {
             for(int b = 0; b<height; b++) {
-                char[] E = String.valueOf(M[b][a]).toCharArray();
+                char[] E = df.format(M[b][a]).toCharArray();
                 currentNum = E.length;
                     if(currentNum > maxNum[a]) {
                         maxNum[a] = currentNum;
@@ -71,19 +71,19 @@ public class mOPS {
         }
         //Print the matrix in an alligned manner
         for(int i = 0; i<height; i++) {
-            System.out.print(" ");
+            System.out.print("   ");
                 for(int j = 0; j<length; j++) {
                     if(M[i][j] >= 0) {
-                        System.out.print("  " + Double.valueOf(df.format(M[i][j])));
-                        char[] E = String.valueOf(M[i][j]).toCharArray();
+                        System.out.print("  " + df.format(M[i][j]));
+                        char[] E = df.format(M[i][j]).toCharArray();
                         //System.out.print(" E length = " + E.length);
                             for(int x = 0; x<maxNum[j] - E.length; x++) {
                                 System.out.print(" ");
                             }
                     }
                     if(M[i][j] < 0) {
-                        System.out.print(" " + Double.valueOf(df.format(M[i][j])));
-                        char[] E = String.valueOf(M[i][j]).toCharArray();
+                        System.out.print(" " + df.format(M[i][j]));
+                        char[] E = df.format(M[i][j]).toCharArray();
                         //System.out.print(" E length = " + E.length);
                         for(int x = 0; x<=maxNum[j] - E.length; x++) {
                             System.out.print(" ");
@@ -373,7 +373,7 @@ public class mOPS {
 
         for(int x = 0; x <M.length; x++) {
             for(int y = 0; y<M.length; y++) {
-                A[y][x] = Double.valueOf(df.format(M[x][y]));
+                A[y][x] = M[x][y];
             }
         }
         return A;
@@ -396,7 +396,7 @@ public class mOPS {
         for(int i = 0; i<M.length; i++) {
             for(int j = 0; j<M.length; j++) {
                 if(I[i][j] != 0)
-                    I[i][j] = Double.valueOf(df.format((1/det)*I[i][j]));
+                    I[i][j] = (1/det)*I[i][j];
             }
         }
         return I;
