@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * Class containing the basic methods necessary for setting up and printing vectors
  * 
  * @author Nadeem Samaali
- * @version 2.3.0 | Addition of orthogonal projection calculator
+ * @version 2.3.1 | Bug fixing
  */
 public class vOPS 
 {
@@ -30,8 +30,8 @@ public class vOPS
     {
         System.out.print("[");
         for(int i = 0; i<V.length-1; i++)
-            System.out.print(V[i]+",");
-        System.out.print(V[V.length-1] + "]\n");  
+            System.out.print(df.format(V[i])+",");
+        System.out.print(df.format(V[V.length-1]) + "]\n");  
     }
     /**
      * Method calculating the dot product between two vectors
@@ -83,7 +83,7 @@ public class vOPS
                     c++;
                 }
             }
-            v3[l] = M[0][l]*mOPS.getSilentDeterminant(C0,1);
+            v3[l] = M[0][l]*mOPS.getSilentDeterminant(C0);
             C.clear();
         }
         return v3;
