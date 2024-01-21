@@ -7,7 +7,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.1.3 | Code optimization
+ * @version 2.1.4 | Bug fixing
  */
 public class mOPS {
 
@@ -173,13 +173,13 @@ public class mOPS {
 
         double[][] C = new double[N][N];
 
-        System.out.println("\n>> Steps to solution :\n");
+        System.out.println("\n>> Steps to solution :");
 
         C = M;
         M = mSort(M);
         if(nPermutations(C, M) != 0) {
-            System.out.println("\n   Sorted the matrix : \n");
-            mOPS.printMatrix(M);
+            System.out.println("   Sorted the matrix : \n");
+            mOPS.printDeterminant(M);
         }
 
         int kFactor = nPermutations(C, M);
@@ -198,13 +198,13 @@ public class mOPS {
                                 if(k[num0] != 1) {
                                     System.out.print("\n   K = M(" + x + "," + x + ")" + "/M(" + (d+y) + "," + x + ")");
                                     System.out.print(" --> " + df.format(k[num0]) + "*R" + (x+y+1) +"\n\n");
+                                    mOPS.printDeterminant(M);
                                 }
                                 for(int i = 0; i<N; i++) {
                                     M[x+y][i] = k[num0]*M[x+y][i];
                                     if(M[x+y][i] == -0.0)
                                         M[x+y][i] = 0;
                                 }
-                                mOPS.printDeterminant(M);
                                 for(int l = 0; l<N; l++) {
                                     M[x+y][l] = M[x+y][l]-M[x][l];
 
