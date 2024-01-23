@@ -1,10 +1,11 @@
+package operations;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 /**
  * Class containing the basic methods necessary for setting up and printing vectors
  * 
  * @author Nadeem Samaali
- * @version 2.3.1 | Bug fixing
+ * @version 2.3.2 | Implementaion of the new getDeterminant method
  */
 public class vOPS 
 {
@@ -83,7 +84,7 @@ public class vOPS
                     c++;
                 }
             }
-            v3[l] = M[0][l]*mOPS.getSilentDeterminant(C0);
+            v3[l] = M[0][l]*mOPS.getDeterminant(C0);
             C.clear();
         }
         return v3;
@@ -148,6 +149,5 @@ public class vOPS
         for(int j = 0; j<v1.length; j++)
             v3[j] = Double.valueOf(df.format((k/aSquared)*v2[j]));
         return v3;
-    }
-    
+    } 
 }
