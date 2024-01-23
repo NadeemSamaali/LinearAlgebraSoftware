@@ -22,7 +22,7 @@ import operations.vOPS;
  *      - Calculating the orthogonal projection of a vector onto another (2.3.0)
  *
  * @author Nadeem Samaali
- * @version 3.0.0 | Added the capacity to save and load matrices
+ * @version 3.1.0 | Implementation of the rewritten getDeterminant and mSort methods as well as the determinantSteps method
  */
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -216,7 +216,10 @@ public class App {
                             System.out.print("\n>> Here is the inputted matrix : \n");
                             System.out.println();
                             mOPS.printMatrix(m.get(0));
-                            mOPS.getDeterminant(m.get(0));     
+                            System.out.println("\n>> Reducing the matrix to upper-triangular form");
+                            mOPS.determinantSteps(m.get(0));
+
+                            System.out.println("\n   The determinant of this matrix is : " + mOPS.getDeterminant(m.get(0)));
                             saveable = false;
                         break;
 
