@@ -8,7 +8,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.1.7 | Bug fixing
+ * @version 2.2.0 | Rewritten getDeterminant and mSort and added determinantSteps methods
  */
 public class mOPS {
 
@@ -46,6 +46,17 @@ public class mOPS {
             }
         return M;
     } 
+
+    public static double[][] copyMatrix(double[][] M) {
+        double[][] A = new double[M.length][M[0].length];
+        for(int i = 0; i<M.length; i++) {
+            for(int j = 0; j<M[0].length; j++) {
+                A[i][j] = M[i][j];
+            }
+        }
+        return A;
+    }
+
     /**
      * This method allows for the printing of any nXn matrix | To use for testing purposes
      * 
@@ -123,6 +134,8 @@ public class mOPS {
             System.out.print("   ");
                 for(int j = 0; j<length; j++) {
                     if(M[i][j] >= 0) {
+                        if(Double.valueOf(df.format(M[i][j])) == -0)
+                            M[i][j] = 0;
                         if(j>0)
                             System.out.print("  " + df.format(M[i][j]));
                         else
@@ -151,171 +164,116 @@ public class mOPS {
         }
     }
     /**
-     * This method is an operator that serves part in the process of the reduction and cofactor
-     * expansion of a square matrix in order to reduce into an upper triangular matrix.
-     * 
-     * The the metod will calculate the determinant
-     * 
-     * @param M matrix to operate
-     * @return determinant
-     */    
-    public static double getDeterminant(double[][] M)
-    {
-        int N = M.length;
-        //calculating determinant
-        double num1 = 1.0;
-        int amountOfK = 0;
-            for(int v = 0; v<N; v++)
-                amountOfK += v;
-                        double[] k = new double[amountOfK];
-        for(int m = 0; m<amountOfK; m++)
-            k[m] = 1.0;
-        int num0 = -1;
+     * This methods desplays the steps taken to simplify the matrix into uppertriangular form
+     * @param M The initial matrix
+     */
+    public static double[][] determinantSteps(double[][] A) {
+        
+        double[][] M = copyMatrix(A);
 
-        double[][] C = new double[N][N];
+        double permutations = 0;
+        ArrayList<Double> k = new ArrayList<>();
+        double[][] C = new double[M.length][M.length];
 
-        System.out.println("\n>> Steps to solution :");
-
-        C = M;
-        M = mSort(M);
-        if(nPermutations(C, M) != 0) {
-            System.out.println("   Sorted the matrix : \n");
-            mOPS.printDeterminant(M);
+        if(needsSort(M)) {
+            C=copyMatrix(M);
+            M = mSort(M);
+            permutations += nPermutations(C, M);
+            System.out.println("\n   Sorted the matrix\n");
+            printDeterminant(M);
         }
+        
+        for(int i = 0; i<M.length; i++) {
+            for(int j = i; j<M.length; j++) {
+                if(M[i][j] != 0) {
+                    for(int a = i+1; a<M.length; a++) {
+                        if(M[a][j] != 0) {
+                            k.add(M[i][j] / M[a][j]);
 
-        int kFactor = nPermutations(C, M);
-
-        for(int d = 0; d<N; d++) {  
-            /*This loop will multiply each row R>R1 by a factor k, where k is the factor needed to tranforms
-            *the entry of the first row into the entry located at [0][0] as well was multiplying the remainer
-            *of the entires of this row by that same scalar k
-            */
-            for(int x = 0; x<N-d; x++) {  
-                if(M[x][x] != 0) {
-                    for(int y = 1; y < N-(x)-d; y++) {
-                        if(M[x+y][x] != 0) {
-                            num0 += 1;
-                            k[num0] = (M[x][x]/M[x+y][x]);
-                                if(k[num0] != 1) {
-                                    System.out.print("\n   K = M(" + x + "," + x + ")" + "/M(" + (d+y) + "," + x + ")");
-                                    System.out.print(" --> " + df.format(k[num0]) + "*R" + (x+y+1) +"\n\n");
-                                }
-                                for(int i = 0; i<N; i++) {
-                                    M[x+y][i] = k[num0]*M[x+y][i];
-                                    if(Double.valueOf(df.format(M[x+y][i])) == -0.0)
-                                        M[x+y][i] = 0;
-                                }
-                                mOPS.printDeterminant(M);
-                                for(int l = 0; l<N; l++) {
-                                    M[x+y][l] = M[x+y][l]-M[x][l];
-
-                                    if(Double.valueOf(df.format(M[x+y][l])) == -0.0)
-                                        M[x+y][l] = 0;
-                                }
-                            System.out.println("\n   R" + (x+y+1) + " - R" + (x+1) + " --> R" +(x+y+1)+"\n");
-                            mOPS.printDeterminant(M);
-                        }                       
+                            for(int b = 0; b<M.length; b++)
+                                M[a][b] *= k.get(k.size()-1);
+                            System.out.println("\n   " + k.get(k.size()-1) + " * R" + (a+1) + "\n");
+                            printDeterminant(M);
+                            for(int c = 0; c<M.length; c++)
+                                M[a][c] -= M[i][c];
+                            System.out.println("\n   R"+(a+1)+" - R"+(i+1)+" --> R" + (a+1) + "\n"); 
+                            printDeterminant(M);
+                        } 
                     }
-                }  
+                }
+                if(needsSort(M)) {
+                    C = copyMatrix(M);
+                    M = mSort(M);
+                    permutations += nPermutations(C, M);
+                    System.out.println("\n   Sorted the matrix\n");
+                    printDeterminant(M);
+                } 
+                break;
             }
         }
-        C = M;
-        M = mSort(M);
-        kFactor += nPermutations(C, M);
-        System.out.println("\n   Sorted the matrix\n");
-        printDeterminant(M);
-            for(int n0 = 0; n0<amountOfK; n0++) {
-                if(1/k[n0] == 0) 
-                    k[n0] = 1.0;
-                else
-                    k[n0] = k[n0];
-            }
+
+        System.out.print("\n   |M| = ");
+        for(int x = 0; x<k.size(); x++) {
+            if(k.get(x) != 1)
+                System.out.print("("+df.format(1/k.get(x))+")");
+        }
+        for(int y = 0; y<M.length; y++) {
+            if(M[y][y] != 1)
+                System.out.print("("+df.format(M[y][y])+")");
+        }
+        if(Double.valueOf(df.format(Math.pow(-1,permutations))) != 1)
+            System.out.print("("+df.format(Math.pow(-1,permutations))+")");
+
         System.out.println();
-        System.out.print("   det(M) = ");
-            for(int u = 0; u<amountOfK; u++) {
-                num1 *=(1/k[u]);
-                if(1/k[u] != 1)
-                    System.out.print(df.format(1/k[u]) + " * ");
-            }
-            for(int r = 0; r<N; r++) {
-                    System.out.print(df.format(M[r][r]) + " * ");
-                    num1 = M[r][r]*num1;
-            }
-        num1 *= Math.pow(-1,kFactor);
-        System.out.print(Math.pow(-1,Double.valueOf(df.format(kFactor))));
-        System.out.println("\n\n>> The determinant of this matrix is : " + df.format(num1)); 
-        return num1;
+
+
+        return M;
     }
     /**
-     * Silent version of the getDeterminant method -- Will calculate the determinant of a matrix
-     * without printing out all the steps and rather simply return the value of the determinant
-     * 
-     * @param M
-     * @return num1 -- the value of the determinant
+     * Method returning the determinant of a matrix
+     * @param M initial matrix
+     * @return determinant
      */
-    public static double getSilentDeterminant(double[][] M) {
-        int N = M.length;
-        //calculating determinant
-        double num1 = 1.0;
-        int amountOfK = 0;
-            for(int v = 0; v<N; v++)
-                amountOfK += v;
-                        double[] k = new double[amountOfK];
-        for(int m = 0; m<amountOfK; m++)
-            k[m] = 1.0;
-        int num0 = -1;
+    public static double getDeterminant(double[][] A) {
+        double[][] M = copyMatrix(A);
 
-        double[][] C = new double[N][N];
+        double determinant = 1, permutations = 0;
+        ArrayList<Double> k = new ArrayList<>();
+        double[][] C = new double[M.length][M.length];
 
-        C = M;
-        M = mSort(M);
-        int kFactor = nPermutations(C, M);
-
-        for(int d = 0; d<N; d++) {  
-            /*This loop will multiply each row R>R1 by a factor k, where k is the factor needed to tranforms
-            *the entry of the first row into the entry located at [0][0] as well was multiplying the remainer
-            *of the entires of this row by that same scalar k
-            */
-            for(int x = 0; x<N-d; x++) {  
-                if(M[x][x] != 0) {
-                    for(int y = 1; y < N-(x)-d; y++) {
-                        if(M[x+y][x] != 0) {
-                            num0 += 1;
-                            k[num0] = (M[x][x]/M[x+y][x]);
-                                for(int i = 0; i<N; i++) {
-                                    M[x+y][i] = k[num0]*M[x+y][i];
-                                    if(M[x+y][i] == -0.0)
-                                        M[x+y][i] = 0;
-                                }
-                                for(int l = 0; l<N; l++) {
-                                    M[x+y][l] = M[x+y][l]-M[x][l];
-
-                                    if(M[x+y][l] == -0.0)
-                                        M[x+y][l] = 0;
-                                }
-                        }                       
+        if(needsSort(M)) {
+            C=M;
+            M = mSort(M);
+            permutations += nPermutations(C, M);
+        }
+        for(int i = 0; i<M.length; i++) {
+            for(int j = i; j<M.length; j++) {
+                if(M[i][j] != 0) {
+                    for(int a = i+1; a<M.length; a++) {
+                        if(M[a][j] != 0) {
+                            k.add(M[i][j] / M[a][j]);
+                            for(int b = 0; b<M.length; b++)
+                                M[a][b] *= k.get(k.size()-1);
+                            for(int c = 0; c<M.length; c++)
+                                M[a][c] -= M[i][c];
+                        } 
                     }
-                }  
+                }
+                if(needsSort(M)) {
+                    C = copyMatrix(M);
+                    M = mSort(M);
+                    permutations += nPermutations(C, M);
+                } 
+                break;
             }
         }
-        C = M;
-        M = mSort(M);
-        kFactor += nPermutations(C, M);
-            for(int n0 = 0; n0<amountOfK; n0++) {
-                if(1/k[n0] == 0) 
-                    k[n0] = 1.0;
-                else
-                    k[n0] = k[n0];
-            }
-            for(int u = 0; u<amountOfK; u++) {
-                num1 *=(1/k[u]);
-            }
-            for(int r = 0; r<N; r++) {
-                    num1 = M[r][r]*num1;
-            }
-        num1 *= Math.pow(-1,kFactor);
-        return num1;
-        
+
+        for(int x = 0; x<k.size(); x++)
+            determinant *= 1/k.get(x);
+        for(int y =0; y<M.length; y++)
+            determinant *= M[y][y];
+        determinant *= Math.pow(-1, permutations);
+        return determinant;
     }
     /**
     * This method will convert the inputted square matrix into its cofactor matrix
@@ -353,7 +311,13 @@ public class mOPS {
                     }
                 }
                 C0.add(C2);
-                C[i][j]=Math.pow(-1,i+j)*getSilentDeterminant(C0.get(c));
+                //printDeterminant(C0.get(c));
+                //System.out.println();
+                //System.out.println(getDeterminant(C0.get(c)));
+                //System.out.println();
+
+                
+                C[i][j]=Math.pow(-1,i+j)*getDeterminant(C0.get(c));
                     if(C[i][j] == -0)
                         C[i][j] = 0;
             }
@@ -388,7 +352,7 @@ public class mOPS {
     * @param det determinant of initial matrix inputted by user
     */
     public static double[][] getInverse(double[][] M) {
-        double det = getSilentDeterminant(M);
+        double det = getDeterminant(M);
         if(Double.valueOf(d0.format(det)) == 0)
             throw new IllegalArgumentException("This matrix is not invertible");
 
@@ -436,6 +400,20 @@ public class mOPS {
                 }
             }
         return S;
+    }
+    /**
+     * Checks if a matrix needs to be sorted
+     * @param M matrix to check
+     * @return true if the matrix needs to be sorted
+     */
+    public static boolean needsSort(double[][] M) {
+        double[][] S = mSort(M);
+
+        for(int i = 0; i<M.length; i++) {
+            if(!Arrays.equals(S[i],M[i]))
+            return true;
+        }
+        return false;
     }
     /**
      * Method calculating the amount of row permutations done within a matrix by comparing the inital and final matrix
@@ -503,5 +481,15 @@ public class mOPS {
         return m3;
     }
     public static void main(String[] args) {
+        double[][] M = {{0,0,1,2},{1,2,3,4},{0,0,0,1},{0,1,2,3}};
+        double[][] M1 = new double[M.length][M.length];
+        
+
+        printMatrix(mSort(M));
+
+
+        //System.out.println(getDeterminant(M));
+
+        //System.out.println(getDeterminant(getInverse(M)));
     }
 }
