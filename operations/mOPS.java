@@ -8,7 +8,7 @@ import java.util.Scanner;
  * within the App file (converting the user entires into a matrix, printing entries, printing a matrix)
  * 
  * @author Nadeem Samaali
- * @version 2.2.0 | Rewritten getDeterminant and mSort and added determinantSteps methods
+ * @version 2.2.1 | Added new throw statements
  */
 public class mOPS {
 
@@ -169,6 +169,9 @@ public class mOPS {
      */
     public static double[][] determinantSteps(double[][] A) {
         
+        if(A.length != A[0].length)
+            throw new IllegalArgumentException("Determinants can only be calculated in square matrices");
+
         double[][] M = copyMatrix(A);
 
         double permutations = 0;
@@ -236,6 +239,9 @@ public class mOPS {
      */
     public static double getDeterminant(double[][] A) {
         double[][] M = copyMatrix(A);
+
+        if(A.length != A[0].length)
+            throw new IllegalArgumentException("Determinants can only be calculated in square matrices");
 
         double determinant = 1, permutations = 0;
         ArrayList<Double> k = new ArrayList<>();
@@ -352,6 +358,7 @@ public class mOPS {
     * @param det determinant of initial matrix inputted by user
     */
     public static double[][] getInverse(double[][] M) {
+
         double det = getDeterminant(M);
         if(Double.valueOf(d0.format(det)) == 0)
             throw new IllegalArgumentException("This matrix is not invertible");
