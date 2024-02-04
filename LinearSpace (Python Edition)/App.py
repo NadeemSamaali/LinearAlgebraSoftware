@@ -111,9 +111,9 @@ def getDeterminant(m,s) :
         raise ValueError("Determinants can only be calculated in square matrices")
     k = []
     if needsSort(m) :
-        s = m
+        S = m
         m = mSort(m)
-        permuations += nPermutations(s, m)
+        permuations += nPermutations(S, m)
         if s == True :
            print(f'\n   Sorted the matrix')
            dPrint(m)
@@ -138,9 +138,9 @@ def getDeterminant(m,s) :
                            print(f'\n   R{a+1} - R{i+1} --> R{a+1}')
                            dPrint(m)
             if needsSort(m) :
-                s = m
+                S = m
                 m = mSort(m)
-                permuations += nPermutations(s,m)
+                permuations += nPermutations(S,m)
                 if s == True :
                    print("\n   Sorted the matrix")
                    dPrint(m)    
@@ -173,10 +173,6 @@ def nPermutations(I,F) :
                     k += 1
                     break
     return k
-# Function to sort matrix based on the amount of leading zeros per row
-def mSort(m) :
-    m = sorted(m, key=lambda row: row[::-1].count(0))
-    return m
 # Function to check if a matrix needs to be sorted 
 def needsSort(m) :
     s = mSort(m)
@@ -207,33 +203,44 @@ def mCofactor(m) :
                 M[i][j] = 0
         c += 1
     return M
-
+# Function to store rows of a matrix in ascending order of leading zeros
+def mSort(m):
+    def count_leading_zeros(row):
+        count = 0
+        for element in row:
+            if element == 0:
+                count += 1
+            else:
+                break
+        return count
+    sorted_matrix = sorted(m, key=count_leading_zeros)
+    return sorted_matrix
+# Function calculates the inverse matrix of an invertible matrix
 def mInverse(m) :
+    if getDeterminant(m, False) == 0 :
+        raise ValueError("This matrix is not invertible | |M| = 0")
     d = getDeterminant(m, False)
     m = list(map(list, zip(*mCofactor(m))))
     a = [[element * (1/d) for element in row] for row in m]
     return a
-
-
-
-
-
-
 # app
 try :
+    """
+    M = [[0,0,0],[1,0,1],[4,32,1]]
 
-    M = [[0,7],[1,0]]
-
-    mPrint(mSort(M))
-
-
-
-
+    getDeterminant(M, True)
     """
     M = []  
     key = True
     while key : 
-        ans = input("   ")
+        ans = input("\nU: ")
+        if ans == "/help" :
+            print("\n   Here is a list of all the currently supported commands : \n")
+            print("   >> Matrix Operations : \n")
+            print("      /determinant      ~ Calculating the determinant of a square matrix")
+            print("      /cofactor         ~ Finding the cofactor matrix of a square matrix")
+            print("      /inverse          ~ Invert a matrix if invertible")
+            print("      /multiply         ~ Multiply two matrix of legal sizes")
         if ans == "/determinant" :
             mSetup(1,M,True)
             getDeterminant(M[0], True)
@@ -245,11 +252,10 @@ try :
             mSetup(1,M,True)
             print(f'\n   The cofactor matrix of M1 is : ')
             mPrint(mCofactor(M[0]))
-        if ans == "/mInverse" :
+        if ans == "/inverse" :
             mSetup(1,M,True)
-            print("   The inverse of matrix M1 is : ")
+            print("\n   The inverse of matrix M1 is : ")
             mPrint(mInverse(M[0]))
-    """
-
+        #"""
 except ValueError as e :
-      print(f'\n>> Error : {e}\n')
+      print(f'\n>> ERROR : {e}\n')
