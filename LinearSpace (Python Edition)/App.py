@@ -10,6 +10,18 @@ def setMatrix(h,l) :
             m[i] = [float(value) for value in a]
             a.clear()
     return m
+# Function to set vectors -- Itteration of the set matrix function where rows can only have a length of 1
+def setVector(l) :
+    v = [[0]*1 for _ in range(l)]; a = []
+    for i in range(l) :
+            print("   ", end="")
+            ans = input()
+            a += ans.split(' ')
+            if len(a) != 1 :
+                raise ValueError("Make sure the amount of entries is consistent with the matrix size")
+            v[i] = [float(value) for value in a]
+            a.clear()
+    return v
 # Function to set up an N amount of matrices from user input
 def mSetup(n, M, s) :
     M.clear()
@@ -28,6 +40,14 @@ def mSetup(n, M, s) :
             print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
             m = setMatrix(N,N)
             M.append(m)
+
+def vSetup(n, V, length) :
+    e = []
+    for i in range(n) :
+        print(f'>> Insert the components of V{i+1} with each component written on different rows like such : \n\n   v{i+1}1\n   v{i+1}2\n   ...\n   v{i+1}n\n')
+        v = setVector(length)
+        V.append(v)
+
 # Function printing matrix in with alligned columns
 def mPrint(m) :
     print()
@@ -223,14 +243,23 @@ def mInverse(m) :
     m = list(map(list, zip(*mCofactor(m))))
     a = [[element * (1/d) for element in row] for row in m]
     return a
+# Function to solve a linear system in matrix form
+def findX(A, b) :
+    AInverse = mInverse(A)
+    X = mMultiply(AInverse, b)
+    return X
 # app
 try :
     """
-    M = [[0,0,0],[1,0,1],[4,32,1]]
+    #M = [[0,0,0],[1,0,1],[4,32,1]]
 
-    getDeterminant(M, True)
+    #getDeterminant(M, True)
+
+
+
     """
-    M = []  
+    M = []
+    V = []  
     key = True
     while key : 
         ans = input("\nU: ")
@@ -256,6 +285,13 @@ try :
             mSetup(1,M,True)
             print("\n   The inverse of matrix M1 is : ")
             mPrint(mInverse(M[0]))
+        if ans == "/findX" :
+            mSetup(1, M, True)
+            vSetup(1, V, len(M[0]))
+            print("\n   The solution of the linear system is : \n")
+            mPrint(findX(M[0], V[0]))
+    
+
         #"""
 except ValueError as e :
       print(f'\n>> ERROR : {e}\n')
