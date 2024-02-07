@@ -27,45 +27,75 @@ def mSetup(n, M, s) :
     M.clear()
     if s == 0 : 
         for i in range(n) :
-            print(f'\n>> Insert the size of the matrix [M{i+1}] to be evaluated | height (H) x length (L) : ')
-            H = int(input("   H = "))
-            L = int(input("   L = "))
-            print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
-            m = setMatrix(H,L)
-            M.append(m)
+            print(f'\n:: Matrix M{i+1} ::')
+            ans = input("\n>> To create a new matrix, insert '/new' | To load a saved matrix, insert '/load'\n\n   ")
+            if ans == "/load" :
+                MID = int(input("\n   Insert the matrix MID : "))
+                M.append(saveLoad[MID])
+            if ans == "/new" :
+                print(f'\n>> Insert the size of the matrix [M{i+1}] to be evaluated | height (H) x length (L) : ')
+                H = int(input("   H = "))
+                L = int(input("   L = "))
+                print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
+                m = setMatrix(H,L)
+                M.append(m)
     if s == 1 :
         for j in range(n) :
-            print(f'\n>> Insert the size of the square matrix [M{j+1}] to be evaluated | height (N) x length (N) : ')
-            N = int(input("   N = "))
-            print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
-            m = setMatrix(N,N)
-            M.append(m)
+            print(f'\n:: Matrix M{j+1} ::')
+            ans = input("\n>> To create a new matrix, insert '/new' | To load a saved matrix, insert '/load'\n\n   ")
+            if ans == "/load" :
+                MID = int(input("\n   Insert the matrix MID : "))
+                M.append(saveLoad[MID])
+            if ans == "/new" :
+                print(f'\n>> Insert the size of the square matrix [M{j+1}] to be evaluated | height (N) x length (N) : ')
+                N = int(input("   N = "))
+                print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
+                m = setMatrix(N,N)
+                M.append(m)
     if s == 2 :
         for k in range(n) :
-            print(f'\n>> Insert the size of the square coefficient matrix \'A\' to be evaluated | height (N) x length (N) : ')
-            N = int(input("   N = "))
-            print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
-            m = setMatrix(N,N)
-            M.append(m)
+            print(f'\n:: Matrix A ::')
+            ans = input("\n>> To create a new matrix, insert '/new' | To load a saved matrix, insert '/load'\n\n   ")
+            if ans == "/load" :
+                MID = int(input("\n   Insert the matrix MID : "))
+                M.append(saveLoad[MID])
+            if ans == "/new" :
+                print(f'\n>> Insert the size of the square coefficient matrix \'A\' to be evaluated | height (N) x length (N) : ')
+                N = int(input("   N = "))
+                print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
+                m = setMatrix(N,N)
+                M.append(m)
 # Function to set up an N amount of vectors from user input
 def vSetup(n, V, length, s) :
-    V.clear()
+    M.clear()
     if s == 0 :
         for i in range(n) :
-            print(f'\n>> Insert the components of V{i+1} with each component written on different rows like such : \n\n   v{i+1}1\n   v{i+1}2\n   ...\n   v{i+1}n\n')
-            v = setVector(length)
-            V.append(v)
+            print(f'\n:: Vector V{i+1} ::')
+            ans = input("\n>> To create a new vector, insert '/new' | To load a saved vector, insert '/load'\n\n   ")
+            if ans == "/load" :
+                MID = int(input("\n   Insert the vector MID : "))
+                M.append(saveLoad[MID])
+            if ans == "/new" :
+                print(f'\n>> Insert the components of V{i+1} with each component written on different rows like such : \n\n   v{i+1}1\n   v{i+1}2\n   ...\n   v{i+1}n\n')
+                v = setVector(length)
+                M.append(v)
     if s == 1 :
         for j in range(n) :
-            print(f'\n>> Insert the components of constant vector \'b\' with each component written on different rows like such : \n\n   b{j+1}1\n   b{j+1}2\n   ...\n   b{j+1}n\n')
-            v = setVector(length)
-            V.append(v)
+            print(f'\n:: Vector \'b\' ::')
+            ans = input("\n>> To create a new vector, insert '/new' | To load a saved vector, insert '/load'\n\n   ")
+            if ans == "/load" :
+                MID = int(input("\n   Insert the vector MID : "))
+                M.append(saveLoad[MID])
+            if ans == "/new" :
+                print(f'\n>> Insert the components of constant vector \'b\' with each component written on different rows like such : \n\n   b{j+1}1\n   b{j+1}2\n   ...\n   b{j+1}n\n')
+                v = setVector(length)
+                M.append(v)
     if s == 2 : 
-        x = int(input("\n>> Insert the length of the vectors : \n   N = "))
+        x = int(input("\n>> Insert the length of the vectors V1 and V2 : \n   N = "))
         for j in range(2) : 
             print(f'\n>> Insert the components of constant vector V{j+1} with each component written on different rows like such : \n\n   v{j+1}1\n   v{j+1}2\n   ...\n   v{j+1}n\n')
             v = setVector(x)
-            V.append(v)
+            M.append(v)
 # Function printing matrix in with alligned columns
 def mPrint(m) :
     print()
@@ -309,13 +339,22 @@ def tripleProduct(v1, v2, v3) :
     row_matrix_3 = [sublist[0] for sublist in v3]
     M = [] ; M.append(row_matrix_1) ; M.append(row_matrix_2) ; M.append(row_matrix_3)
     return getDeterminant(M,False)
+# Function to find the orthogonal projection of v1 onto v2
+def orthogonalProjection(v1, v2) :
+    k = 0.0 ; a2 = 0.0
+    if len(v1) != len(v2) :
+        raise ValueError("Make sure both vectors are of the same dimension")
+    v3 = [[0]*1 for _ in range(len(v1))] ; k = dotProduct(v1,v2)
+    for i in range(len(v1)) : 
+        a2 += v2[i][0]**2
+    for j in range(len(v1)) :
+        v3[j][0] = (k/a2)*v2[j][0]
+    return v3
 # app
 try :
-    M = []
-    V = []  
+    M = [] ; V = [] ; saveLoad = {} ; saveable = False
     print("\n ::  Welcome to LinearSpace (Python Edition) ::  ")
     print("\n     The current build only supports matrix\n     operations -- vector operations coming soon ...\n\n     Type \'/help\' to get started")
-
     key = True
     while key : 
         ans = input("\nU: ")
@@ -331,35 +370,68 @@ try :
             print("      /dotProduct       ~ Calculating the dot product of two N-dimensional vectors")
             print("      /crossProduct     ~ Calculating the cross product of two 3-dimensional vectors")
             print("      /tripleProduct    ~ Calculating the triple product of three 3-dimensional vectors")
+            print("      /orthoProjection  ~ Finding the orthogonal projection of vector V1 onto vector V2")
+        # Saves the most recent outputed matrix / vector
+        if ans == "/save" :
+            if saveable == True :
+                saveLoad[len(saveLoad)] = M[len(M)-1]
+                print(f'\n>> The matrix has been saved to memory | MID (Matrix ID) :{(len(saveLoad) - 1)}')
+            else :
+                print("\n>> This type isn't saveable")
+        # Prints list of saved matrices / vectors
+        if ans == "/inventory" :
+            for i in range(len(saveLoad)) :
+                print(f'\n   MID (Matrix ID) : {i}')
+                mPrint(saveLoad[i])
+        if ans == "/clear" :
+            saveLoad.clear()
+            print(f'\n>> Memory cleared')
         if ans == "/determinant" :
             mSetup(1,M,1)
             getDeterminant(M[0], True)
+            saveable = False
         if ans == "/multiply" :
             mSetup(2, M, 0)
             print(f'\n   The resultant matrix of M1xM2 is : ')
             mPrint(mMultiply(M[0],M[1]))
+            M.append(mMultiply(M[0],M[1]))
+            saveable = True
         if ans == "/cofactor" :
             mSetup(1,M,1)
             print(f'\n   The cofactor matrix of M1 is : ')
             mPrint(mCofactor(M[0]))
+            M.append(mCofactor(M[0]))
+            saveable = True
         if ans == "/inverse" :
             mSetup(1,M,1)
             print("\n   The inverse of matrix M1 is : ")
             mPrint(mInverse(M[0]))
+            M.append(mInverse(M[0]))
+            saveable = True
         if ans == "/findX" :
             mSetup(1, M, 2)
             vSetup(1, V, len(M[0]),1)
             print("\n   The solution vector \'X\' of the linear system is : ")
-            mPrint(findX(M[0], V[0]))
+            mPrint(findX(M[0], M[1]))
+            M.append(findX(M[0], M[1]))
+            saveable = True
         if ans == "/dotProduct" :
             vSetup(2,V,0,2)
-            print(f'\n>> The dot product of V1 and V2 is : \n   V1*V2 = {dotProduct(V[0],V[1])}')
+            print(f'\n>> The dot product of V1 and V2 is : \n   V1*V2 = {dotProduct(M[0],M[1])}')
+            saveable = False
         if ans == "/crossProduct" :
             vSetup(2,V,3,0)
             print("\n>>  The cross product of V1 and V2 is | V1 x V2 = ")
-            mPrint(crossProduct(V[0],V[1]))
+            mPrint(crossProduct(M[0],M[1]))
+            saveable = True
         if ans == "/tripleProduct" :
             vSetup(3,V,3,0)
-            print(f'\n>> The triple product of V1, V2 and V3 is : \n\n   V1*V2xV3 = {tripleProduct(V[0],V[1],V[2])}')
+            print(f'\n>> The triple product of V1, V2 and V3 is : \n\n   V1*V2xV3 = {tripleProduct(M[0],M[1],M[2])}')
+            saveable = False
+        if ans == "/orthoProjection" :
+            vSetup(2,V,0,2)
+            print("\n>> The orthogonal projection of V1 onto V2 is : ")
+            mPrint(orthogonalProjection(M[0],M[1]))
+            saveable = True
 except ValueError as e :
       print(f'\n>> ERROR : {e}\n')
