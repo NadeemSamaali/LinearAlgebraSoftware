@@ -148,6 +148,9 @@ def getDeterminant(m,s) :
     if len(m) != len(m[0]) :
         raise ValueError("Determinants can only be calculated in square matrices")
     k = []
+    if s == True : 
+        print("\n>> Here is the inputted matrix : ")
+        mPrint(m)
     if needsSort(m) :
         S = m
         m = mSort(m)
@@ -297,7 +300,7 @@ def crossProduct(v1, v2) :
             v3[h][0] = 0
         cList.clear()
     return v3
-
+# Function to calculate the triple product of three vectors
 def tripleProduct(v1, v2, v3) :
     if len(v1) != len(v2) != len(v3) != 3 :
         raise ValueError("All the evaluated vectors must be tridimensional")
@@ -306,7 +309,6 @@ def tripleProduct(v1, v2, v3) :
     row_matrix_3 = [sublist[0] for sublist in v3]
     M = [] ; M.append(row_matrix_1) ; M.append(row_matrix_2) ; M.append(row_matrix_3)
     return getDeterminant(M,False)
-
 # app
 try :
     M = []
