@@ -263,16 +263,11 @@ def findX(A, b) :
     return X
 # app
 try :
-    """
-    #M = [[0,0,0],[1,0,1],[4,32,1]]
-
-    #getDeterminant(M, True)
-
-
-
-    """
     M = []
     V = []  
+    print("\n ::  Welcome to LinearSpace (Python Edition) ::  ")
+    print("\n     The current build only supports matrix\n     operations -- vector operations coming soon ...\n\n     Type \'/help\' to get started")
+
     key = True
     while key : 
         ans = input("\nU: ")
@@ -304,8 +299,5 @@ try :
             vSetup(1, V, len(M[0]),1)
             print("\n   The solution vector \'X\' of the linear system is : ")
             mPrint(findX(M[0], V[0]))
-    
-
-        #"""
 except ValueError as e :
       print(f'\n>> ERROR : {e}\n')
