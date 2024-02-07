@@ -47,7 +47,7 @@ def mSetup(n, M, s) :
             print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
             m = setMatrix(N,N)
             M.append(m)
-
+# Function to set up an N amount of vectors from user input
 def vSetup(n, V, length, s) :
     V.clear()
     if s == 0 :
@@ -60,7 +60,12 @@ def vSetup(n, V, length, s) :
             print(f'\n>> Insert the components of constant vector \'b\' with each component written on different rows like such : \n\n   b{j+1}1\n   b{j+1}2\n   ...\n   b{j+1}n\n')
             v = setVector(length)
             V.append(v)
-
+    if s == 2 : 
+        x = int(input("\n>> Insert the length of the vectors : \n   N = "))
+        for j in range(2) : 
+            print(f'\n>> Insert the components of constant vector V{j+1} with each component written on different rows like such : \n\n   v{j+1}1\n   v{j+1}2\n   ...\n   v{j+1}n\n')
+            v = setVector(x)
+            V.append(v)
 # Function printing matrix in with alligned columns
 def mPrint(m) :
     print()
@@ -261,6 +266,14 @@ def findX(A, b) :
     AInverse = mInverse(A)
     X = mMultiply(AInverse, b)
     return X
+# Function to calculate dot product of two N-dimensional vectors
+def dotProduct(v1, v2) :
+    if len(v1) != len(v2) :
+        raise ValueError("These two vectors aren't of the same dimension | v1.length != v2.length")
+    sum = 0
+    for i in range(len(v1)) :
+        sum += v1[i][0]*v2[i][0]
+    return sum
 # app
 try :
     M = []
@@ -279,6 +292,10 @@ try :
             print("      /inverse          ~ Invert a matrix if invertible")
             print("      /multiply         ~ Multiply two matrix of legal sizes")
             print("      /findX            ~ Solve a linear system in AX = b form")
+            print("\n   >> Vector Operations : \n")
+            print("      /dotProduct       ~ Calculating the dot product of two N-dimensional vectors")
+
+
         if ans == "/determinant" :
             mSetup(1,M,1)
             getDeterminant(M[0], True)
@@ -299,5 +316,8 @@ try :
             vSetup(1, V, len(M[0]),1)
             print("\n   The solution vector \'X\' of the linear system is : ")
             mPrint(findX(M[0], V[0]))
+        if ans == "/dotProduct" :
+            vSetup(2,V,0,2)
+            print(f'\n>> The dot product of V1 and V2 is : \n   V1*V2 = {dotProduct(V[0],V[1])}')
 except ValueError as e :
       print(f'\n>> ERROR : {e}\n')
