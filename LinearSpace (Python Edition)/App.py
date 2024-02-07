@@ -25,7 +25,7 @@ def setVector(l) :
 # Function to set up an N amount of matrices from user input
 def mSetup(n, M, s) :
     M.clear()
-    if s == False : 
+    if s == 0 : 
         for i in range(n) :
             print(f'\n>> Insert the size of the matrix [M{i+1}] to be evaluated | height (H) x length (L) : ')
             H = int(input("   H = "))
@@ -33,20 +33,33 @@ def mSetup(n, M, s) :
             print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
             m = setMatrix(H,L)
             M.append(m)
-    if s == True :
+    if s == 1 :
         for j in range(n) :
             print(f'\n>> Insert the size of the square matrix [M{j+1}] to be evaluated | height (N) x length (N) : ')
             N = int(input("   N = "))
             print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
             m = setMatrix(N,N)
             M.append(m)
+    if s == 2 :
+        for k in range(n) :
+            print(f'\n>> Insert the size of the square coefficient matrix \'A\' to be evaluated | height (N) x length (N) : ')
+            N = int(input("   N = "))
+            print("\n>> Insert the values of the entries by row, with each value seperated by a space\n   respecting this form :\n\n   a11 a12 ... a1n\n   a21 a22 ... a2n\n   am1 am2 ... amn\n")
+            m = setMatrix(N,N)
+            M.append(m)
 
-def vSetup(n, V, length) :
-    e = []
-    for i in range(n) :
-        print(f'>> Insert the components of V{i+1} with each component written on different rows like such : \n\n   v{i+1}1\n   v{i+1}2\n   ...\n   v{i+1}n\n')
-        v = setVector(length)
-        V.append(v)
+def vSetup(n, V, length, s) :
+    V.clear()
+    if s == 0 :
+        for i in range(n) :
+            print(f'\n>> Insert the components of V{i+1} with each component written on different rows like such : \n\n   v{i+1}1\n   v{i+1}2\n   ...\n   v{i+1}n\n')
+            v = setVector(length)
+            V.append(v)
+    if s == 1 :
+        for j in range(n) :
+            print(f'\n>> Insert the components of constant vector \'b\' with each component written on different rows like such : \n\n   b{j+1}1\n   b{j+1}2\n   ...\n   b{j+1}n\n')
+            v = setVector(length)
+            V.append(v)
 
 # Function printing matrix in with alligned columns
 def mPrint(m) :
@@ -115,7 +128,7 @@ def dPrint(m) :
 def mMultiply(m1, m2) :
     if len(m1[0]) != len(m2) :
         raise ValueError("These two matrices aren't multiplicable | len(M1[0]) != len(M2)")
-    m3 = [[0]*len(m1) for _ in range(len(m2[0]))]
+    m3 = [[0]*len(m2[0]) for _ in range(len(m1))]
 
     for i in range(len(m1)) :
         for j in range(len(m2[0])) :
@@ -181,7 +194,7 @@ def getDeterminant(m,s) :
         if s == True :
             print(f'(-1.00)',end = "")
     if s == True :
-        print(f' = {det}', end = "")
+        print(f' = {det}\n', end = "")
     return det
 # Function to calculate the amount of permuations done on a matrix based on its initial and final state
 def nPermutations(I,F) :
@@ -271,24 +284,24 @@ try :
             print("      /inverse          ~ Invert a matrix if invertible")
             print("      /multiply         ~ Multiply two matrix of legal sizes")
         if ans == "/determinant" :
-            mSetup(1,M,True)
+            mSetup(1,M,1)
             getDeterminant(M[0], True)
         if ans == "/multiply" :
-            mSetup(2, M, False)
+            mSetup(2, M, 0)
             print(f'\n   The resultant matrix of M1xM2 is : ')
             mPrint(mMultiply(M[0],M[1]))
         if ans == "/cofactor" :
-            mSetup(1,M,True)
+            mSetup(1,M,1)
             print(f'\n   The cofactor matrix of M1 is : ')
             mPrint(mCofactor(M[0]))
         if ans == "/inverse" :
-            mSetup(1,M,True)
+            mSetup(1,M,1)
             print("\n   The inverse of matrix M1 is : ")
             mPrint(mInverse(M[0]))
         if ans == "/findX" :
-            mSetup(1, M, True)
-            vSetup(1, V, len(M[0]))
-            print("\n   The solution of the linear system is : \n")
+            mSetup(1, M, 2)
+            vSetup(1, V, len(M[0]),1)
+            print("\n   The solution vector \'X\' of the linear system is : ")
             mPrint(findX(M[0], V[0]))
     
 
