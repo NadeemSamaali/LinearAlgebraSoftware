@@ -283,6 +283,7 @@ try :
             print("      /cofactor         ~ Finding the cofactor matrix of a square matrix")
             print("      /inverse          ~ Invert a matrix if invertible")
             print("      /multiply         ~ Multiply two matrix of legal sizes")
+            print("      /findX            ~ Solve a linear system in AX = b form")
         if ans == "/determinant" :
             mSetup(1,M,1)
             getDeterminant(M[0], True)
