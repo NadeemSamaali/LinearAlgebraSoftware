@@ -274,6 +274,39 @@ def dotProduct(v1, v2) :
     for i in range(len(v1)) :
         sum += v1[i][0]*v2[i][0]
     return sum
+# Function returning the cross product of two 3-dimensional vectors
+def crossProduct(v1, v2) :
+    if len(v1) != 3 or len(v2) != 3 :
+        raise ValueError("Make sure both vectors are 3-dimensional")
+    row_matrix_1 = [sublist[0] for sublist in v1]
+    row_matrix_2 = [sublist[0] for sublist in v2]
+    M = [[1,-1,1]] ; cList = [] ; C = [[0,0],[0,0]] ; v3 = [[0],[0],[0]]
+    M.append(row_matrix_1) ; M.append(row_matrix_2)
+    for h in range(3) :
+        for i in range(3) :
+            for j in range(3) :
+                if i != 0 and j != h :
+                    cList.append(M[i][j])
+        c = 0
+        for a in range(2) :
+            for b in range(2) :
+                C[a][b] = cList[c]
+                c+=1
+        v3[h][0] = M[0][h]*getDeterminant(C, False)
+        if v3[h][0] == -0 :
+            v3[h][0] = 0
+        cList.clear()
+    return v3
+
+def tripleProduct(v1, v2, v3) :
+    if len(v1) != len(v2) != len(v3) != 3 :
+        raise ValueError("All the evaluated vectors must be tridimensional")
+    row_matrix_1 = [sublist[0] for sublist in v1]
+    row_matrix_2 = [sublist[0] for sublist in v2]
+    row_matrix_3 = [sublist[0] for sublist in v3]
+    M = [] ; M.append(row_matrix_1) ; M.append(row_matrix_2) ; M.append(row_matrix_3)
+    return getDeterminant(M,False)
+
 # app
 try :
     M = []
@@ -294,8 +327,8 @@ try :
             print("      /findX            ~ Solve a linear system in AX = b form")
             print("\n   >> Vector Operations : \n")
             print("      /dotProduct       ~ Calculating the dot product of two N-dimensional vectors")
-
-
+            print("      /crossProduct     ~ Calculating the cross product of two 3-dimensional vectors")
+            print("      /tripleProduct    ~ Calculating the triple product of three 3-dimensional vectors")
         if ans == "/determinant" :
             mSetup(1,M,1)
             getDeterminant(M[0], True)
@@ -319,5 +352,12 @@ try :
         if ans == "/dotProduct" :
             vSetup(2,V,0,2)
             print(f'\n>> The dot product of V1 and V2 is : \n   V1*V2 = {dotProduct(V[0],V[1])}')
+        if ans == "/crossProduct" :
+            vSetup(2,V,3,0)
+            print("\n>>  The cross product of V1 and V2 is | V1 x V2 = ")
+            mPrint(crossProduct(V[0],V[1]))
+        if ans == "/tripleProduct" :
+            vSetup(3,V,3,0)
+            print(f'\n>> The triple product of V1, V2 and V3 is : \n\n   V1*V2xV3 = {tripleProduct(V[0],V[1],V[2])}')
 except ValueError as e :
       print(f'\n>> ERROR : {e}\n')
