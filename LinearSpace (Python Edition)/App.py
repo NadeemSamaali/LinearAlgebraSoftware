@@ -360,7 +360,12 @@ try :
         ans = input("\nU: ")
         if ans == "/help" :
             print("\n   Here is a list of all the currently supported commands : \n")
-            print("   >> Matrix Operations : \n")
+            print("   >> Storage management : \n")
+            print("      /save             ~ Saves most recent outputted matrix/vector to storage")
+            print("      /load             ~ Load saved matrix by calling MID (Matrix ID)")
+            print("      /clear            ~ Clears memory")
+            print("      /inventory        ~ Ouputs all saved matrices/vectors with their respective MIDs")
+            print("\n   >> Matrix Operations : \n")
             print("      /determinant      ~ Calculating the determinant of a square matrix")
             print("      /cofactor         ~ Finding the cofactor matrix of a square matrix")
             print("      /inverse          ~ Invert a matrix if invertible")
