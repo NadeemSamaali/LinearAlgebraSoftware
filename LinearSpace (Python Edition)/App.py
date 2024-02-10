@@ -70,12 +70,6 @@ def vSetup(n, V, length, s) :
     M.clear()
     if s == 0 :
         for i in range(n) :
-            print(f'\n:: Vector V{i+1} ::')
-            ans = input("\n>> To create a new vector, insert '/new' | To load a saved vector, insert '/load'\n\n   ")
-            if ans == "/load" :
-                MID = int(input("\n   Insert the vector MID : "))
-                M.append(saveLoad[MID])
-            if ans == "/new" :
                 print(f'\n>> Insert the components of V{i+1} with each component written on different rows like such : \n\n   v{i+1}1\n   v{i+1}2\n   ...\n   v{i+1}n\n')
                 v = setVector(length)
                 M.append(v)
