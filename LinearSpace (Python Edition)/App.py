@@ -173,8 +173,11 @@ def mMultiply(m1, m2) :
             m3[i][j] = sum
     return m3
 # Function finding the determinant of a matrix by reducing it to upper triangular form 
-def getDeterminant(m,s) :
-    det = 1.0 ; permuations = 0
+def getDeterminant(a,s) :
+    det = 1.0 ; permuations = 0 ; m = [[0]*len(a) for _ in range(len(a))]
+    for u in range(len(a)) :
+        for v in range(len(a)) :
+            m[u][v] = a[u][v]
     if len(m) != len(m[0]) :
         raise ValueError("Determinants can only be calculated in square matrices")
     k = []
@@ -288,12 +291,14 @@ def mSort(m):
     return sorted_matrix
 # Function calculates the inverse matrix of an invertible matrix
 def mInverse(m) :
-    if getDeterminant(m, False) == 0 :
+    c = m
+    d = getDeterminant(c, False)
+    if d == 0 :
         raise ValueError("This matrix is not invertible | |M| = 0")
-    d = getDeterminant(m, False)
-    m = list(map(list, zip(*mCofactor(m))))
-    a = [[element * (1/d) for element in row] for row in m]
-    return a
+    m = mCofactor(m)
+    m = [list(row) for row in zip(*m)]
+    m = [[element * (1/d) for element in row] for row in m]
+    return m
 # Function to solve a linear system in matrix form
 def findX(A, b) :
     AInverse = mInverse(A)
