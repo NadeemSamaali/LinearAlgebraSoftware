@@ -471,7 +471,8 @@ while loop :
                     print(f'\n ~ The area of the parallelogram enclosed between V1 and V2 is {getArea(M[0],M[1],0)}')
                 if option == 2 :
                     print(f'\n ~ The area of the parallelogram enclosed between V1 and V2 is {getArea(M[0],M[1],1)}')
-            elif ans not in ["/inventory","/clear","/determinant","/multiply","/findX","/cofactor","/inverse","/dotProduct","/crossProduct","/tripleProduct","/orthoProjection","/area"]:
+                saveable = False
+            elif ans not in ["/save","/load","/inventory","/clear","/determinant","/multiply","/findX","/cofactor","/inverse","/dotProduct","/crossProduct","/tripleProduct","/orthoProjection","/area"]:
                 print("\n ~ This command does not exist | Please enter valid command")
     except ValueError as e :
         print(f'\n>> ERROR : {e}')
