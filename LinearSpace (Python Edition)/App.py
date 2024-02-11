@@ -22,6 +22,15 @@ def setVector(l) :
             v[i] = [float(value) for value in a]
             a.clear()
     return v
+def mLoad() :
+    if len(saveLoad) == 0 :
+        raise ValueError("The inventory is empty")
+    else :
+        MID = int(input("\n   Insert the matrix MID : "))
+        if MID > (len(saveLoad)-1) :
+            print("\n ~ Please insert valid MID")
+        else :
+            M.append(saveLoad[MID])
 # Function to set up an N amount of matrices from user input
 def mSetup(n, M, s) :
     M.clear()
@@ -30,8 +39,7 @@ def mSetup(n, M, s) :
             print(f'\n:: Matrix M{i+1} ::')
             ans = input("\n ~ To create a new matrix, insert '/new' | To load a saved matrix, insert '/load'\n\n   ")
             if ans == "/load" :
-                MID = int(input("\n   Insert the matrix MID : "))
-                M.append(saveLoad[MID])
+                mLoad()
             if ans == "/new" :
                 print(f'\n ~ Insert the size of the matrix [M{i+1}] to be evaluated | height (H) x length (L) : ')
                 H = int(input("   H = "))
@@ -44,8 +52,7 @@ def mSetup(n, M, s) :
             print(f'\n:: Matrix M{j+1} ::')
             ans = input("\n ~ To create a new matrix, insert '/new' | To load a saved matrix, insert '/load'\n\n   ")
             if ans == "/load" :
-                MID = int(input("\n   Insert the matrix MID : "))
-                M.append(saveLoad[MID])
+                mLoad()
             if ans == "/new" :
                 print(f'\n ~ Insert the size of the square matrix [M{j+1}] to be evaluated | height (N) x length (N) : ')
                 N = int(input("   N = "))
@@ -57,8 +64,7 @@ def mSetup(n, M, s) :
             print(f'\n:: Matrix A ::')
             ans = input("\n ~ To create a new matrix, insert '/new' | To load a saved matrix, insert '/load'\n\n   ")
             if ans == "/load" :
-                MID = int(input("\n   Insert the matrix MID : "))
-                M.append(saveLoad[MID])
+                mLoad()
             if ans == "/new" :
                 print(f'\n ~ Insert the size of the square coefficient matrix \'A\' to be evaluated | height (N) x length (N) : ')
                 N = int(input("   N = "))
@@ -78,8 +84,7 @@ def vSetup(n, V, length, s) :
             print(f'\n:: Vector \'b\' ::')
             ans = input("\n ~ To create a new vector, insert '/new' | To load a saved vector, insert '/load'\n\n   ")
             if ans == "/load" :
-                MID = int(input("\n   Insert the vector MID : "))
-                M.append(saveLoad[MID])
+                mLoad()
             if ans == "/new" :
                 print(f'\n ~ Insert the components of constant vector \'b\' with each component written on different rows like such : \n\n   b{j+1}1\n   b{j+1}2\n   ...\n   b{j+1}n\n')
                 v = setVector(length)
@@ -360,107 +365,113 @@ def getArea(v1,v2,i) :
     if i == 1 :
         return n*(1/2)
 # app
-try :
-    M = [] ; V = [] ; saveLoad = {} ; saveable = False
-    print("\n:: Welcome to LinearSpace (Python Edition) ::  ")
-    print("\n   The current build supports matrix operations\n   and vector operations. More features\n   coming soon ...\n\n   Designed by Nadeem Samaali\n\n   Type \'/help\' to get started")
-    key = True
-    while key : 
-        ans = input("\nU: ")
-        if ans == "/help" :
-            print("\n   Here is a list of all the currently supported commands : \n")
-            print("    ~ Storage management : ")
-            print("      /save             ~ Saves most recent outputted matrix/vector to storage")
-            print("      /load             ~ Load saved matrix by calling MID (Matrix ID)")
-            print("      /clear            ~ Clears memory")
-            print("      /inventory        ~ Ouputs all saved matrices/vectors with their respective MIDs")
-            print("\n    ~ Matrix Operations : ")
-            print("      /determinant      ~ Calculating the determinant of a square matrix")
-            print("      /cofactor         ~ Finding the cofactor matrix of a square matrix")
-            print("      /inverse          ~ Invert a matrix if invertible")
-            print("      /multiply         ~ Multiply two matrix of legal sizes")
-            print("      /findX            ~ Solve a linear system in AX = b form")
-            print("\n    ~ Vector Operations : ")
-            print("      /dotProduct       ~ Calculating the dot product of two N-dimensional vectors")
-            print("      /crossProduct     ~ Calculating the cross product of two 3-dimensional vectors")
-            print("      /tripleProduct    ~ Calculating the triple product of three 3-dimensional vectors")
-            print("      /orthoProjection  ~ Finding the orthogonal projection of vector V1 onto vector V2")
-            print("      /area             ~ Calculating the area of a parallelogram or triangle")
-
-        # Saves the most recent outputed matrix / vector
-        if ans == "/save" :
-            if saveable == True :
-                saveLoad[len(saveLoad)] = M[len(M)-1]
-                print(f'\n ~ The matrix has been saved to memory | MID (Matrix ID) :{(len(saveLoad) - 1)}')
-            else :
-                print("\n ~ This type isn't saveable")
-        # Prints list of saved matrices / vectors
-        if ans == "/inventory" :
-            for i in range(len(saveLoad)) :
-                print(f'\n ~ MID (Matrix ID) : {i}')
-                mPrint(saveLoad[i])
-        if ans == "/clear" :
-            saveLoad.clear()
-            print(f'\n ~ Memory cleared')
-        if ans == "/determinant" :
-            mSetup(1,M,1)
-            getDeterminant(M[0], True)
-            saveable = False
-        if ans == "/multiply" :
-            mSetup(2, M, 0)
-            print(f'\n ~ The resultant matrix of M1xM2 is : ')
-            mPrint(mMultiply(M[0],M[1]))
-            M.append(mMultiply(M[0],M[1]))
-            saveable = True
-        if ans == "/cofactor" :
-            mSetup(1,M,1)
-            print(f'\n ~ The cofactor matrix of M1 is : ')
-            mPrint(mCofactor(M[0]))
-            M.append(mCofactor(M[0]))
-            saveable = True
-        if ans == "/inverse" :
-            mSetup(1,M,1)
-            print("\n ~ The inverse of matrix M1 is : ")
-            mPrint(mInverse(M[0]))
-            M.append(mInverse(M[0]))
-            saveable = True
-        if ans == "/findX" :
-            mSetup(1, M, 2)
-            vSetup(1, V, len(M[0]),1)
-            print("\n ~ The solution vector \'X\' of the linear system is : ")
-            mPrint(findX(M[0], M[1]))
-            M.append(findX(M[0], M[1]))
-            saveable = True
-        if ans == "/dotProduct" :
-            vSetup(2,V,0,2)
-            print(f'\n ~ The dot product of V1 and V2 is : \n   V1*V2 = {dotProduct(M[0],M[1])}')
-            saveable = False
-        if ans == "/crossProduct" :
-            vSetup(2,V,3,0)
-            print("\n ~ The cross product of V1 and V2 is | V1 x V2 = ")
-            mPrint(crossProduct(M[0],M[1]))
-            saveable = True
-        if ans == "/tripleProduct" :
-            vSetup(3,V,3,0)
-            print(f'\n ~ The triple product of V1, V2 and V3 is : \n\n   V1*V2xV3 = {tripleProduct(M[0],M[1],M[2])}')
-            saveable = False
-        if ans == "/orthoProjection" :
-            vSetup(2,V,0,2)
-            print("\n ~ The orthogonal projection of V1 onto V2 is : ")
-            mPrint(orthogonalProjection(M[0],M[1]))
-            saveable = True
-        if ans == "/area" :
-            validOptions = [1,2]
-            print("\n ~ Choose one of the following shapes : \n")
-            print("   1. Parallelogram")
-            print("   2. Triangle\n")
-            option = int(input("   Enter your option : "))
-            if option not in validOptions :
-                raise ValueError("This option does not exist")
-            vSetup(2,M,3,0)
-            if option == 1 :
-                print(f'\n ~ The area of the parallelogram enclosed between V1 and V2 is {getArea(M[0],M[1],0)}')
-            if option == 2 :
-                print(f'\n ~ The area of the parallelogram enclosed between V1 and V2 is {getArea(M[0],M[1],1)}')
-except ValueError as e :
-      print(f'\n>> ERROR : {e}\n')
+print("\n:: Welcome to LinearSpace (Python Edition) ::  ")
+print("\n   The current build supports matrix operations\n   and vector operations. More features\n   coming soon ...\n\n   Designed by Nadeem Samaali\n\n   Type \'/help\' to get started")
+loop = True
+while loop :
+    try :
+        M = [] ; V = [] ; saveLoad = {} ; saveable = False
+        key = True
+        while key : 
+            ans = input("\nU: ")
+            if ans == "/help" :
+                print("\n   Here is a list of all the currently supported commands : \n")
+                print("    ~ Storage management : ")
+                print("      /save             ~ Saves most recent outputted matrix/vector to storage")
+                print("      /load             ~ Load saved matrix by calling MID (Matrix ID)")
+                print("      /clear            ~ Clears memory")
+                print("      /inventory        ~ Ouputs all saved matrices/vectors with their respective MIDs")
+                print("\n    ~ Matrix Operations : ")
+                print("      /determinant      ~ Calculating the determinant of a square matrix")
+                print("      /cofactor         ~ Finding the cofactor matrix of a square matrix")
+                print("      /inverse          ~ Invert a matrix if invertible")
+                print("      /multiply         ~ Multiply two matrix of legal sizes")
+                print("      /findX            ~ Solve a linear system in AX = b form")
+                print("\n    ~ Vector Operations : ")
+                print("      /dotProduct       ~ Calculating the dot product of two N-dimensional vectors")
+                print("      /crossProduct     ~ Calculating the cross product of two 3-dimensional vectors")
+                print("      /tripleProduct    ~ Calculating the triple product of three 3-dimensional vectors")
+                print("      /orthoProjection  ~ Finding the orthogonal projection of vector V1 onto vector V2")
+                print("      /area             ~ Calculating the area of a parallelogram or triangle")
+            # Saves the most recent outputed matrix / vector
+            if ans == "/save" :
+                if saveable == True :
+                    saveLoad[len(saveLoad)] = M[len(M)-1]
+                    print(f'\n ~ The matrix has been saved to memory | MID (Matrix ID) :{(len(saveLoad) - 1)}')
+                else :
+                    print("\n ~ This type isn't saveable")
+            # Prints list of saved matrices / vectors
+            if ans == "/inventory" :
+                if len(saveLoad) == 0 :
+                    print("\n ~ There are no saved matrices/vectors in memory")
+                else :
+                    for i in range(len(saveLoad)) :
+                        print(f'\n ~ MID (Matrix ID) : {i}')
+                        mPrint(saveLoad[i])
+            if ans == "/clear" :
+                saveLoad.clear()
+                print(f'\n ~ Memory cleared')
+            if ans == "/determinant" :
+                mSetup(1,M,1)
+                getDeterminant(M[0], True)
+                saveable = False
+            if ans == "/multiply" :
+                mSetup(2, M, 0)
+                print(f'\n ~ The resultant matrix of M1xM2 is : ')
+                mPrint(mMultiply(M[0],M[1]))
+                M.append(mMultiply(M[0],M[1]))
+                saveable = True
+            if ans == "/cofactor" :
+                mSetup(1,M,1)
+                print(f'\n ~ The cofactor matrix of M1 is : ')
+                mPrint(mCofactor(M[0]))
+                M.append(mCofactor(M[0]))
+                saveable = True
+            if ans == "/inverse" :
+                mSetup(1,M,1)
+                print("\n ~ The inverse of matrix M1 is : ")
+                mPrint(mInverse(M[0]))
+                M.append(mInverse(M[0]))
+                saveable = True
+            if ans == "/findX" :
+                mSetup(1, M, 2)
+                vSetup(1, V, len(M[0]),1)
+                print("\n ~ The solution vector \'X\' of the linear system is : ")
+                mPrint(findX(M[0], M[1]))
+                M.append(findX(M[0], M[1]))
+                saveable = True
+            if ans == "/dotProduct" :
+                vSetup(2,V,0,2)
+                print(f'\n ~ The dot product of V1 and V2 is : \n   V1*V2 = {dotProduct(M[0],M[1])}')
+                saveable = False
+            if ans == "/crossProduct" :
+                vSetup(2,V,3,0)
+                print("\n ~ The cross product of V1 and V2 is | V1 x V2 = ")
+                mPrint(crossProduct(M[0],M[1]))
+                saveable = True
+            if ans == "/tripleProduct" :
+                vSetup(3,V,3,0)
+                print(f'\n ~ The triple product of V1, V2 and V3 is : \n\n   V1*V2xV3 = {tripleProduct(M[0],M[1],M[2])}')
+                saveable = False
+            if ans == "/orthoProjection" :
+                vSetup(2,V,0,2)
+                print("\n ~ The orthogonal projection of V1 onto V2 is : ")
+                mPrint(orthogonalProjection(M[0],M[1]))
+                saveable = True
+            if ans == "/area" :
+                validOptions = [1,2]
+                print("\n ~ Choose one of the following shapes : \n")
+                print("   1. Parallelogram")
+                print("   2. Triangle\n")
+                option = int(input("   Enter your option : "))
+                if option not in validOptions :
+                    raise ValueError("This option does not exist")
+                vSetup(2,M,3,0)
+                if option == 1 :
+                    print(f'\n ~ The area of the parallelogram enclosed between V1 and V2 is {getArea(M[0],M[1],0)}')
+                if option == 2 :
+                    print(f'\n ~ The area of the parallelogram enclosed between V1 and V2 is {getArea(M[0],M[1],1)}')
+            elif ans not in ["/inventory","/clear","/determinant","/multiply","/findX","/cofactor","/inverse","/dotProduct","/crossProduct","/tripleProduct","/orthoProjection","/area"]:
+                print("\n ~ This command does not exist | Please enter valid command")
+    except ValueError as e :
+        print(f'\n>> ERROR : {e}')
