@@ -352,8 +352,8 @@ def orthogonalProjection(v1, v2) :
 # app
 try :
     M = [] ; V = [] ; saveLoad = {} ; saveable = False
-    print("\n ::  Welcome to LinearSpace (Python Edition) ::  ")
-    print("\n     The current build only supports matrix\n     operations -- vector operations coming soon ...\n\n     Type \'/help\' to get started")
+    print("\n:: Welcome to LinearSpace (Python Edition) ::  ")
+    print("\n   The current build supports matrix operations\n   and vector operations. More features\n   coming soon ...\n\n   Designed by Nadeem Samaali\n\n   Type \'/help\' to get started")
     key = True
     while key : 
         ans = input("\nU: ")
