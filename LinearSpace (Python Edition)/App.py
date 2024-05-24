@@ -1,3 +1,7 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
 # Function setting any n*m matrix based on user input
 def setMatrix(h,l) :
     m = [[0]*l for _ in range(h)]; a = []
@@ -364,6 +368,31 @@ def getArea(v1,v2,i) :
     # Area of a triangle
     if i == 1 :
         return n*(1/2)
+
+
+def funcGraph(function) :
+    # Define the function as a user input string
+    user_input = function
+
+    # Define the range of x values over which to evaluate the function
+    x = np.linspace(-10, 10, 400)  # 'x' is now in the local namespace
+
+    # Evaluate the function for each x value using numexpr
+    # Ensure 'x' is available in the scope where this is called
+    #y = ne.evaluate(user_input)
+    y = math.sin(x)
+
+    # Plot the resulting function
+    plt.plot(x, y)
+    plt.title("Graph of the function")
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.grid(True)
+    plt.show()
+
+
+
+
 # app
 print("\n:: Welcome to LinearSpace (Python Edition) ::  ")
 print("\n   The current build supports matrix operations\n   and vector operations. More features\n   coming soon ...\n\n   Designed by Nadeem Samaali\n\n   Type \'/help\' to get started")
@@ -472,6 +501,9 @@ while loop :
                 if option == 2 :
                     print(f'\n ~ The area of the parallelogram enclosed between V1 and V2 is {getArea(M[0],M[1],1)}')
                 saveable = False
+            if ans == "/graph" :
+                function_input = input("\n ~ Insert the function you want to graph : ")
+                funcGraph(function_input)
             elif ans not in ["/save","/load","/inventory","/clear","/determinant","/multiply","/findX","/cofactor","/inverse","/dotProduct","/crossProduct","/tripleProduct","/orthoProjection","/area"]:
                 print("\n ~ This command does not exist | Please enter valid command")
     except ValueError as e :
