@@ -5,6 +5,10 @@ class matrix :
         for i in range(len(self.entries) - 1) :
             if len(self.entries[i]) != len(self.entries[i+1]) :
                 raise ValueError("Cannot build a matrix")
+        if len(self.entries) == len(self.entries[0]) :
+            self.__class__ = s_matrix
+        if len(self.entries[0]) == 1 :
+            self.__class__ = vector
     # Print the matrix with orgnanized rows and columns
     def print(self) :
         print()
@@ -23,7 +27,7 @@ class matrix :
             maxlength = 0
         # Printing the matrix in determinant form with alligned columns
         for i in range(len(self.entries)) :
-            print("  ", end="")
+            print(" ", end="")
             for j in range(len(self.entries[0])) :
                 if self.entries[i][j] < 0 :
                     print("", end = "")
@@ -101,32 +105,34 @@ class s_matrix(matrix) :
             return True
     # Function finding the determinant of a matrix by reducing it to upper triangular form 
     def determinant(self) :
+        M = [[self.entries[i][j] for j in range(len(self.entries[0]))] for i in range(len(self.entries))]
+        m = matrix(M)
         det = 1.0 ; permuations = 0 ; k = []
-        if s_matrix(self.entries).__needsSort() :
-            permuations += self.__permutations()
-            self = self.__m_sort()
-        for i in range(len(self.entries)) :
-            for j in range(i, len(self.entries)) :
-                if self.entries[i][j] != 0 :
-                    for a in range(i+1, len(self.entries)) :
-                        if self.entries[a][j] != 0 :
-                            k.append(self.entries[i][j]/self.entries[a][j])
-                            for b in range(len(self.entries)) :
-                                self.entries[a][b] *= k[len(k) - 1]
-                                if float(f"{self.entries[a][b]:.9f}") == -0.0 :
-                                    self.entries[a][b] = 0
-                            for c in range(len(self.entries)) :
-                                self.entries[a][c] -= self.entries[i][c]
-                                if float(f"{self.entries[a][c]:.9f}") == -0.0 :
-                                    self.entries[a][c] = 0
-                if s_matrix(self.entries).__needsSort() :
-                    permuations += self.__permutations()
-                    self = self.__m_sort()
+        if m.__needsSort() :
+            permuations += m.__permutations()
+            m = m.__m_sort()
+        for i in range(len(m.entries)) :
+            for j in range(i, len(m.entries)) :
+                if m.entries[i][j] != 0 :
+                    for a in range(i+1, len(m.entries)) :
+                        if m.entries[a][j] != 0 :
+                            k.append(m.entries[i][j]/m.entries[a][j])
+                            for b in range(len(m.entries)) :
+                                m.entries[a][b] *= k[len(k) - 1]
+                                if float(f"{m.entries[a][b]:.9f}") == -0.0 :
+                                    m.entries[a][b] = 0
+                            for c in range(len(m.entries)) :
+                                m.entries[a][c] -= m.entries[i][c]
+                                if float(f"{m.entries[a][c]:.9f}") == -0.0 :
+                                    m.entries[a][c] = 0
+                if m.__needsSort() :
+                    permuations += m.__permutations()
+                    m = m.__m_sort()
                 break
         for x in range(len(k)) :
             det *= 1/k[x]
-        for y in range(len(self.entries[0])) :
-            det *= self.entries[y][y]
+        for y in range(len(m.entries[0])) :
+            det *= m.entries[y][y]
         det *= (-1)**permuations
         return det
     # Function outputing the cofactor matrix of a square matrix
@@ -154,6 +160,8 @@ class s_matrix(matrix) :
         return s_matrix(M)
     # Function calculates the inverse matrix of an invertible matrix
     def inverse(self) :
+        if self.determinant() == 0 :
+            raise ValueError('This matrix is not invertible')
         return self.cofactor().transpose().times(1/self.determinant())
 
 # Vector data type extending from matrix
@@ -199,9 +207,9 @@ class vector(matrix) :
         a2 = 0.0
         if len(self.entries) != len(v.entries) :
             raise ValueError("Make sure both vectors are of the same dimension")
-        v0 = [[0]*1 for _ in range(len(self.entries))] ; k = self.dot(v)
+        v0 = [0 for _ in range(len(self.entries))] ; k = self.dot(v)
         for i in range(len(self.entries)) : 
             a2 += v.entries[i][0]**2
         for j in range(len(self.entries)) :
-            v0[j][0] = (k/a2)*v.entries[j][0]
-        return vector([v0[0][0], v0[1][0], v0[2][0]])
+            v0[j] = (k/a2)*v.entries[j][0]
+        return vector(v0)
