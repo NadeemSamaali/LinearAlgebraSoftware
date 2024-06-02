@@ -3,7 +3,7 @@ import Linspace as ls
 def setMatrix(h,l) :
     # Format matrix guide whenever overall dimensionas exceeds 3x3
     if h > 3 and l > 3 :
-        print(f"# Insert the entires of the M_{h}x{l} matrix row by row, with each value separated by a space\n  respecting the following form :\n\n  a11 a12 ... a1{l}\n  a21 a22 ... a2{l}\n  ...\n  a{h}1 a{h}2 ... a{h}{l}\n")
+        print(f"# Insert the entires of the M_{h}x{l} matrix row by row, with each value separated by a space\n  respecting the following form :\n\n  a1_1 a1_2 ... a_1{l}\n  a2_1 a2_2 ... a2_{l}\n  ...\n  a{h}_1 a{h}_2 ... a{h}_{l}\n")
     # Format matrix guide whenever length or height is lesser or equal to 3
     if h <= 3 or l <= 3 :
         print(f"# Insert the entires of the M_{h}x{l} matrix row by row, with each value separated by a space\n  respecting the following form :\n")
@@ -76,8 +76,9 @@ while True:
             print("# Here's a table of currently supported commands\n")
             print("  history            Prints user entry history")        
             print("  determinant        Calculates determinant of square matrix")
-            print("  inverse            Finds inverse of a square matrix")                
             print("  mutliply           Performs matrix multiplication between two matrices")   
+            print("  inverse            Finds inverse of a square matrix")                
+            print("  reduce             Finds the reduced echelon form of a matrix")   
             print("  cross              Finds cross product of two 3-dimensional vectors")                
             print("  dot                Finds dot product of two n-dimensional vectors")                
             print("  projection         Finds orthogonal projection of a vector onto another\n")                                
@@ -95,7 +96,7 @@ while True:
             M.append(setMatrix(n, n))
             print(f'\n# The determinant of this matrix is {M[-1].determinant()}')
             continue
-        # Finds the inverse of a square matrix
+        # Finding the inverse of a square matrix
         if u == 'inverse' :
             n = int(input('# Input square matrix size \'nxn\' : n = '))
             M.append(setMatrix(n, n))
@@ -103,7 +104,7 @@ while True:
                 print('\n# The inverse of the following matrix is :')
             M[-1].inverse().print()
             continue
-        # Function calculating the matrix product of two matrices
+        # Calculating the matrix product of two matrices
         if u == 'multiply' :
             dimensions_input = input("\n# Input the dimensions of the first matrix as such \'nxm\' : ")
             n1, m1 = map(int, dimensions_input.split("x"))
@@ -114,6 +115,15 @@ while True:
             if m1 == n2 :
                 print(f'\n# The result of the matrix product is : ')
             M[-2].multiply(M[-1]).print()
+            continue
+        # Finding the reduced echelon form of a matrix
+        if u == 'reduce' :
+            dimensions_input = input("# Input the dimensions of matrix as such \'nxm\' : ")
+            n, m = map(int, dimensions_input.split("x"))
+            M.append(setMatrix(n,m))
+            M[-1].reduce()
+            print('\n# Here is the reduced echelon form of the matrix')
+            M[-1].print()
             continue
         # Calculates cross product of two vectors 
         if u == 'cross' :

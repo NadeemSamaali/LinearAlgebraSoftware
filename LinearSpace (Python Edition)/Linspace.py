@@ -54,25 +54,8 @@ class matrix :
                     sum += self.entries[i][k]*m.entries[k][j]
                 m0[i][j] = sum
         return matrix(m0)
-    # Scalar product
-    def times(self, k) :
-        M = [[k*self.entries[i][j] for j in range(len(self.entries[0]))] for i in range(len(self.entries))]
-        return s_matrix(M) if len(self.entries) == len(self.entries[0]) else matrix(M)
-    # Outputs transpose of a matrix
-    def transpose(self) :
-        M = [[self.entries[i][j] for i in range(len(self.entries))] for j in range(len(self.entries[0]))]
-        return s_matrix(M) if len(self.entries) == len(self.entries[0]) else matrix(M)
-
-# Square matrix class exteneding from the matrix class
-class s_matrix(matrix) :
-    def __init__(self, entries) :
-        self.entries = entries
-        # Checking to see if the matrix is square
-        for rows in self.entries :
-            if len(rows) != len(self.entries) :
-                raise ValueError("Cannot build a square matrix")
     # Function to store rows of a matrix in ascending order of leading zeros
-    def __m_sort(self):
+    def _m_sort(self):
         def count_leading_zeros(row):
             count = 0
             for element in row:
@@ -83,12 +66,53 @@ class s_matrix(matrix) :
             return count
         sorted_matrix = sorted(self.entries, key=count_leading_zeros)
         return matrix(sorted_matrix)
+    # Scalar product
+    def times(self, k) :
+        M = [[k*self.entries[i][j] for j in range(len(self.entries[0]))] for i in range(len(self.entries))]
+        return s_matrix(M) if len(self.entries) == len(self.entries[0]) else matrix(M)
+    # Outputs transpose of a matrix
+    def transpose(self) :
+        M = [[self.entries[i][j] for i in range(len(self.entries))] for j in range(len(self.entries[0]))]
+        return s_matrix(M) if len(self.entries) == len(self.entries[0]) else matrix(M)
+    # Function performing row addition
+    def __rowsub(self, row1, row2) :
+        for i in range(len(self.entries[row1])) :
+            self.entries[row2][i] -= self.entries[row1][i]
+    # Function performing row scalar multiplication      
+    def __rowtimes(self, row, k) :
+        for i in range(len(self.entries[row])) :
+            self.entries[row][i] *= k
+            
+    def reduce(self) : 
+        self.entries = self._m_sort().entries
+        a = self.entries
+        for i in range(len(a)) :
+            for j in range(len(a[0])) :
+                if a[i][j] != 0 :
+                    self.__rowtimes(i, 1/a[i][j])
+                    for k in range(len(a)) :
+                        if k != i and a[k][j] != 0 :
+                            self.__rowtimes(i, a[k][j]/a[i][j])
+                            self.__rowsub(i, k)
+                    self.__rowtimes(i, 1/a[i][j])
+                    break
+                else :
+                    pass
+# Square matrix class exteneding from the matrix class
+class s_matrix(matrix) :
+    def __init__(self, entries) :
+        self.entries = entries
+        # Checking to see if the matrix is square
+        for rows in self.entries :
+            if len(rows) != len(self.entries) :
+                raise ValueError("Cannot build a square matrix")
+    
     # Function outputting the amounts of permutations needeed to obtain a sorted matrix
     def __permutations(self) :
         k = 0.0
         self.k = k
         I = self.entries
-        F = self.__m_sort().entries
+        F = self._m_sort().entries
         for i in range(len(I[0])) :
             if I[i] != F[i] :
                 for j in range(i+1, len(I[0])) :
@@ -98,7 +122,7 @@ class s_matrix(matrix) :
         return k
     # Function to check if a matrix needs to be sorted 
     def __needsSort(self) :
-        s = self.__m_sort()
+        s = self._m_sort()
         if s.entries == self.entries :
             return False
         else :
@@ -110,7 +134,7 @@ class s_matrix(matrix) :
         det = 1.0 ; permuations = 0 ; k = []
         if m.__needsSort() :
             permuations += m.__permutations()
-            m = m.__m_sort()
+            m = m._m_sort()
         for i in range(len(m.entries)) :
             for j in range(i, len(m.entries)) :
                 if m.entries[i][j] != 0 :
@@ -127,7 +151,7 @@ class s_matrix(matrix) :
                                     m.entries[a][c] = 0
                 if m.__needsSort() :
                     permuations += m.__permutations()
-                    m = m.__m_sort()
+                    m = m._m_sort()
                 break
         for x in range(len(k)) :
             det *= 1/k[x]
@@ -154,7 +178,7 @@ class s_matrix(matrix) :
                                 a = 0 ; b = 0
                 mStore.append(subM)
                 M[i][j] = (-1)**(i+j)*s_matrix(mStore[c]).determinant()
-                if M[i][j] == -0 :
+                if float(f"{M[i][j]:.9f}") == -0.0  :
                     M[i][j] = 0
             c += 1
         return s_matrix(M)
@@ -213,3 +237,8 @@ class vector(matrix) :
         for j in range(len(self.entries)) :
             v0[j] = (k/a2)*v.entries[j][0]
         return vector(v0)
+
+
+m = matrix([[1,0,2,3],[4,3,2,5],[3,5,4,2]])
+m.reduce()
+m.print()
