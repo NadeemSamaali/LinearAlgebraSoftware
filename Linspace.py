@@ -9,6 +9,7 @@ class matrix :
             self.__class__ = s_matrix
         if len(self.entries[0]) == 1 :
             self.__class__ = vector
+
     # Print the matrix with orgnanized rows and columns
     def print(self) :
         print()
@@ -106,7 +107,6 @@ class s_matrix(matrix) :
         for rows in self.entries :
             if len(rows) != len(self.entries) :
                 raise ValueError("Cannot build a square matrix")
-    
     # Function outputting the amounts of permutations needeed to obtain a sorted matrix
     def __permutations(self) :
         k = 0.0
@@ -237,8 +237,4 @@ class vector(matrix) :
         for j in range(len(self.entries)) :
             v0[j] = (k/a2)*v.entries[j][0]
         return vector(v0)
-
-
-m = matrix([[1,0,2,3],[4,3,2,5],[3,5,4,2]])
-m.reduce()
-m.print()
+    
