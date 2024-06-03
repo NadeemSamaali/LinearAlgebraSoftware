@@ -2,7 +2,7 @@
 LinearSpace is a console based software serving as a tool to perform various matrix and vector operations.
 
 ### Linspace.py
-This library introduces three data types, each containing methods performing various matrix and vector operations to each type respectively :
+This library introduces three data types (Matrix, Square matrix, Vector), each containing methods performing various matrix and vector operations to each type respectively :
 
 * Matrix
   * `multiply` : Performs matrix multiplications between two matrices
