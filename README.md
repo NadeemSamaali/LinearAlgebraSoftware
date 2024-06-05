@@ -20,5 +20,8 @@ This library introduces three data types (Matrix, Square matrix, Vector), each c
 ### App.py
 Contains the code which allows users to interact with the different methods performing the matrix and vector operations.
 
+## m_save.json
+JSON save file containing the matrices / vectors saved by the user. Can be loaded into App.py for furter manipulation.
+
 ### run.bat
 Batch file runnable by user.
