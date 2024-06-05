@@ -83,22 +83,26 @@ class matrix :
     def __rowtimes(self, row, k) :
         for i in range(len(self.entries[row])) :
             self.entries[row][i] *= k
-            
+    
+    # Function reducing an arbitrary matrix into its reduced row echelon form   
     def reduce(self) : 
-        self.entries = self._m_sort().entries
-        a = self.entries
+        m = [[self.entries[i][j] for j in range(len(self.entries[0]))] for i in range(len(self.entries))]
+        M = matrix(m)
+        M = M._m_sort()
+        a = M.entries
         for i in range(len(a)) :
             for j in range(len(a[0])) :
                 if a[i][j] != 0 :
-                    self.__rowtimes(i, 1/a[i][j])
+                    M.__rowtimes(i, 1/a[i][j])
                     for k in range(len(a)) :
                         if k != i and a[k][j] != 0 :
-                            self.__rowtimes(i, a[k][j]/a[i][j])
-                            self.__rowsub(i, k)
-                    self.__rowtimes(i, 1/a[i][j])
+                            M.__rowtimes(i, a[k][j]/a[i][j])
+                            M.__rowsub(i, k)
+                    M.__rowtimes(i, 1/a[i][j])
                     break
                 else :
                     pass
+        return M
 # Square matrix class exteneding from the matrix class
 class s_matrix(matrix) :
     def __init__(self, entries) :
@@ -238,3 +242,6 @@ class vector(matrix) :
             v0[j] = (k/a2)*v.entries[j][0]
         return vector(v0)
     
+    
+M = matrix([[1,2,3],[4,5,6]])
+M.reduce().print()
