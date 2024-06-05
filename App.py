@@ -101,7 +101,10 @@ def run_LinearSpace() :
             # Help center
             if u == 'help' :
                 print("# Here's a table of currently supported commands\n")
-                print("  history            Prints user entry history")        
+                print("  inventory          Prints user saved matrices and vectors")
+                print("  save               Saves most recent user inputted matrix/vector objects")
+                print("  clear              Deletes all saved matrices and vectors")
+
                 print("  determinant        Calculates determinant of square matrix")
                 print("  mutliply           Performs matrix multiplication between two matrices")   
                 print("  inverse            Finds inverse of a square matrix")                
@@ -109,7 +112,6 @@ def run_LinearSpace() :
                 print("  cross              Finds cross product of two 3-dimensional vectors")                
                 print("  dot                Finds dot product of two n-dimensional vectors")                
                 print("  projection         Finds orthogonal projection of a vector onto another\n")                                
-                continue
             
             # Shows the matrices saved in m_save.json
             elif u == 'inventory' :
