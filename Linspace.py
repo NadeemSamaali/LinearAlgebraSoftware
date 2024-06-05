@@ -241,7 +241,3 @@ class vector(matrix) :
         for j in range(len(self.entries)) :
             v0[j] = (k/a2)*v.entries[j][0]
         return vector(v0)
-    
-    
-M = matrix([[1,2,3],[4,5,6]])
-M.reduce().print()
