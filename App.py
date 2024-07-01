@@ -1,5 +1,5 @@
 from Linspace import linear_algebra as ls
-from Linspace.arithmetic import parse_and_evaluate
+from Linspace.arithmetics import parse_and_evaluate
 import json
 
 # Function converting user input into matrix datatype

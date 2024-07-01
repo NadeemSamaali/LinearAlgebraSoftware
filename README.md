@@ -22,7 +22,7 @@ This sub-library introduces three data types (Matrix, Square matrix, Vector), ea
 
 #### arithmetic.py
 
-This sub-library contains an arithmeic expression parser, which parses and evaluates a user inputted numerical equation using the PEMDAS principle of operator priority using the `parse` command. Currently supports addition, substraction, multiplication, division and paranthesis grouping.
+This sub-library contains an arithmeic expression parser, which parses and evaluates a user inputted numerical expression using the PEMDAS principle of operator priority using the `parse` command. Currently supports addition, substraction, multiplication, division and paranthesis grouping.
 
 ### App.py
 Contains the code which allows users to interact with the different methods performing the matrix and vector operations.
