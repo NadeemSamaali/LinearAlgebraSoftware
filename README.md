@@ -1,5 +1,5 @@
 # LinearSpace
-LinearSpace is a console based software serving as a tool to perform various matrix and vector operations.
+LinearSpace is a console based software serving as a tool to perform various matrix, vector operations, and more features to come.
 
 ### Linspace.py
 
