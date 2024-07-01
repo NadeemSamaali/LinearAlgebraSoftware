@@ -20,7 +20,7 @@ This sub-library introduces three data types (Matrix, Square matrix, Vector), ea
   * `cross` : Finds the cross product of two vectors
   * `projection` : Finds the orthogonal projection of a vector onto another
 
-#### arithmetic.py
+#### arithmetics.py
 
 This sub-library contains an arithmeic expression parser, which parses and evaluates a user inputted numerical expression using the PEMDAS principle of operator priority using the `parse` command. Currently supports addition, substraction, multiplication, division and paranthesis grouping.
 
