@@ -1,4 +1,5 @@
-import Linspace as ls
+from Linspace import linear_algebra as ls
+from Linspace.arithmetic import parse_and_evaluate
 import json
 
 # Function converting user input into matrix datatype
@@ -118,7 +119,9 @@ def run_LinearSpace() :
                     print("  reduce             Finds the reduced echelon form of a matrix")   
                     print("  cross              Finds cross product of two 3-dimensional vectors")                
                     print("  dot                Finds dot product of two n-dimensional vectors")                
-                    print("  projection         Finds orthogonal projection of a vector onto another\n")                                
+                    print("  projection         Finds orthogonal projection of a vector onto another\n")  
+                    print("  parse              Evaluate the result of an arithmetical expression\n")                                
+                              
                     continue
                 
                 if len(u) == 2 and u[1] == 'load' :
@@ -299,6 +302,13 @@ def run_LinearSpace() :
                     print(f'\n# The orthogonaol projection of V1 onto V2 is : ')
                     M[-2].projection(M[-1]).print()
                     continue
+                
+            # Parse and evalutate user inputted equation
+            if u[0] == 'parse' and len(u) == 1 :
+                expression = input(f'# Insert the expression you want to evaluate : ') 
+                result = parse_and_evaluate(expression)
+                print(f'# The results of {expression} is {result}')
+                
             # Print error message if command does not exist
             else:
                 raise ValueError('Command does not exist')

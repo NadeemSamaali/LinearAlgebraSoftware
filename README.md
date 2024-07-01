@@ -2,7 +2,10 @@
 LinearSpace is a console based software serving as a tool to perform various matrix and vector operations.
 
 ### Linspace.py
-This library introduces three data types (Matrix, Square matrix, Vector), each containing methods performing various matrix and vector operations to each type respectively :
+
+#### linear_algebra.py
+
+This sub-library introduces three data types (Matrix, Square matrix, Vector), each containing methods performing various matrix and vector operations to each type respectively :
 
 * Matrix
   * `multiply` : Performs matrix multiplications between two matrices
@@ -16,6 +19,10 @@ This library introduces three data types (Matrix, Square matrix, Vector), each c
   * `dot`: Calculates dot product of two vectors
   * `cross` : Finds the cross product of two vectors
   * `projection` : Finds the orthogonal projection of a vector onto another
+
+#### arithmetic.py
+
+This sub-library contains an arithmeic expression parser, which parses and evaluates a user inputted numerical equation using the PEMDAS principle of operator priority using the `parse` command. Currently supports addition, substraction, multiplication, division and paranthesis grouping.
 
 ### App.py
 Contains the code which allows users to interact with the different methods performing the matrix and vector operations.
