@@ -1,7 +1,5 @@
 # LinearSpace
-LinearSpace is a console based software serving as a tool to perform various matrix, vector operations, and more features to come.
-
-### Linspace.py
+LinearSpace is library containing tools to perform various matrix, vector, and arithmetic operations. More features are under development.
 
 #### linear_algebra.py
 
@@ -25,7 +23,7 @@ This sub-library introduces three data types (Matrix, Square matrix, Vector), ea
 This sub-library contains an arithmeic expression parser, which parses and evaluates user inputted numerical expressions using the PEMDAS principle of operator priority using the `parse` command. Currently supports addition, substraction, multiplication, division and paranthesis grouping.
 
 ### App.py
-Contains the code which allows users to interact with the different methods performing the matrix and vector operations.
+Console-based software allowing users to interact with LinearSpace features.
 
 ### m_save.json
 JSON save file containing the matrices / vectors saved by the user. Can be loaded into App.py for furter manipulation.
