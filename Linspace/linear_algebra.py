@@ -9,10 +9,10 @@ class matrix :
             self.__class__ = s_matrix
         if len(self.entries[0]) == 1 :
             self.__class__ = vector
-
-    # Print the matrix with orgnanized rows and columns
-    def print(self) :
-        print()
+            
+    # String represetation of a matrix 
+    def __repr__(self) :
+        output = "\n"
         k = []
         maxlength = 0
         # Identifying the number with the largest amount of characters in each column
@@ -28,20 +28,19 @@ class matrix :
             maxlength = 0
         # Printing the matrix in determinant form with alligned columns
         for i in range(len(self.entries)) :
-            print(" ", end="")
+            output += " "
             for j in range(len(self.entries[0])) :
                 if self.entries[i][j] < 0 :
-                    print("", end = "")
-                    print(f'{"{:.2f}".format(self.entries[i][j])}', end = " ")
+                    output += f'{"{:.2f}".format(self.entries[i][j])} '
                     for a in range(k[j] - len(list(f"{self.entries[i][j]:.2f}")) + 1) :
-                        print(" ", end = "")
+                        output += " "
                 else :
-                    print(" ", end = "")
-                    print(f'{"{:.2f}".format(self.entries[i][j])}', end = " ")
+                    output += f' {"{:.2f}".format(self.entries[i][j])} '
                     for a in range(k[j] - len(list(f"{self.entries[i][j]:.2f}"))) :
-                        print(" ", end = "")      
-            print()
-        print()
+                        output += " "
+            output += "\n" 
+        return output
+
     # Function performing matrix multiplication between two matrices M1 and M2
     def multiply(self, m) :
         if len(self.entries[0]) != len(m.entries) :
@@ -84,8 +83,9 @@ class matrix :
         for i in range(len(self.entries[row])) :
             self.entries[row][i] *= k
     
-    # Function reducing an arbitrary matrix into its reduced row echelon form   
-    def reduce(self) : 
+    # Function reducing an arbitrary matrix into its reduced row echelon form
+    @property
+    def reduced(self) : 
         m = [[self.entries[i][j] for j in range(len(self.entries[0]))] for i in range(len(self.entries))]
         M = matrix(m)
         M = M._m_sort()
@@ -131,7 +131,8 @@ class s_matrix(matrix) :
             return False
         else :
             return True
-    # Function finding the determinant of a matrix by reducing it to upper triangular form 
+    # Function finding the determinant of a matrix by reducing it to upper triangular form
+    @property 
     def determinant(self) :
         M = [[self.entries[i][j] for j in range(len(self.entries[0]))] for i in range(len(self.entries))]
         m = matrix(M)
@@ -181,16 +182,16 @@ class s_matrix(matrix) :
                             if a == len(self.entries) - 1 :
                                 a = 0 ; b = 0
                 mStore.append(subM)
-                M[i][j] = (-1)**(i+j)*s_matrix(mStore[c]).determinant()
+                M[i][j] = (-1)**(i+j)*s_matrix(mStore[c]).determinant
                 if float(f"{M[i][j]:.9f}") == -0.0  :
                     M[i][j] = 0
             c += 1
         return s_matrix(M)
     # Function calculates the inverse matrix of an invertible matrix
     def inverse(self) :
-        if self.determinant() == 0 :
+        if self.determinant == 0 :
             raise ValueError('This matrix is not invertible')
-        return self.cofactor().transpose().times(1/self.determinant())
+        return self.cofactor().transpose().times(1/self.determinant)
 
 # Vector data type extending from matrix
 class vector(matrix) :
@@ -225,7 +226,7 @@ class vector(matrix) :
                 for b in range(2) :
                     C[a][b] = cList[c]
                     c+=1
-            v0[h][0] = M[0][h]*s_matrix(C).determinant()
+            v0[h][0] = M[0][h]*s_matrix(C).determinant
             if v0[h][0] == -0 :
                 v0[h][0] = 0
             cList.clear()
