@@ -22,7 +22,7 @@ This sub-library introduces three data types (Matrix, Square matrix, Vector), ea
 
 This sub-library contains an arithmeic expression parser, which parses and evaluates user inputted numerical expressions using the PEMDAS principle of operator priority using the `parse` command. Currently supports addition, substraction, multiplication, division and paranthesis grouping.
 
-### App.py
+### main.py
 Console-based software allowing users to interact with LinearSpace features.
 
 ### m_save.json
