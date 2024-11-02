@@ -96,9 +96,11 @@ def run_LinearSpace() :
     
     # Set up matrix temporary storage
     M = []
+
+    run_key = True
     
     # User loop
-    while True:
+    while run_key:
         try:
             u = input("# ").lower().split()
             
@@ -112,6 +114,7 @@ def run_LinearSpace() :
                     print("  load               Loads most saved matrix/vector objects for user calculations")
                     print("                     | For more information on the load command, use '# help load'")
                     print("  clear              Deletes all saved matrices and vectors\n")
+                    print("  exit               Exits program\n")
 
                     print("  determinant        Calculates determinant of square matrix")
                     print("  mutliply           Performs matrix multiplication between two matrices")   
@@ -131,15 +134,14 @@ def run_LinearSpace() :
                     print("  Note : the MIDs of matrices/vectors saved can by consulted with the command '# inventory'\n")
                     continue
 
-
-
             # Shows the matrices saved in m_save.json
             if u[0] == 'inventory' and len(u) == 1:
                 if len(data["matrices"]) == 0 :
                     raise ValueError('Current matrix base is empty')
                 print('# Heres a list of the saved matrices as long as their Matrix Identification (MID)\n')
                 for elements in data["matrices"] :
-                    print(f'~ MID : {elements['MID']}')
+                    mid_displ = elements['MID']
+                    print(f'~ MID : {mid_displ}')
                     print(ls.matrix(elements["matrix"]))
                 continue
                     
@@ -307,6 +309,11 @@ def run_LinearSpace() :
                 expression = input(f'# Insert the expression you want to evaluate : ') 
                 result = parse_and_evaluate(expression)
                 print(f'# The results of {expression} is {result}')
+
+            # Exit the program
+            if u[0] == 'exit' and len(u) == 1 :
+                print("# Thank you for using LinearSpace")
+                run_key = False    
                 
             # Print error message if command does not exist
             else:
